@@ -1,112 +1,117 @@
 ﻿namespace Kdbndp.EntityFrameworkCore.KingbaseES.Query.Expressions.Internal;
 
 /// <summary>
-///     Represents a KingbaseES JSON operator traversing a JSON document with a path (i.e. x#>y or x#>>y)
+///     Represents a KingbaseES JSON operator traversing a JSON document with a
+///     path (i.e. x#>y or x#>>y)
 /// </summary>
-public class PgJsonTraversalExpression : SqlExpression, IEquatable<PgJsonTraversalExpression>
-{
-    /// <summary>
-    ///     The match expression.
-    /// </summary>
-    public virtual SqlExpression Expression { get; }
+public class PgJsonTraversalExpression : SqlExpression,
+                                         IEquatable<PgJsonTraversalExpression> {
+  /// <summary>
+  ///     The match expression.
+  /// </summary>
+  public virtual SqlExpression Expression { get; }
 
-    /// <summary>
-    ///     The pattern to match.
-    /// </summary>
-    public virtual IReadOnlyList<SqlExpression> Path { get; }
+  /// <summary>
+  ///     The pattern to match.
+  /// </summary>
+  public virtual IReadOnlyList<SqlExpression> Path { get; }
 
-    /// <summary>
-    ///     Whether the text-returning operator (x#>>y) or the object-returning operator (x#>y) is used.
-    /// </summary>
-    public virtual bool ReturnsText { get; }
+  /// <summary>
+  ///     Whether the text-returning operator (x#>>y) or the object-returning
+  ///     operator (x#>y) is used.
+  /// </summary>
+  public virtual bool ReturnsText { get; }
 
-    /// <summary>
-    ///     Constructs a <see cref="PgJsonTraversalExpression" />.
-    /// </summary>
-    public PgJsonTraversalExpression(
-        SqlExpression expression,
-        IReadOnlyList<SqlExpression> path,
-        bool returnsText,
-        Type type,
-        RelationalTypeMapping? typeMapping)
-        : base(type, typeMapping)
-    {
-        if (returnsText && type != typeof(string))
-        {
-            throw new ArgumentException($"{nameof(type)} must be string", nameof(type));
-        }
-
-        Expression = expression;
-        Path = path;
-        ReturnsText = returnsText;
+  /// <summary>
+  ///     Constructs a <see cref="PgJsonTraversalExpression" />.
+  /// </summary>
+  public PgJsonTraversalExpression(SqlExpression expression,
+                                   IReadOnlyList<SqlExpression> path,
+                                   bool returnsText, Type type,
+                                   RelationalTypeMapping? typeMapping)
+      : base(type, typeMapping) {
+    if (returnsText && type != typeof(string)) {
+      throw new ArgumentException($"{nameof(type)} must be string",
+                                  nameof(type));
     }
 
-    /// <inheritdoc />
-    protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Update(
-            (SqlExpression)visitor.Visit(Expression),
-            Path.Select(p => (SqlExpression)visitor.Visit(p)).ToArray());
+    Expression = expression;
+    Path = path;
+    ReturnsText = returnsText;
+  }
 
-    /// <summary>
-    ///     Creates a new expression that is like this one, but using the supplied children. If all of the children are the same, it will
-    ///     return this expression.
-    /// </summary>
-    public virtual PgJsonTraversalExpression Update(SqlExpression expression, IReadOnlyList<SqlExpression> path)
-        => expression == Expression && path.Count == Path.Count && path.Zip(Path, (x, y) => (x, y)).All(tup => tup.x == tup.y)
-            ? this
-            : new PgJsonTraversalExpression(expression, path, ReturnsText, Type, TypeMapping);
+  /// <inheritdoc />
+  protected override Expression VisitChildren(ExpressionVisitor visitor) =>
+      Update((SqlExpression)visitor.Visit(Expression),
+             Path.Select(p => (SqlExpression)visitor.Visit(p)).ToArray());
 
-    /// <summary>
-    ///     Appends an additional path component to this <see cref="PgJsonTraversalExpression" /> and returns the result.
-    /// </summary>
-    public virtual PgJsonTraversalExpression Append(SqlExpression pathComponent)
-    {
-        var newPath = new SqlExpression[Path.Count + 1];
-        for (var i = 0; i < Path.Count(); i++)
-        {
-            newPath[i] = Path[i];
-        }
+  /// <summary>
+  ///     Creates a new expression that is like this one, but using the supplied
+  ///     children. If all of the children are the same, it will return this
+  ///     expression.
+  /// </summary>
+  public virtual PgJsonTraversalExpression
+  Update(SqlExpression expression,
+         IReadOnlyList<SqlExpression>
+             path) => expression == Expression && path.Count == Path.Count &&
+                              path.Zip(Path, (x, y) => (x, y))
+                                  .All(tup => tup.x == tup.y)
+                          ? this
+                          : new PgJsonTraversalExpression(expression, path,
+                                                          ReturnsText, Type,
+                                                          TypeMapping);
 
-        newPath[newPath.Length - 1] = pathComponent;
-        return new PgJsonTraversalExpression(Expression, newPath, ReturnsText, Type, TypeMapping);
+  /// <summary>
+  ///     Appends an additional path component to this <see
+  ///     cref="PgJsonTraversalExpression" /> and returns the result.
+  /// </summary>
+  public virtual PgJsonTraversalExpression Append(SqlExpression pathComponent) {
+    var newPath = new SqlExpression[Path.Count + 1];
+    for (var i = 0; i < Path.Count(); i++) {
+      newPath[i] = Path[i];
     }
 
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-        => Equals(obj as PgJsonTraversalExpression);
+    newPath[newPath.Length - 1] = pathComponent;
+    return new PgJsonTraversalExpression(Expression, newPath, ReturnsText, Type,
+                                         TypeMapping);
+  }
 
-    /// <inheritdoc />
-    public virtual bool Equals(PgJsonTraversalExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && Equals(Expression, other.Expression)
-            && Path.Count == other.Path.Count
-            && Path.Zip(other.Path, (x, y) => (x, y)).All(tup => tup.x == tup.y);
+  /// <inheritdoc />
+  public override bool
+      Equals(object? obj) => Equals(obj as PgJsonTraversalExpression);
 
-    /// <inheritdoc />
-    public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), Expression, Path);
+  /// <inheritdoc />
+  public virtual bool Equals(
+      PgJsonTraversalExpression? other) => ReferenceEquals(this, other) ||
+                                           other is not null
+                                               && base.Equals(other) &&
+                                               Equals(Expression,
+                                                      other.Expression) &&
+                                               Path.Count == other.Path.Count &&
+                                               Path.Zip(other.Path,
+                                                        (x, y) => (x, y))
+                                                   .All(tup => tup.x == tup.y);
 
-    /// <inheritdoc />
-    protected override void Print(ExpressionPrinter expressionPrinter)
-    {
-        expressionPrinter.Visit(Expression);
-        expressionPrinter.Append(ReturnsText ? "#>>" : "#>");
-        expressionPrinter.Append("{");
-        for (var i = 0; i < Path.Count; i++)
-        {
-            expressionPrinter.Visit(Path[i]);
-            if (i < Path.Count - 1)
-            {
-                expressionPrinter.Append(",");
-            }
-        }
+  /// <inheritdoc />
+  public override int GetHashCode() => HashCode.Combine(base.GetHashCode(),
+                                                        Expression, Path);
 
-        expressionPrinter.Append("}");
+  /// <inheritdoc />
+  protected override void Print(ExpressionPrinter expressionPrinter) {
+    expressionPrinter.Visit(Expression);
+    expressionPrinter.Append(ReturnsText ? "#>>" : "#>");
+    expressionPrinter.Append("{");
+    for (var i = 0; i < Path.Count; i++) {
+      expressionPrinter.Visit(Path[i]);
+      if (i < Path.Count - 1) {
+        expressionPrinter.Append(",");
+      }
     }
 
-    /// <inheritdoc />
-    public override string ToString()
-        => $"{Expression}{(ReturnsText ? "#>>" : "#>")}{Path}";
+    expressionPrinter.Append("}");
+  }
+
+  /// <inheritdoc />
+  public override
+      string ToString() => $"{Expression}{(ReturnsText ? "#>>" : "#>")}{Path}";
 }
