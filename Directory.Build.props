@@ -19,7 +19,7 @@
     <PackageLicenseExpression>PostgreSQL</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/dotnetcore/EntityFrameworkCore.KingbaseES</PackageProjectUrl>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Using Include="System.Diagnostics" />
     <Using Include="System.Linq.Expressions" />
