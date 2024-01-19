@@ -8,8 +8,8 @@ internal static class MethodInfoExtensions
     internal static bool IsClosedFormOf(
         this MethodInfo methodInfo,
         MethodInfo genericMethod)
-        => methodInfo.IsGenericMethod
-            && Equals(
-                methodInfo.GetGenericMethodDefinition(),
-                genericMethod);
+    => methodInfo.IsGenericMethod
+    && Equals(
+        methodInfo.GetGenericMethodDefinition(),
+        genericMethod);
 }

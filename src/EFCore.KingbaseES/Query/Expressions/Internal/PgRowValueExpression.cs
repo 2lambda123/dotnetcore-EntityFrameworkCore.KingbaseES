@@ -14,11 +14,13 @@ public class PgRowValueExpression : SqlExpression, IEquatable<PgRowValueExpressi
     /// <summary>
     ///     The values of this KingbaseES row value expression.
     /// </summary>
-    public virtual IReadOnlyList<SqlExpression> Values { get; }
+    public virtual IReadOnlyList<SqlExpression> Values {
+        get;
+    }
 
     /// <inheritdoc />
     public PgRowValueExpression(IReadOnlyList<SqlExpression> values, Type type, RelationalTypeMapping? typeMapping = null)
-        : base(type, typeMapping)
+    : base(type, typeMapping)
     {
         Check.NotNull(values, nameof(values));
         Check.DebugAssert(type.IsAssignableTo(typeof(ITuple)), $"Type '{type}' isn't an ITuple");
@@ -60,9 +62,9 @@ public class PgRowValueExpression : SqlExpression, IEquatable<PgRowValueExpressi
     ///     return this expression.
     /// </summary>
     public virtual PgRowValueExpression Update(IReadOnlyList<SqlExpression> values)
-        => values.Count == Values.Count && values.Zip(Values, (x, y) => (x, y)).All(tup => tup.x == tup.y)
-            ? this
-            : new PgRowValueExpression(values, Type);
+    => values.Count == Values.Count && values.Zip(Values, (x, y) => (x, y)).All(tup => tup.x == tup.y)
+    ? this
+    : new PgRowValueExpression(values, Type);
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
@@ -85,7 +87,7 @@ public class PgRowValueExpression : SqlExpression, IEquatable<PgRowValueExpressi
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is PgRowValueExpression other && Equals(other);
+    => obj is PgRowValueExpression other && Equals(other);
 
     /// <inheritdoc />
     public virtual bool Equals(PgRowValueExpression? other)

@@ -19,7 +19,7 @@ public static class KdbndpIndexExtensions
     ///     http://www.KingbaseES.org/docs/current/static/sql-createindex.html
     /// </remarks>
     public static string? GetMethod(this IReadOnlyIndex index)
-        => (string?)index[KdbndpAnnotationNames.IndexMethod];
+    => (string?)index[KdbndpAnnotationNames.IndexMethod];
 
     /// <summary>
     ///     Sets the index method to be used, or <c>null</c> if it hasn't been specified.
@@ -29,7 +29,7 @@ public static class KdbndpIndexExtensions
     ///     http://www.KingbaseES.org/docs/current/static/sql-createindex.html
     /// </remarks>
     public static void SetMethod(this IMutableIndex index, string? method)
-        => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.IndexMethod, method);
+    => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.IndexMethod, method);
 
     /// <summary>
     ///     Sets the index method to be used, or <c>null</c> if it hasn't been specified.
@@ -56,7 +56,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the index method.</returns>
     public static ConfigurationSource? GetMethodConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(KdbndpAnnotationNames.IndexMethod)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.IndexMethod)?.GetConfigurationSource();
 
     #endregion Method
 
@@ -69,7 +69,7 @@ public static class KdbndpIndexExtensions
     ///     https://www.KingbaseES.org/docs/current/static/indexes-opclass.html
     /// </remarks>
     public static IReadOnlyList<string>? GetOperators(this IReadOnlyIndex index)
-        => (IReadOnlyList<string>?)index[KdbndpAnnotationNames.IndexOperators];
+    => (IReadOnlyList<string>?)index[KdbndpAnnotationNames.IndexOperators];
 
     /// <summary>
     ///     Sets the column operators to be used, or <c>null</c> if they have not been specified.
@@ -78,7 +78,7 @@ public static class KdbndpIndexExtensions
     ///     https://www.KingbaseES.org/docs/current/static/indexes-opclass.html
     /// </remarks>
     public static void SetOperators(this IMutableIndex index, IReadOnlyList<string>? operators)
-        => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.IndexOperators, operators);
+    => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.IndexOperators, operators);
 
     /// <summary>
     ///     Sets the column operators to be used, or <c>null</c> if they have not been specified.
@@ -104,7 +104,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the index operators.</returns>
     public static ConfigurationSource? GetOperatorsConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(KdbndpAnnotationNames.IndexOperators)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.IndexOperators)?.GetConfigurationSource();
 
     #endregion Operators
 
@@ -118,8 +118,8 @@ public static class KdbndpIndexExtensions
     /// </remarks>
 #pragma warning disable 618
     public static IReadOnlyList<string>? GetCollation(this IReadOnlyIndex index)
-        => (IReadOnlyList<string>?)(
-            index[RelationalAnnotationNames.Collation] ?? index[KdbndpAnnotationNames.IndexCollation]);
+    => (IReadOnlyList<string>?)(
+        index[RelationalAnnotationNames.Collation] ?? index[KdbndpAnnotationNames.IndexCollation]);
 #pragma warning restore 618
 
     /// <summary>
@@ -129,7 +129,7 @@ public static class KdbndpIndexExtensions
     ///     https://www.KingbaseES.org/docs/current/static/indexes-collations.html
     /// </remarks>
     public static void SetCollation(this IMutableIndex index, IReadOnlyList<string>? collations)
-        => index.SetOrRemoveAnnotation(RelationalAnnotationNames.Collation, collations);
+    => index.SetOrRemoveAnnotation(RelationalAnnotationNames.Collation, collations);
 
     /// <summary>
     ///     Sets the column collations to be used, or <c>null</c> if they have not been specified.
@@ -155,7 +155,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the index collations.</returns>
     public static ConfigurationSource? GetCollationConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(RelationalAnnotationNames.Collation)?.GetConfigurationSource();
+    => index.FindAnnotation(RelationalAnnotationNames.Collation)?.GetConfigurationSource();
 
     #endregion Collation
 
@@ -168,7 +168,7 @@ public static class KdbndpIndexExtensions
     ///     https://www.KingbaseES.org/docs/current/static/indexes-ordering.html
     /// </remarks>
     public static IReadOnlyList<NullSortOrder>? GetNullSortOrder(this IReadOnlyIndex index)
-        => (IReadOnlyList<NullSortOrder>?)index[KdbndpAnnotationNames.IndexNullSortOrder];
+    => (IReadOnlyList<NullSortOrder>?)index[KdbndpAnnotationNames.IndexNullSortOrder];
 
     /// <summary>
     ///     Sets the column NULL sort orders to be used, or <c>null</c> if they have not been specified.
@@ -177,7 +177,7 @@ public static class KdbndpIndexExtensions
     ///     https://www.KingbaseES.org/docs/current/static/indexes-ordering.html
     /// </remarks>
     public static void SetNullSortOrder(this IMutableIndex index, IReadOnlyList<NullSortOrder>? nullSortOrder)
-        => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.IndexNullSortOrder, nullSortOrder);
+    => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.IndexNullSortOrder, nullSortOrder);
 
     /// <summary>
     ///     Sets the column NULL sort orders to be used, or <c>null</c> if they have not been specified.
@@ -203,7 +203,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the index null sort orders.</returns>
     public static ConfigurationSource? GetNullSortOrderConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(KdbndpAnnotationNames.IndexNullSortOrder)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.IndexNullSortOrder)?.GetConfigurationSource();
 
     #endregion
 
@@ -215,7 +215,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The included property names, or <c>null</c> if they have not been specified.</returns>
     public static IReadOnlyList<string>? GetIncludeProperties(this IReadOnlyIndex index)
-        => (IReadOnlyList<string>?)index[KdbndpAnnotationNames.IndexInclude];
+    => (IReadOnlyList<string>?)index[KdbndpAnnotationNames.IndexInclude];
 
     /// <summary>
     ///     Sets included property names.
@@ -223,9 +223,9 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <param name="properties">The value to set.</param>
     public static void SetIncludeProperties(this IMutableIndex index, IReadOnlyList<string>? properties)
-        => index.SetOrRemoveAnnotation(
-            KdbndpAnnotationNames.IndexInclude,
-            properties);
+    => index.SetOrRemoveAnnotation(
+        KdbndpAnnotationNames.IndexInclude,
+        properties);
 
     /// <summary>
     ///     Sets included property names.
@@ -254,7 +254,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the included property names.</returns>
     public static ConfigurationSource? GetIncludePropertiesConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(KdbndpAnnotationNames.IndexInclude)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.IndexInclude)?.GetConfigurationSource();
 
     #endregion Included properties
 
@@ -266,7 +266,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns><c>true</c> if the index is created concurrently.</returns>
     public static bool? IsCreatedConcurrently(this IReadOnlyIndex index)
-        => (bool?)index[KdbndpAnnotationNames.CreatedConcurrently];
+    => (bool?)index[KdbndpAnnotationNames.CreatedConcurrently];
 
     /// <summary>
     ///     Sets a value indicating whether the index is created concurrently.
@@ -274,7 +274,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <param name="createdConcurrently">The value to set.</param>
     public static void SetIsCreatedConcurrently(this IMutableIndex index, bool? createdConcurrently)
-        => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.CreatedConcurrently, createdConcurrently);
+    => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.CreatedConcurrently, createdConcurrently);
 
     /// <summary>
     ///     Sets a value indicating whether the index is created concurrently.
@@ -298,7 +298,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for whether the index is created concurrently.</returns>
     public static ConfigurationSource? GetIsCreatedConcurrentlyConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(KdbndpAnnotationNames.CreatedConcurrently)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.CreatedConcurrently)?.GetConfigurationSource();
 
     #endregion Created concurrently
 
@@ -312,7 +312,7 @@ public static class KdbndpIndexExtensions
     ///     http://www.KingbaseES.org/docs/current/static/sql-createindex.html
     /// </remarks>
     public static bool? GetAreNullsDistinct(this IReadOnlyIndex index)
-        => (bool?)index[KdbndpAnnotationNames.NullsDistinct];
+    => (bool?)index[KdbndpAnnotationNames.NullsDistinct];
 
     /// <summary>
     ///     Sets whether for a unique index, null values should be considered distinct (not equal).
@@ -322,7 +322,7 @@ public static class KdbndpIndexExtensions
     ///     http://www.KingbaseES.org/docs/current/static/sql-createindex.html
     /// </remarks>
     public static void SetAreNullsDistinct(this IMutableIndex index, bool? nullsDistinct)
-        => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.NullsDistinct, nullsDistinct);
+    => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.NullsDistinct, nullsDistinct);
 
     /// <summary>
     ///     Sets whether for a unique index, null values should be considered distinct (not equal).
@@ -344,7 +344,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The <see cref="ConfigurationSource" />.</returns>
     public static ConfigurationSource? GetAreNullsDistinctConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(KdbndpAnnotationNames.NullsDistinct)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.NullsDistinct)?.GetConfigurationSource();
 
     #endregion NULLS distinct
 
@@ -359,7 +359,7 @@ public static class KdbndpIndexExtensions
     ///     https://www.KingbaseES.org/docs/current/textsearch-tables.html#TEXTSEARCH-TABLES-INDEX
     /// </remarks>
     public static string? GetTsVectorConfig(this IReadOnlyIndex index)
-        => (string?)index[KdbndpAnnotationNames.TsVectorConfig];
+    => (string?)index[KdbndpAnnotationNames.TsVectorConfig];
 
     /// <summary>
     ///     Sets the text search configuration for this tsvector expression index, or <c>null</c> if this is not a
@@ -379,7 +379,7 @@ public static class KdbndpIndexExtensions
     ///     https://www.KingbaseES.org/docs/current/textsearch-tables.html#TEXTSEARCH-TABLES-INDEX
     /// </remarks>
     public static void SetTsVectorConfig(this IMutableIndex index, string? config)
-        => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.TsVectorConfig, config);
+    => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.TsVectorConfig, config);
 
     /// <summary>
     ///     Sets the index to tsvector config name to be used.
@@ -416,7 +416,7 @@ public static class KdbndpIndexExtensions
     /// <param name="index">The index.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the tsvector config.</returns>
     public static ConfigurationSource? GetTsVectorConfigConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(KdbndpAnnotationNames.TsVectorConfig)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.TsVectorConfig)?.GetConfigurationSource();
 
     #endregion ToTsVector
 
@@ -426,11 +426,11 @@ public static class KdbndpIndexExtensions
     ///     Gets all storage parameters for the index.
     /// </summary>
     public static Dictionary<string, object?> GetStorageParameters(this IReadOnlyIndex index)
-        => index.GetAnnotations()
-            .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.StorageParameterPrefix, StringComparison.Ordinal))
-            .ToDictionary(
-                a => a.Name.Substring(KdbndpAnnotationNames.StorageParameterPrefix.Length),
-                a => a.Value);
+    => index.GetAnnotations()
+    .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.StorageParameterPrefix, StringComparison.Ordinal))
+    .ToDictionary(
+        a => a.Name.Substring(KdbndpAnnotationNames.StorageParameterPrefix.Length),
+        a => a.Value);
 
     /// <summary>
     ///     Gets a storage parameter for the index.
@@ -490,7 +490,7 @@ public static class KdbndpIndexExtensions
     /// </remarks>
     [Obsolete("Use IsDescending instead")]
     public static IReadOnlyList<SortOrder>? GetSortOrder(this IReadOnlyIndex index)
-        => (IReadOnlyList<SortOrder>?)index[KdbndpAnnotationNames.IndexSortOrder];
+    => (IReadOnlyList<SortOrder>?)index[KdbndpAnnotationNames.IndexSortOrder];
 
     /// <summary>
     ///     Sets the column sort orders to be used, or <c>null</c> if they have not been specified.
@@ -500,7 +500,7 @@ public static class KdbndpIndexExtensions
     /// </remarks>
     [Obsolete("Use IsDescending instead")]
     public static void SetSortOrder(this IMutableIndex index, IReadOnlyList<SortOrder>? sortOrder)
-        => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.IndexSortOrder, sortOrder);
+    => index.SetOrRemoveAnnotation(KdbndpAnnotationNames.IndexSortOrder, sortOrder);
 
     /// <summary>
     ///     Sets the column sort orders to be used, or <c>null</c> if they have not been specified.
@@ -528,7 +528,7 @@ public static class KdbndpIndexExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for the index sort orders.</returns>
     [Obsolete("Use IsDescending instead")]
     public static ConfigurationSource? GetSortOrderConfigurationSource(this IConventionIndex index)
-        => index.FindAnnotation(KdbndpAnnotationNames.IndexSortOrder)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.IndexSortOrder)?.GetConfigurationSource();
 
     #endregion Sort order (legacy)
 }

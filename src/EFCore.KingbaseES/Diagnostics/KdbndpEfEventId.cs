@@ -61,7 +61,7 @@ public static class KdbndpEfEventId
     private static readonly string ScaffoldingPrefix = DbLoggerCategory.Scaffolding.Name + ".";
 
     private static EventId MakeScaffoldingId(Id id)
-        => new((int)id, ScaffoldingPrefix + id);
+    => new((int)id, ScaffoldingPrefix + id);
 
     /// <summary>
     ///     <para>

@@ -15,11 +15,11 @@ public static class KdbndpEntityTypeExtensions
     ///     Gets all storage parameters for the table mapped to the entity type.
     /// </summary>
     public static Dictionary<string, object?> GetStorageParameters(this IReadOnlyEntityType entityType)
-        => entityType.GetAnnotations()
-            .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.StorageParameterPrefix, StringComparison.Ordinal))
-            .ToDictionary(
-                a => a.Name.Substring(KdbndpAnnotationNames.StorageParameterPrefix.Length),
-                a => a.Value);
+    => entityType.GetAnnotations()
+    .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.StorageParameterPrefix, StringComparison.Ordinal))
+    .ToDictionary(
+        a => a.Name.Substring(KdbndpAnnotationNames.StorageParameterPrefix.Length),
+        a => a.Value);
 
     /// <summary>
     ///     Gets a storage parameter for the table mapped to the entity type.
@@ -77,13 +77,13 @@ public static class KdbndpEntityTypeExtensions
     ///     Gets whether the table to which the entity is mapped is unlogged.
     /// </summary>
     public static bool GetIsUnlogged(this IReadOnlyEntityType entityType)
-        => entityType[KdbndpAnnotationNames.UnloggedTable] as bool? ?? false;
+    => entityType[KdbndpAnnotationNames.UnloggedTable] as bool? ?? false;
 
     /// <summary>
     ///     Sets whether the table to which the entity is mapped is unlogged.
     /// </summary>
     public static void SetIsUnlogged(this IMutableEntityType entityType, bool unlogged)
-        => entityType.SetOrRemoveAnnotation(KdbndpAnnotationNames.UnloggedTable, unlogged);
+    => entityType.SetOrRemoveAnnotation(KdbndpAnnotationNames.UnloggedTable, unlogged);
 
     /// <summary>
     ///     Sets whether the table to which the entity is mapped is unlogged.
@@ -102,7 +102,7 @@ public static class KdbndpEntityTypeExtensions
     ///     Gets the configuration source for whether the table to which the entity is mapped is unlogged.
     /// </summary>
     public static ConfigurationSource? GetIsUnloggedConfigurationSource(this IConventionEntityType index)
-        => index.FindAnnotation(KdbndpAnnotationNames.UnloggedTable)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.UnloggedTable)?.GetConfigurationSource();
 
     #endregion Unlogged
 
@@ -112,7 +112,7 @@ public static class KdbndpEntityTypeExtensions
     ///     Gets the CockroachDB-specific interleave-in-parent setting for the table to which the entity is mapped.
     /// </summary>
     public static CockroachDbInterleaveInParent GetCockroachDbInterleaveInParent(this IReadOnlyEntityType entityType)
-        => new(entityType);
+    => new(entityType);
 
     #endregion CockroachDb interleave in parent
 }

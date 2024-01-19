@@ -38,12 +38,12 @@ public class KdbndpNewGuidTranslator : IMethodCallTranslator
         MethodInfo method,
         IReadOnlyList<SqlExpression> arguments,
         IDiagnosticsLogger<DbLoggerCategory.Query> logger)
-        => MethodInfo.Equals(method)
-            ? _sqlExpressionFactory.Function(
-                _uuidGenerationFunction,
-                Array.Empty<SqlExpression>(),
-                nullable: false,
-                argumentsPropagateNullability: FalseArrays[0],
-                method.ReturnType)
-            : null;
+    => MethodInfo.Equals(method)
+    ? _sqlExpressionFactory.Function(
+        _uuidGenerationFunction,
+        Array.Empty<SqlExpression>(),
+        nullable: false,
+        argumentsPropagateNullability: FalseArrays[0],
+        method.ReturnType)
+    : null;
 }

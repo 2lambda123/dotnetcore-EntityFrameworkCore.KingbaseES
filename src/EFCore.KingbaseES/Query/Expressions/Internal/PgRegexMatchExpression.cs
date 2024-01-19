@@ -9,22 +9,28 @@ public class PgRegexMatchExpression : SqlExpression, IEquatable<PgRegexMatchExpr
 {
     /// <inheritdoc />
     public override Type Type
-        => typeof(bool);
+    => typeof(bool);
 
     /// <summary>
     ///     The match expression.
     /// </summary>
-    public virtual SqlExpression Match { get; }
+    public virtual SqlExpression Match {
+        get;
+    }
 
     /// <summary>
     ///     The pattern to match.
     /// </summary>
-    public virtual SqlExpression Pattern { get; }
+    public virtual SqlExpression Pattern {
+        get;
+    }
 
     /// <summary>
     ///     The options for regular expression evaluation.
     /// </summary>
-    public virtual RegexOptions Options { get; }
+    public virtual RegexOptions Options {
+        get;
+    }
 
     /// <summary>
     ///     Constructs a <see cref="PgRegexMatchExpression" />.
@@ -38,7 +44,7 @@ public class PgRegexMatchExpression : SqlExpression, IEquatable<PgRegexMatchExpr
         SqlExpression pattern,
         RegexOptions options,
         RelationalTypeMapping? typeMapping)
-        : base(typeof(bool), typeMapping)
+    : base(typeof(bool), typeMapping)
     {
         Match = match;
         Pattern = pattern;
@@ -47,33 +53,33 @@ public class PgRegexMatchExpression : SqlExpression, IEquatable<PgRegexMatchExpr
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Update((SqlExpression)visitor.Visit(Match), (SqlExpression)visitor.Visit(Pattern));
+    => Update((SqlExpression)visitor.Visit(Match), (SqlExpression)visitor.Visit(Pattern));
 
     /// <summary>
     ///     Creates a new expression that is like this one, but using the supplied children. If all of the children are the same, it will
     ///     return this expression.
     /// </summary>
     public virtual PgRegexMatchExpression Update(SqlExpression match, SqlExpression pattern)
-        => match != Match || pattern != Pattern
-            ? new PgRegexMatchExpression(match, pattern, Options, TypeMapping)
-            : this;
+    => match != Match || pattern != Pattern
+    ? new PgRegexMatchExpression(match, pattern, Options, TypeMapping)
+    : this;
 
     /// <inheritdoc />
     public virtual bool Equals(PgRegexMatchExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && Match.Equals(other.Match)
-            && Pattern.Equals(other.Pattern)
-            && Options.Equals(other.Options);
+    => ReferenceEquals(this, other)
+    || other is not null
+    && base.Equals(other)
+    && Match.Equals(other.Match)
+    && Pattern.Equals(other.Pattern)
+    && Options.Equals(other.Options);
 
     /// <inheritdoc />
     public override bool Equals(object? other)
-        => other is PgRegexMatchExpression otherRegexMatch && Equals(otherRegexMatch);
+    => other is PgRegexMatchExpression otherRegexMatch && Equals(otherRegexMatch);
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), Match, Pattern, Options);
+    => HashCode.Combine(base.GetHashCode(), Match, Pattern, Options);
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
@@ -85,5 +91,5 @@ public class PgRegexMatchExpression : SqlExpression, IEquatable<PgRegexMatchExpr
 
     /// <inheritdoc />
     public override string ToString()
-        => $"{Match} ~ {Pattern}";
+    => $"{Match} ~ {Pattern}";
 }

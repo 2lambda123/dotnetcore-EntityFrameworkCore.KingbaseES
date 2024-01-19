@@ -17,7 +17,9 @@ public class KdbndpMethodCallTranslatorProvider : RelationalMethodCallTranslator
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual KdbndpLTreeTranslator LTreeTranslator { get; }
+    public virtual KdbndpLTreeTranslator LTreeTranslator {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -41,28 +43,28 @@ public class KdbndpMethodCallTranslatorProvider : RelationalMethodCallTranslator
 
         AddTranslators(
             new IMethodCallTranslator[]
-            {
-                new KdbndpArrayMethodTranslator(sqlExpressionFactory, jsonTranslator),
-                new KdbndpByteArrayMethodTranslator(sqlExpressionFactory),
-                new KdbndpConvertTranslator(sqlExpressionFactory),
-                new KdbndpDateTimeMethodTranslator(typeMappingSource, sqlExpressionFactory),
-                new KdbndpFullTextSearchMethodTranslator(typeMappingSource, sqlExpressionFactory, model),
-                new KdbndpFuzzyStringMatchMethodTranslator(sqlExpressionFactory),
-                new KdbndpJsonDomTranslator(typeMappingSource, sqlExpressionFactory, model),
-                new KdbndpJsonDbFunctionsTranslator(typeMappingSource, sqlExpressionFactory, model),
-                new KdbndpJsonPocoTranslator(typeMappingSource, sqlExpressionFactory, model),
-                new KdbndpLikeTranslator(sqlExpressionFactory),
-                LTreeTranslator,
-                new KdbndpMathTranslator(typeMappingSource, sqlExpressionFactory, model),
-                new KdbndpNetworkTranslator(typeMappingSource, sqlExpressionFactory, model),
-                new KdbndpNewGuidTranslator(sqlExpressionFactory, KdbndpOptions.PostgresVersion),
-                new KdbndpObjectToStringTranslator(typeMappingSource, sqlExpressionFactory),
-                new KdbndpRandomTranslator(sqlExpressionFactory),
-                new KdbndpRangeTranslator(typeMappingSource, sqlExpressionFactory, model, supportsMultiranges),
-                new KdbndpRegexIsMatchTranslator(sqlExpressionFactory),
-                new KdbndpRowValueTranslator(sqlExpressionFactory),
-                new KdbndpStringMethodTranslator(typeMappingSource, sqlExpressionFactory),
-                new KdbndpTrigramsMethodTranslator(typeMappingSource, sqlExpressionFactory, model),
-            });
+        {
+            new KdbndpArrayMethodTranslator(sqlExpressionFactory, jsonTranslator),
+            new KdbndpByteArrayMethodTranslator(sqlExpressionFactory),
+            new KdbndpConvertTranslator(sqlExpressionFactory),
+            new KdbndpDateTimeMethodTranslator(typeMappingSource, sqlExpressionFactory),
+            new KdbndpFullTextSearchMethodTranslator(typeMappingSource, sqlExpressionFactory, model),
+            new KdbndpFuzzyStringMatchMethodTranslator(sqlExpressionFactory),
+            new KdbndpJsonDomTranslator(typeMappingSource, sqlExpressionFactory, model),
+            new KdbndpJsonDbFunctionsTranslator(typeMappingSource, sqlExpressionFactory, model),
+            new KdbndpJsonPocoTranslator(typeMappingSource, sqlExpressionFactory, model),
+            new KdbndpLikeTranslator(sqlExpressionFactory),
+            LTreeTranslator,
+            new KdbndpMathTranslator(typeMappingSource, sqlExpressionFactory, model),
+            new KdbndpNetworkTranslator(typeMappingSource, sqlExpressionFactory, model),
+            new KdbndpNewGuidTranslator(sqlExpressionFactory, KdbndpOptions.PostgresVersion),
+            new KdbndpObjectToStringTranslator(typeMappingSource, sqlExpressionFactory),
+            new KdbndpRandomTranslator(sqlExpressionFactory),
+            new KdbndpRangeTranslator(typeMappingSource, sqlExpressionFactory, model, supportsMultiranges),
+            new KdbndpRegexIsMatchTranslator(sqlExpressionFactory),
+            new KdbndpRowValueTranslator(sqlExpressionFactory),
+            new KdbndpStringMethodTranslator(typeMappingSource, sqlExpressionFactory),
+            new KdbndpTrigramsMethodTranslator(typeMappingSource, sqlExpressionFactory, model),
+        });
     }
 }

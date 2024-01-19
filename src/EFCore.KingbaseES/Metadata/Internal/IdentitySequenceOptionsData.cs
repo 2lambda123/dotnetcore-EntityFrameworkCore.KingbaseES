@@ -25,7 +25,10 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual long? StartValue { get; set; }
+    public virtual long? StartValue {
+        get;
+        set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -33,7 +36,10 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual long IncrementBy { get; set; } = 1;
+    public virtual long IncrementBy {
+        get;
+        set;
+    } = 1;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -41,7 +47,10 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual long? MinValue { get; set; }
+    public virtual long? MinValue {
+        get;
+        set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -49,7 +58,10 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual long? MaxValue { get; set; }
+    public virtual long? MaxValue {
+        get;
+        set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -57,7 +69,10 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual bool IsCyclic { get; set; }
+    public virtual bool IsCyclic {
+        get;
+        set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -65,7 +80,10 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual long NumbersToCache { get; set; } = 1;
+    public virtual long NumbersToCache {
+        get;
+        set;
+    } = 1;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -99,7 +117,7 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static IdentitySequenceOptionsData Get(IReadOnlyAnnotatable annotatable)
-        => Deserialize((string?)annotatable[KdbndpAnnotationNames.IdentityOptions]);
+    => Deserialize((string?)annotatable[KdbndpAnnotationNames.IdentityOptions]);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -143,7 +161,7 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
         var end = value.IndexOf('\'', position);
 
         while (end + 1 < value.Length
-               && value[end + 1] == '\'')
+                && value[end + 1] == '\'')
         {
             end = value.IndexOf('\'', end + 2);
         }
@@ -155,10 +173,10 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     }
 
     private static long? AsLong(string? value)
-        => value is null ? null : long.Parse(value, CultureInfo.InvariantCulture);
+    => value is null ? null : long.Parse(value, CultureInfo.InvariantCulture);
 
     private static bool AsBool(string? value)
-        => value is not null && bool.Parse(value);
+    => value is not null && bool.Parse(value);
 
     private static void EscapeAndQuote(StringBuilder builder, object? value)
     {
@@ -179,16 +197,16 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual bool Equals(IdentitySequenceOptionsData? other)
-        => !(other is null)
-            && (
-                ReferenceEquals(this, other)
-                || StartValue == other.StartValue
-                && IncrementBy == other.IncrementBy
-                && MinValue == other.MinValue
-                && MaxValue == other.MaxValue
-                && IsCyclic == other.IsCyclic
-                && NumbersToCache == other.NumbersToCache
-            );
+    => !(other is null)
+    && (
+        ReferenceEquals(this, other)
+        || StartValue == other.StartValue
+        && IncrementBy == other.IncrementBy
+        && MinValue == other.MinValue
+        && MaxValue == other.MaxValue
+        && IsCyclic == other.IsCyclic
+        && NumbersToCache == other.NumbersToCache
+    );
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -197,7 +215,7 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override bool Equals(object? obj)
-        => obj is IdentitySequenceOptionsData other && Equals(other);
+    => obj is IdentitySequenceOptionsData other && Equals(other);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -206,5 +224,5 @@ public class IdentitySequenceOptionsData : IEquatable<IdentitySequenceOptionsDat
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override int GetHashCode()
-        => HashCode.Combine(StartValue, IncrementBy, MinValue, MaxValue, IsCyclic, NumbersToCache);
+    => HashCode.Combine(StartValue, IncrementBy, MinValue, MaxValue, IsCyclic, NumbersToCache);
 }

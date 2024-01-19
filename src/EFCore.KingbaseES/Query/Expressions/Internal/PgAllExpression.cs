@@ -10,22 +10,28 @@ public class PgAllExpression : SqlExpression, IEquatable<PgAllExpression>
 {
     /// <inheritdoc />
     public override Type Type
-        => typeof(bool);
+    => typeof(bool);
 
     /// <summary>
     ///     The value to test against the <see cref="Array" />.
     /// </summary>
-    public virtual SqlExpression Item { get; }
+    public virtual SqlExpression Item {
+        get;
+    }
 
     /// <summary>
     ///     The array of values or patterns to test for the <see cref="Item" />.
     /// </summary>
-    public virtual SqlExpression Array { get; }
+    public virtual SqlExpression Array {
+        get;
+    }
 
     /// <summary>
     ///     The operator.
     /// </summary>
-    public virtual PgAllOperatorType OperatorType { get; }
+    public virtual PgAllOperatorType OperatorType {
+        get;
+    }
 
     /// <summary>
     ///     Constructs a <see cref="PgAllExpression" />.
@@ -39,7 +45,7 @@ public class PgAllExpression : SqlExpression, IEquatable<PgAllExpression>
         SqlExpression array,
         PgAllOperatorType operatorType,
         RelationalTypeMapping? typeMapping)
-        : base(typeof(bool), typeMapping)
+    : base(typeof(bool), typeMapping)
     {
         if (array.Type.TryGetElementType(typeof(IEnumerable<>)) is null)
         {
@@ -59,53 +65,53 @@ public class PgAllExpression : SqlExpression, IEquatable<PgAllExpression>
     /// <param name="array">The <see cref="Array" /> property of the result.</param>
     /// <returns>This expression if no children changed, or an expression with the updated children.</returns>
     public virtual PgAllExpression Update(SqlExpression item, SqlExpression array)
-        => item != Item || array != Array
-            ? new PgAllExpression(item, array, OperatorType, TypeMapping)
-            : this;
+    => item != Item || array != Array
+    ? new PgAllExpression(item, array, OperatorType, TypeMapping)
+    : this;
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Update((SqlExpression)visitor.Visit(Item), (SqlExpression)visitor.Visit(Array));
+    => Update((SqlExpression)visitor.Visit(Item), (SqlExpression)visitor.Visit(Array));
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is PgAllExpression e && Equals(e);
+    => obj is PgAllExpression e && Equals(e);
 
     /// <inheritdoc />
     public virtual bool Equals(PgAllExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && Item.Equals(other.Item)
-            && Array.Equals(other.Array)
-            && OperatorType.Equals(other.OperatorType);
+    => ReferenceEquals(this, other)
+    || other is not null
+    && base.Equals(other)
+    && Item.Equals(other.Item)
+    && Array.Equals(other.Array)
+    && OperatorType.Equals(other.OperatorType);
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), Item, Array, OperatorType);
+    => HashCode.Combine(base.GetHashCode(), Item, Array, OperatorType);
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
     {
         expressionPrinter.Visit(Item);
         expressionPrinter
-            .Append(" ")
-            .Append(
-                OperatorType switch
-                {
-                    PgAllOperatorType.Like => "LIKE",
-                    PgAllOperatorType.ILike => "ILIKE",
+        .Append(" ")
+        .Append(
+            OperatorType switch
+    {
+        PgAllOperatorType.Like => "LIKE",
+        PgAllOperatorType.ILike => "ILIKE",
 
-                    _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {OperatorType}")
-                })
-            .Append(" ALL(");
+        _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {OperatorType}")
+        })
+        .Append(" ALL(");
         expressionPrinter.Visit(Array);
         expressionPrinter.Append(")");
     }
 
     /// <inheritdoc />
     public override string ToString()
-        => $"{Item} {OperatorType} ALL({Array})";
+    => $"{Item} {OperatorType} ALL({Array})";
 }
 
 /// <summary>

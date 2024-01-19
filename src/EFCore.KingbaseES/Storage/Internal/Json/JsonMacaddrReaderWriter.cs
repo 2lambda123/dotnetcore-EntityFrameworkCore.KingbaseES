@@ -18,7 +18,9 @@ public sealed class JsonMacaddrReaderWriter : JsonValueReaderWriter<PhysicalAddr
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static JsonMacaddrReaderWriter Instance { get; } = new();
+    public static JsonMacaddrReaderWriter Instance {
+        get;
+    } = new();
 
     private JsonMacaddrReaderWriter()
     {
@@ -26,9 +28,9 @@ public sealed class JsonMacaddrReaderWriter : JsonValueReaderWriter<PhysicalAddr
 
     /// <inheritdoc />
     public override PhysicalAddress FromJsonTyped(ref Utf8JsonReaderManager manager, object? existingObject = null)
-        => PhysicalAddress.Parse(manager.CurrentReader.GetString()!);
+    => PhysicalAddress.Parse(manager.CurrentReader.GetString()!);
 
     /// <inheritdoc />
     public override void ToJsonTyped(Utf8JsonWriter writer, PhysicalAddress value)
-        => writer.WriteStringValue(value.ToString());
+    => writer.WriteStringValue(value.ToString());
 }

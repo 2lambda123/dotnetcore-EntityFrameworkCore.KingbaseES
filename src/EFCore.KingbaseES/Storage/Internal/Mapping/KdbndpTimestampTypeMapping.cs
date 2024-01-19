@@ -18,7 +18,9 @@ public class KdbndpTimestampTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpTimestampTypeMapping Default { get; } = new();
+    public static KdbndpTimestampTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -49,7 +51,7 @@ public class KdbndpTimestampTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpTimestampTypeMapping(parameters);
+    => new KdbndpTimestampTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -58,7 +60,7 @@ public class KdbndpTimestampTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string ProcessStoreType(RelationalTypeMappingParameters parameters, string storeType, string _)
-        => parameters.Precision is null ? storeType : $"timestamp({parameters.Precision}) without time zone";
+    => parameters.Precision is null ? storeType : $"timestamp({parameters.Precision}) without time zone";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -67,7 +69,7 @@ public class KdbndpTimestampTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateNonNullSqlLiteral(object value)
-        => $"TIMESTAMP '{GenerateLiteralCore(value)}'";
+    => $"TIMESTAMP '{GenerateLiteralCore(value)}'";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -76,10 +78,10 @@ public class KdbndpTimestampTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateEmbeddedNonNullSqlLiteral(object value)
-        => $@"""{GenerateLiteralCore(value)}""";
+    => $@"""{GenerateLiteralCore(value)}""";
 
     private string GenerateLiteralCore(object value)
-        => FormatDateTime((DateTime)value);
+    => FormatDateTime((DateTime)value);
 
     private static string FormatDateTime(DateTime dateTime)
     {
@@ -97,13 +99,15 @@ public class KdbndpTimestampTypeMapping : KdbndpTypeMapping
         }
 
         return KdbndpTypeMappingSource.LegacyTimestampBehavior || dateTime.Kind != DateTimeKind.Utc
-            ? dateTime.ToString("yyyy-MM-ddTHH:mm:ss.FFFFFF", CultureInfo.InvariantCulture)
-            : throw new ArgumentException("'timestamp without time zone' literal cannot be generated for a UTC DateTime");
+               ? dateTime.ToString("yyyy-MM-ddTHH:mm:ss.FFFFFF", CultureInfo.InvariantCulture)
+               : throw new ArgumentException("'timestamp without time zone' literal cannot be generated for a UTC DateTime");
     }
 
     private sealed class KdbndpJsonTimestampReaderWriter : JsonValueReaderWriter<DateTime>
     {
-        public static KdbndpJsonTimestampReaderWriter Instance { get; } = new();
+        public static KdbndpJsonTimestampReaderWriter Instance {
+            get;
+        } = new();
 
         public override DateTime FromJsonTyped(ref Utf8JsonReaderManager manager, object? existingObject = null)
         {
@@ -113,10 +117,10 @@ public class KdbndpTimestampTypeMapping : KdbndpTypeMapping
             {
                 switch (s)
                 {
-                    case "-infinity":
-                        return DateTime.MinValue;
-                    case "infinity":
-                        return DateTime.MaxValue;
+                case "-infinity":
+                    return DateTime.MinValue;
+                case "infinity":
+                    return DateTime.MaxValue;
                 }
             }
 
@@ -124,6 +128,6 @@ public class KdbndpTimestampTypeMapping : KdbndpTypeMapping
         }
 
         public override void ToJsonTyped(Utf8JsonWriter writer, DateTime value)
-            => writer.WriteStringValue(FormatDateTime(value));
+        => writer.WriteStringValue(FormatDateTime(value));
     }
 }

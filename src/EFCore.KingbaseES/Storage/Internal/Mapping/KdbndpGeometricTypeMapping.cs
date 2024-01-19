@@ -17,7 +17,9 @@ public class KdbndpPointTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpPointTypeMapping Default { get; } = new();
+    public static KdbndpPointTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -48,7 +50,7 @@ public class KdbndpPointTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpPointTypeMapping(parameters);
+    => new KdbndpPointTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -92,7 +94,9 @@ public class KdbndpLineTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpLineTypeMapping Default { get; } = new();
+    public static KdbndpLineTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -123,7 +127,7 @@ public class KdbndpLineTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpLineTypeMapping(parameters);
+    => new KdbndpLineTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -150,8 +154,8 @@ public class KdbndpLineTypeMapping : KdbndpTypeMapping
     {
         var line = (KdbndpLine)value;
         return Expression.New(
-            Constructor,
-            Expression.Constant(line.A), Expression.Constant(line.B), Expression.Constant(line.C));
+                   Constructor,
+                   Expression.Constant(line.A), Expression.Constant(line.B), Expression.Constant(line.C));
     }
 
     private static readonly ConstructorInfo Constructor =
@@ -172,7 +176,9 @@ public class KdbndpLineSegmentTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpLineSegmentTypeMapping Default { get; } = new();
+    public static KdbndpLineSegmentTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -203,7 +209,7 @@ public class KdbndpLineSegmentTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpLineSegmentTypeMapping(parameters);
+    => new KdbndpLineSegmentTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -227,9 +233,9 @@ public class KdbndpLineSegmentTypeMapping : KdbndpTypeMapping
     {
         var lseg = (KdbndpLSeg)value;
         return Expression.New(
-            Constructor,
-            Expression.Constant(lseg.Start.X), Expression.Constant(lseg.Start.Y),
-            Expression.Constant(lseg.End.X), Expression.Constant(lseg.End.Y));
+                   Constructor,
+                   Expression.Constant(lseg.Start.X), Expression.Constant(lseg.Start.Y),
+                   Expression.Constant(lseg.End.X), Expression.Constant(lseg.End.Y));
     }
 
     private static readonly ConstructorInfo Constructor =
@@ -250,7 +256,9 @@ public class KdbndpBoxTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpBoxTypeMapping Default { get; } = new();
+    public static KdbndpBoxTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -281,7 +289,7 @@ public class KdbndpBoxTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpBoxTypeMapping(parameters);
+    => new KdbndpBoxTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -305,9 +313,9 @@ public class KdbndpBoxTypeMapping : KdbndpTypeMapping
     {
         var box = (KdbndpBox)value;
         return Expression.New(
-            Constructor,
-            Expression.Constant(box.Top), Expression.Constant(box.Right),
-            Expression.Constant(box.Bottom), Expression.Constant(box.Left));
+                   Constructor,
+                   Expression.Constant(box.Top), Expression.Constant(box.Right),
+                   Expression.Constant(box.Bottom), Expression.Constant(box.Left));
     }
 
     private static readonly ConstructorInfo Constructor =
@@ -328,7 +336,9 @@ public class KdbndpPathTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpPathTypeMapping Default { get; } = new();
+    public static KdbndpPathTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -359,7 +369,7 @@ public class KdbndpPathTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpPathTypeMapping(parameters);
+    => new KdbndpPathTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -401,14 +411,14 @@ public class KdbndpPathTypeMapping : KdbndpTypeMapping
     {
         var path = (KdbndpPath)value;
         return Expression.New(
-            Constructor,
-            Expression.NewArrayInit(
-                typeof(KdbndpPoint),
-                path.Select(
-                    p => Expression.New(
-                        PointConstructor,
-                        Expression.Constant(p.X), Expression.Constant(p.Y)))),
-            Expression.Constant(path.Open));
+                   Constructor,
+                   Expression.NewArrayInit(
+                       typeof(KdbndpPoint),
+                       path.Select(
+                           p => Expression.New(
+                               PointConstructor,
+                               Expression.Constant(p.X), Expression.Constant(p.Y)))),
+                   Expression.Constant(path.Open));
     }
 
     private static readonly ConstructorInfo Constructor =
@@ -432,7 +442,9 @@ public class KdbndpPolygonTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpPolygonTypeMapping Default { get; } = new();
+    public static KdbndpPolygonTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -463,7 +475,7 @@ public class KdbndpPolygonTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpPolygonTypeMapping(parameters);
+    => new KdbndpPolygonTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -503,13 +515,13 @@ public class KdbndpPolygonTypeMapping : KdbndpTypeMapping
     {
         var polygon = (KdbndpPolygon)value;
         return Expression.New(
-            Constructor,
-            Expression.NewArrayInit(
-                typeof(KdbndpPoint),
-                polygon.Select(
-                    p => Expression.New(
-                        PointConstructor,
-                        Expression.Constant(p.X), Expression.Constant(p.Y)))));
+                   Constructor,
+                   Expression.NewArrayInit(
+                       typeof(KdbndpPoint),
+                       polygon.Select(
+                           p => Expression.New(
+                               PointConstructor,
+                               Expression.Constant(p.X), Expression.Constant(p.Y)))));
     }
 
     private static readonly ConstructorInfo Constructor =
@@ -533,7 +545,9 @@ public class KdbndpCircleTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpCircleTypeMapping Default { get; } = new();
+    public static KdbndpCircleTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -564,7 +578,7 @@ public class KdbndpCircleTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpCircleTypeMapping(parameters);
+    => new KdbndpCircleTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -588,8 +602,8 @@ public class KdbndpCircleTypeMapping : KdbndpTypeMapping
     {
         var circle = (KdbndpCircle)value;
         return Expression.New(
-            Constructor,
-            Expression.Constant(circle.X), Expression.Constant(circle.Y), Expression.Constant(circle.Radius));
+                   Constructor,
+                   Expression.Constant(circle.X), Expression.Constant(circle.Y), Expression.Constant(circle.Radius));
     }
 
     private static readonly ConstructorInfo Constructor =

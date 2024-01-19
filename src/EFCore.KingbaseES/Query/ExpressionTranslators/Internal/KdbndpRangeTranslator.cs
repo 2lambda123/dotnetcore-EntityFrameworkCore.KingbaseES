@@ -20,7 +20,7 @@ public class KdbndpRangeTranslator : IMethodCallTranslator, IMemberTranslator
 
     private static readonly MethodInfo EnumerableAnyWithoutPredicate =
         typeof(Enumerable).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Single(mi => mi.Name == nameof(Enumerable.Any) && mi.GetParameters().Length == 1);
+        .Single(mi => mi.Name == nameof(Enumerable.Any) && mi.GetParameters().Length == 1);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -49,20 +49,20 @@ public class KdbndpRangeTranslator : IMethodCallTranslator, IMemberTranslator
     {
         // Any() over multirange -> NOT isempty(). KdbndpRange<T> has IsEmpty which is translated below.
         if (_supportsMultiranges
-            && method.IsGenericMethod
-            && method.GetGenericMethodDefinition() == EnumerableAnyWithoutPredicate)
+                && method.IsGenericMethod
+                && method.GetGenericMethodDefinition() == EnumerableAnyWithoutPredicate)
         {
             return _sqlExpressionFactory.Not(
-                _sqlExpressionFactory.Function(
-                    "isempty",
-                    new[] { arguments[0] },
-                    nullable: true,
-                    argumentsPropagateNullability: TrueArrays[1],
-                    typeof(bool)));
+                       _sqlExpressionFactory.Function(
+                           "isempty",
+                           new[] { arguments[0] },
+                           nullable: true,
+                           argumentsPropagateNullability: TrueArrays[1],
+                           typeof(bool)));
         }
 
         if (method.DeclaringType != typeof(KdbndpRangeDbFunctionsExtensions)
-            && (method.DeclaringType != typeof(KdbndpMultirangeDbFunctionsExtensions) || !_supportsMultiranges))
+                && (method.DeclaringType != typeof(KdbndpMultirangeDbFunctionsExtensions) || !_supportsMultiranges))
         {
             return null;
         }
@@ -74,16 +74,16 @@ public class KdbndpRangeTranslator : IMethodCallTranslator, IMemberTranslator
                 var inferredMapping = ExpressionExtensions.InferTypeMapping(arguments[0], arguments[1]);
 
                 return _sqlExpressionFactory.Function(
-                    "range_merge",
-                    new[]
-                    {
-                        _sqlExpressionFactory.ApplyTypeMapping(arguments[0], inferredMapping),
-                        _sqlExpressionFactory.ApplyTypeMapping(arguments[1], inferredMapping)
-                    },
-                    nullable: true,
-                    argumentsPropagateNullability: TrueArrays[2],
-                    method.ReturnType,
-                    inferredMapping);
+                           "range_merge",
+                           new[]
+                {
+                    _sqlExpressionFactory.ApplyTypeMapping(arguments[0], inferredMapping),
+                    _sqlExpressionFactory.ApplyTypeMapping(arguments[1], inferredMapping)
+                },
+                nullable: true,
+                argumentsPropagateNullability: TrueArrays[2],
+                method.ReturnType,
+                inferredMapping);
             }
 
             if (method.DeclaringType == typeof(KdbndpMultirangeDbFunctionsExtensions))
@@ -93,29 +93,29 @@ public class KdbndpRangeTranslator : IMethodCallTranslator, IMemberTranslator
         }
 
         return method.Name switch
-        {
-            nameof(KdbndpRangeDbFunctionsExtensions.Contains)
-                => _sqlExpressionFactory.Contains(arguments[0], arguments[1]),
+    {
+        nameof(KdbndpRangeDbFunctionsExtensions.Contains)
+            => _sqlExpressionFactory.Contains(arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.ContainedBy)
-                => _sqlExpressionFactory.ContainedBy(arguments[0], arguments[1]),
+            => _sqlExpressionFactory.ContainedBy(arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.Overlaps)
-                => _sqlExpressionFactory.Overlaps(arguments[0], arguments[1]),
+            => _sqlExpressionFactory.Overlaps(arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.IsStrictlyLeftOf)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeIsStrictlyLeftOf, arguments[0], arguments[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeIsStrictlyLeftOf, arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.IsStrictlyRightOf)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeIsStrictlyRightOf, arguments[0], arguments[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeIsStrictlyRightOf, arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.DoesNotExtendRightOf)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeDoesNotExtendRightOf, arguments[0], arguments[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeDoesNotExtendRightOf, arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.DoesNotExtendLeftOf)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeDoesNotExtendLeftOf, arguments[0], arguments[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeDoesNotExtendLeftOf, arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.IsAdjacentTo)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeIsAdjacentTo, arguments[0], arguments[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeIsAdjacentTo, arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.Union)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeUnion, arguments[0], arguments[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeUnion, arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.Intersect)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeIntersect, arguments[0], arguments[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeIntersect, arguments[0], arguments[1]),
             nameof(KdbndpRangeDbFunctionsExtensions.Except)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeExcept, arguments[0], arguments[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.RangeExcept, arguments[0], arguments[1]),
 
             _ => null
         };
@@ -140,8 +140,8 @@ public class KdbndpRangeTranslator : IMethodCallTranslator, IMemberTranslator
         }
 
         return member.Name switch
-        {
-            nameof(KdbndpRange<int>.IsEmpty) => SingleArgBoolFunction("isempty", instance!),
+    {
+        nameof(KdbndpRange<int>.IsEmpty) => SingleArgBoolFunction("isempty", instance!),
             nameof(KdbndpRange<int>.LowerBoundIsInclusive) => SingleArgBoolFunction("lower_inc", instance!),
             nameof(KdbndpRange<int>.UpperBoundIsInclusive) => SingleArgBoolFunction("upper_inc", instance!),
             nameof(KdbndpRange<int>.LowerBoundInfinite) => SingleArgBoolFunction("lower_inf", instance!),
@@ -151,11 +151,11 @@ public class KdbndpRangeTranslator : IMethodCallTranslator, IMemberTranslator
         };
 
         SqlFunctionExpression SingleArgBoolFunction(string name, SqlExpression argument)
-            => _sqlExpressionFactory.Function(
-                name,
-                new[] { argument },
-                nullable: true,
-                argumentsPropagateNullability: TrueArrays[1],
-                typeof(bool));
+        => _sqlExpressionFactory.Function(
+            name,
+            new[] { argument },
+            nullable: true,
+            argumentsPropagateNullability: TrueArrays[1],
+            typeof(bool));
     }
 }

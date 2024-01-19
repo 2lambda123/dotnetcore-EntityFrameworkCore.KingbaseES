@@ -89,7 +89,7 @@ public static class KdbndpModelBuilderExtensions
         Check.NullButNotEmpty(schema, nameof(schema));
 
         return modelBuilder.CanSetAnnotation(KdbndpAnnotationNames.HiLoSequenceName, name, fromDataAnnotation)
-            && modelBuilder.CanSetAnnotation(KdbndpAnnotationNames.HiLoSequenceSchema, schema, fromDataAnnotation);
+               && modelBuilder.CanSetAnnotation(KdbndpAnnotationNames.HiLoSequenceSchema, schema, fromDataAnnotation);
     }
 
     #endregion HiLo
@@ -193,7 +193,7 @@ public static class KdbndpModelBuilderExtensions
     /// <param name="modelBuilder">The model builder.</param>
     /// <returns>The same builder instance so that multiple calls can be chained.</returns>
     public static ModelBuilder UseIdentityColumns(this ModelBuilder modelBuilder)
-        => modelBuilder.UseIdentityByDefaultColumns();
+    => modelBuilder.UseIdentityByDefaultColumns();
 
     /// <summary>
     ///     Configures the value generation strategy for the key property, when targeting KingbaseES.
@@ -221,7 +221,7 @@ public static class KdbndpModelBuilderExtensions
             if (valueGenerationStrategy != KdbndpValueGenerationStrategy.Sequence)
             {
                 if (modelBuilder.CanSetAnnotation(KdbndpAnnotationNames.SequenceNameSuffix, null)
-                    && modelBuilder.CanSetAnnotation(KdbndpAnnotationNames.SequenceSchema, null))
+                        && modelBuilder.CanSetAnnotation(KdbndpAnnotationNames.SequenceSchema, null))
                 {
                     modelBuilder.Metadata.SetSequenceNameSuffix(null, fromDataAnnotation);
                     modelBuilder.Metadata.SetSequenceSchema(null, fromDataAnnotation);
@@ -249,7 +249,7 @@ public static class KdbndpModelBuilderExtensions
         Check.NotNull(modelBuilder, nameof(modelBuilder));
 
         return modelBuilder.CanSetAnnotation(
-            KdbndpAnnotationNames.ValueGenerationStrategy, valueGenerationStrategy, fromDataAnnotation);
+                   KdbndpAnnotationNames.ValueGenerationStrategy, valueGenerationStrategy, fromDataAnnotation);
     }
 
     #endregion Identity
@@ -333,7 +333,7 @@ public static class KdbndpModelBuilderExtensions
     public static ModelBuilder HasPostgresExtension(
         this ModelBuilder modelBuilder,
         string name)
-        => modelBuilder.HasPostgresExtension(null, name);
+    => modelBuilder.HasPostgresExtension(null, name);
 
     /// <summary>
     ///     Registers a KingbaseES extension in the model.
@@ -383,7 +383,7 @@ public static class KdbndpModelBuilderExtensions
         this IConventionModelBuilder modelBuilder,
         string name,
         bool fromDataAnnotation = false)
-        => modelBuilder.HasPostgresExtension(schema: null, name, version: null, fromDataAnnotation);
+    => modelBuilder.HasPostgresExtension(schema: null, name, version: null, fromDataAnnotation);
 
     /// <summary>
     ///     Returns a value indicating whether the given KingbaseES extension can be registered in the model.
@@ -460,7 +460,7 @@ public static class KdbndpModelBuilderExtensions
         this ModelBuilder modelBuilder,
         string name,
         string[] labels)
-        => modelBuilder.HasPostgresEnum(null, name, labels);
+    => modelBuilder.HasPostgresEnum(null, name, labels);
 
     /// <summary>
     ///     Registers a user-defined enum type in the model.
@@ -485,16 +485,16 @@ public static class KdbndpModelBuilderExtensions
         string? schema = null,
         string? name = null,
         IKdbndpNameTranslator? nameTranslator = null)
-        where TEnum : struct, Enum
+    where TEnum : struct, Enum
     {
 #pragma warning disable CS0618 // KdbndpConnection.GlobalTypeMapper is obsolete
         nameTranslator ??= KdbndpConnection.GlobalTypeMapper.DefaultNameTranslator;
 #pragma warning restore CS0618
 
         return modelBuilder.HasPostgresEnum(
-            schema,
-            name ?? GetTypeKbName<TEnum>(nameTranslator),
-            GetMemberKbNames<TEnum>(nameTranslator));
+                   schema,
+                   name ?? GetTypeKbName<TEnum>(nameTranslator),
+                   GetMemberKbNames<TEnum>(nameTranslator));
     }
 
     #endregion
@@ -576,7 +576,7 @@ public static class KdbndpModelBuilderExtensions
         this ModelBuilder modelBuilder,
         string name,
         string subtype)
-        => HasPostgresRange(modelBuilder, null, name, subtype);
+    => HasPostgresRange(modelBuilder, null, name, subtype);
 
     #endregion
 
@@ -624,7 +624,7 @@ public static class KdbndpModelBuilderExtensions
         string locale,
         string? provider = null,
         bool? deterministic = null)
-        => modelBuilder.HasCollation(schema: null, name, locale, provider: provider, deterministic: deterministic);
+    => modelBuilder.HasCollation(schema: null, name, locale, provider: provider, deterministic: deterministic);
 
     /// <summary>
     ///     Creates a new collation in the database.
@@ -796,7 +796,7 @@ public static class KdbndpModelBuilderExtensions
         Check.NotNull(modelBuilder, nameof(modelBuilder));
 
         return modelBuilder.CanSetAnnotation(
-            KdbndpAnnotationNames.DefaultColumnCollation, collation, fromDataAnnotation);
+                   KdbndpAnnotationNames.DefaultColumnCollation, collation, fromDataAnnotation);
     }
 
     #endregion Default column collation
@@ -805,16 +805,16 @@ public static class KdbndpModelBuilderExtensions
 
     // See: https://github.com/Kdbndp/Kdbndp/blob/dev/src/Kdbndp/TypeMapping/TypeMapperBase.cs#L132-L138
     private static string GetTypeKbName<TEnum>(IKdbndpNameTranslator nameTranslator)
-        where TEnum : struct, Enum
+    where TEnum : struct, Enum
         => typeof(TEnum).GetCustomAttribute<KbNameAttribute>()?.KbName ?? nameTranslator.TranslateTypeName(typeof(TEnum).Name);
 
     // See: https://github.com/Kdbndp/Kdbndp/blob/dev/src/Kdbndp/TypeHandlers/EnumHandler.cs#L118-L129
     private static string[] GetMemberKbNames<TEnum>(IKdbndpNameTranslator nameTranslator)
-        where TEnum : struct, Enum
+    where TEnum : struct, Enum
         => typeof(TEnum)
-            .GetFields(BindingFlags.Static | BindingFlags.Public)
-            .Select(x => x.GetCustomAttribute<KbNameAttribute>()?.KbName ?? nameTranslator.TranslateMemberName(x.Name))
-            .ToArray();
+        .GetFields(BindingFlags.Static | BindingFlags.Public)
+        .Select(x => x.GetCustomAttribute<KbNameAttribute>()?.KbName ?? nameTranslator.TranslateMemberName(x.Name))
+        .ToArray();
 
     #endregion
 }

@@ -14,7 +14,9 @@ public class KdbndpTsRankingNormalizationTypeMapping : IntTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static new KdbndpTsRankingNormalizationTypeMapping Default { get; } = new();
+    public static new KdbndpTsRankingNormalizationTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -24,10 +26,10 @@ public class KdbndpTsRankingNormalizationTypeMapping : IntTypeMapping
     /// </summary>
     public KdbndpTsRankingNormalizationTypeMapping()
         : base(
-            new RelationalTypeMappingParameters(
-                new CoreTypeMappingParameters(
-                    typeof(KdbndpTsRankingNormalization), new EnumToNumberConverter<KdbndpTsRankingNormalization, int>()),
-                "integer"))
+              new RelationalTypeMappingParameters(
+                  new CoreTypeMappingParameters(
+                      typeof(KdbndpTsRankingNormalization), new EnumToNumberConverter<KdbndpTsRankingNormalization, int>()),
+                  "integer"))
     {
     }
 
@@ -49,5 +51,5 @@ public class KdbndpTsRankingNormalizationTypeMapping : IntTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpTsRankingNormalizationTypeMapping(parameters);
+    => new KdbndpTsRankingNormalizationTypeMapping(parameters);
 }

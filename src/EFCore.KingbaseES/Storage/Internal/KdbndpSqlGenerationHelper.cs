@@ -41,7 +41,7 @@ public class KdbndpSqlGenerationHelper : RelationalSqlGenerationHelper
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override string DelimitIdentifier(string identifier)
-        => RequiresQuoting(identifier) ? base.DelimitIdentifier(identifier) : identifier;
+    => RequiresQuoting(identifier) ? base.DelimitIdentifier(identifier) : identifier;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -83,19 +83,19 @@ public class KdbndpSqlGenerationHelper : RelationalSqlGenerationHelper
 
             switch (c)
             {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                case '_':
-                case '$': // yes it's true
-                    continue;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '_':
+            case '$': // yes it's true
+                continue;
             }
 
             return true;

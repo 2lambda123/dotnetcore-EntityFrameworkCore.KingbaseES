@@ -20,7 +20,7 @@ public static class KdbndpMigrationBuilderExtensions
     /// .
     /// <returns>True if Kdbndp is being used; false otherwise.</returns>
     public static bool IsKdbndp(this MigrationBuilder builder)
-        => builder.ActiveProvider == typeof(KdbndpMigrationBuilderExtensions).GetTypeInfo().Assembly.GetName().Name;
+    => builder.ActiveProvider == typeof(KdbndpMigrationBuilderExtensions).GetTypeInfo().Assembly.GetName().Name;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -57,7 +57,7 @@ public static class KdbndpMigrationBuilderExtensions
         string name,
         string? schema = null,
         string? version = null)
-        => EnsurePostgresExtension(builder, name, schema, version);
+    => EnsurePostgresExtension(builder, name, schema, version);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -69,5 +69,5 @@ public static class KdbndpMigrationBuilderExtensions
     public static MigrationBuilder DropPostgresExtension(
         this MigrationBuilder builder,
         string name)
-        => builder;
+    => builder;
 }

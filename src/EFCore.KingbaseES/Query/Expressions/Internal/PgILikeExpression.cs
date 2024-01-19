@@ -9,17 +9,23 @@ public class PgILikeExpression : SqlExpression, IEquatable<PgILikeExpression>
     /// <summary>
     ///     The match expression.
     /// </summary>
-    public virtual SqlExpression Match { get; }
+    public virtual SqlExpression Match {
+        get;
+    }
 
     /// <summary>
     ///     The pattern to match.
     /// </summary>
-    public virtual SqlExpression Pattern { get; }
+    public virtual SqlExpression Pattern {
+        get;
+    }
 
     /// <summary>
     ///     The escape character to use in <see cref="Pattern" />.
     /// </summary>
-    public virtual SqlExpression? EscapeChar { get; }
+    public virtual SqlExpression? EscapeChar {
+        get;
+    }
 
     /// <summary>
     ///     Constructs a <see cref="PgILikeExpression" />.
@@ -34,7 +40,7 @@ public class PgILikeExpression : SqlExpression, IEquatable<PgILikeExpression>
         SqlExpression pattern,
         SqlExpression? escapeChar,
         RelationalTypeMapping? typeMapping)
-        : base(typeof(bool), typeMapping)
+    : base(typeof(bool), typeMapping)
     {
         Match = match;
         Pattern = pattern;
@@ -43,10 +49,10 @@ public class PgILikeExpression : SqlExpression, IEquatable<PgILikeExpression>
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Update(
-            (SqlExpression)visitor.Visit(Match),
-            (SqlExpression)visitor.Visit(Pattern),
-            EscapeChar is null ? null : (SqlExpression)visitor.Visit(EscapeChar));
+    => Update(
+        (SqlExpression)visitor.Visit(Match),
+        (SqlExpression)visitor.Visit(Pattern),
+        EscapeChar is null ? null : (SqlExpression)visitor.Visit(EscapeChar));
 
     /// <summary>
     ///     Creates a new expression that is like this one, but using the supplied children. If all of the children are the same, it will
@@ -56,26 +62,26 @@ public class PgILikeExpression : SqlExpression, IEquatable<PgILikeExpression>
         SqlExpression match,
         SqlExpression pattern,
         SqlExpression? escapeChar)
-        => match == Match && pattern == Pattern && escapeChar == EscapeChar
-            ? this
-            : new PgILikeExpression(match, pattern, escapeChar, TypeMapping);
+    => match == Match && pattern == Pattern && escapeChar == EscapeChar
+    ? this
+    : new PgILikeExpression(match, pattern, escapeChar, TypeMapping);
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is PgILikeExpression other && Equals(other);
+    => obj is PgILikeExpression other && Equals(other);
 
     /// <inheritdoc />
     public virtual bool Equals(PgILikeExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && Equals(Match, other.Match)
-            && Equals(Pattern, other.Pattern)
-            && Equals(EscapeChar, other.EscapeChar);
+    => ReferenceEquals(this, other)
+    || other is not null
+    && base.Equals(other)
+    && Equals(Match, other.Match)
+    && Equals(Pattern, other.Pattern)
+    && Equals(EscapeChar, other.EscapeChar);
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), Match, Pattern, EscapeChar);
+    => HashCode.Combine(base.GetHashCode(), Match, Pattern, EscapeChar);
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
@@ -93,5 +99,7 @@ public class PgILikeExpression : SqlExpression, IEquatable<PgILikeExpression>
 
     /// <inheritdoc />
     public override string ToString()
-        => $"{Match} ILIKE {Pattern}{(EscapeChar is null ? "" : $" ESCAPE {EscapeChar}")}";
+    => $"{Match} ILIKE {Pattern}{(EscapeChar is null ? "" : $" ESCAPE {
+        EscapeChar
+    }")}";
 }

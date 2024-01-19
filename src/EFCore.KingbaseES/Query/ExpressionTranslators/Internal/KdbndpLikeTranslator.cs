@@ -79,15 +79,15 @@ public class KdbndpLikeTranslator : IMethodCallTranslator
         var (match, pattern) = (arguments[1], arguments[2]);
 
         if (pattern is SqlConstantExpression { Value: string patternValue }
-            && !patternValue.Contains('\\'))
+                && !patternValue.Contains('\\'))
         {
             return sensitive
-                ? _sqlExpressionFactory.Like(match, pattern)
-                : _sqlExpressionFactory.ILike(match, pattern);
+                   ? _sqlExpressionFactory.Like(match, pattern)
+                   : _sqlExpressionFactory.ILike(match, pattern);
         }
 
         return sensitive
-            ? _sqlExpressionFactory.Like(match, pattern, _sqlExpressionFactory.Constant(string.Empty))
-            : _sqlExpressionFactory.ILike(match, pattern, _sqlExpressionFactory.Constant(string.Empty));
+               ? _sqlExpressionFactory.Like(match, pattern, _sqlExpressionFactory.Constant(string.Empty))
+               : _sqlExpressionFactory.ILike(match, pattern, _sqlExpressionFactory.Constant(string.Empty));
     }
 }

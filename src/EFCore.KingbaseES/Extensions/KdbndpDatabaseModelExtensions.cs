@@ -22,7 +22,7 @@ public static class KdbndpDatabaseModelExtensions
         string? schema,
         string name,
         string? version)
-        => PostgresExtension.GetOrAddPostgresExtension(model, schema, name, version);
+    => PostgresExtension.GetOrAddPostgresExtension(model, schema, name, version);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -31,7 +31,7 @@ public static class KdbndpDatabaseModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static IReadOnlyList<PostgresExtension> GetPostgresExtensions(this DatabaseModel model)
-        => PostgresExtension.GetPostgresExtensions(model).ToArray();
+    => PostgresExtension.GetPostgresExtensions(model).ToArray();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -40,5 +40,5 @@ public static class KdbndpDatabaseModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static IReadOnlyList<PostgresEnum> GetPostgresEnums(this DatabaseModel model)
-        => PostgresEnum.GetPostgresEnums(model).ToArray();
+    => PostgresEnum.GetPostgresEnums(model).ToArray();
 }

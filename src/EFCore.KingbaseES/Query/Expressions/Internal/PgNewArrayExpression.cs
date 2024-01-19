@@ -15,7 +15,7 @@ public class PgNewArrayExpression : SqlExpression
         IReadOnlyList<SqlExpression> expressions,
         Type type,
         RelationalTypeMapping? typeMapping)
-        : base(type, typeMapping)
+    : base(type, typeMapping)
     {
         Check.NotNull(expressions, nameof(expressions));
 
@@ -30,7 +30,9 @@ public class PgNewArrayExpression : SqlExpression
     /// <summary>
     ///     The operator of this KingbaseES binary operation.
     /// </summary>
-    public virtual IReadOnlyList<SqlExpression> Expressions { get; }
+    public virtual IReadOnlyList<SqlExpression> Expressions {
+        get;
+    }
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
@@ -55,8 +57,8 @@ public class PgNewArrayExpression : SqlExpression
         }
 
         return newExpressions is null
-            ? this
-            : new PgNewArrayExpression(newExpressions, Type, TypeMapping);
+               ? this
+               : new PgNewArrayExpression(newExpressions, Type, TypeMapping);
     }
 
     /// <summary>
@@ -70,8 +72,8 @@ public class PgNewArrayExpression : SqlExpression
         Check.NotNull(expressions, nameof(expressions));
 
         return expressions == Expressions
-            ? this
-            : new PgNewArrayExpression(expressions, Type, TypeMapping);
+               ? this
+               : new PgNewArrayExpression(expressions, Type, TypeMapping);
     }
 
     /// <inheritdoc />
@@ -99,14 +101,14 @@ public class PgNewArrayExpression : SqlExpression
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is not null
-            && (ReferenceEquals(this, obj)
-                || obj is PgNewArrayExpression sqlBinaryExpression
-                && Equals(sqlBinaryExpression));
+    => obj is not null
+    && (ReferenceEquals(this, obj)
+        || obj is PgNewArrayExpression sqlBinaryExpression
+        && Equals(sqlBinaryExpression));
 
     private bool Equals(PgNewArrayExpression pgNewArrayExpression)
-        => base.Equals(pgNewArrayExpression)
-            && Expressions.SequenceEqual(pgNewArrayExpression.Expressions);
+    => base.Equals(pgNewArrayExpression)
+    && Expressions.SequenceEqual(pgNewArrayExpression.Expressions);
 
     /// <inheritdoc />
     public override int GetHashCode()

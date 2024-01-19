@@ -72,7 +72,7 @@ public class KdbndpModelValidator : RelationalModelValidator
             var propertyStrategy = property.GetValueGenerationStrategy();
 
             if (propertyStrategy is KdbndpValueGenerationStrategy.IdentityAlwaysColumn
-                or KdbndpValueGenerationStrategy.IdentityByDefaultColumn)
+                    or KdbndpValueGenerationStrategy.IdentityByDefaultColumn)
             {
                 throw new InvalidOperationException(
                     $"{property.DeclaringType}.{property.Name}: '{propertyStrategy}' requires KingbaseES 10.0 or later.");
@@ -92,11 +92,11 @@ public class KdbndpModelValidator : RelationalModelValidator
         IDiagnosticsLogger<DbLoggerCategory.Model.Validation> logger)
     {
         if (entityType.GetTableName() != null
-            && (string?)entityType[RelationalAnnotationNames.MappingStrategy] == RelationalAnnotationNames.TpcMappingStrategy)
+                && (string?)entityType[RelationalAnnotationNames.MappingStrategy] == RelationalAnnotationNames.TpcMappingStrategy)
         {
             foreach (var storeGeneratedProperty in key.Properties.Where(
                          p => (p.ValueGenerated & ValueGenerated.OnAdd) != 0
-                             && p.GetValueGenerationStrategy() != KdbndpValueGenerationStrategy.Sequence))
+                         && p.GetValueGenerationStrategy() != KdbndpValueGenerationStrategy.Sequence))
             {
                 logger.TpcStoreGeneratedIdentityWarning(storeGeneratedProperty);
             }
@@ -117,7 +117,7 @@ public class KdbndpModelValidator : RelationalModelValidator
             if (includeProperties?.Count > 0)
             {
                 var notFound = includeProperties
-                    .FirstOrDefault(i => index.DeclaringEntityType.FindProperty(i) is null);
+                               .FirstOrDefault(i => index.DeclaringEntityType.FindProperty(i) is null);
 
                 if (notFound is not null)
                 {
@@ -126,10 +126,10 @@ public class KdbndpModelValidator : RelationalModelValidator
                 }
 
                 var duplicate = includeProperties
-                    .GroupBy(i => i)
-                    .Where(g => g.Count() > 1)
-                    .Select(y => y.Key)
-                    .FirstOrDefault();
+                                .GroupBy(i => i)
+                                .Where(g => g.Count() > 1)
+                                .Select(y => y.Key)
+                                .FirstOrDefault();
 
                 if (duplicate is not null)
                 {
@@ -138,7 +138,7 @@ public class KdbndpModelValidator : RelationalModelValidator
                 }
 
                 var inIndex = includeProperties
-                    .FirstOrDefault(i => index.Properties.Any(p => i == p.Name));
+                              .FirstOrDefault(i => index.Properties.Any(p => i == p.Name));
 
                 if (inIndex is not null)
                 {

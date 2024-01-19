@@ -27,49 +27,67 @@ public class KdbndpOptionsExtension : RelationalOptionsExtension
     ///     The backend version to target.
     /// </summary>
     public virtual Version PostgresVersion
-        => _postgresVersion ?? DefaultPostgresVersion;
+    => _postgresVersion ?? DefaultPostgresVersion;
 
     /// <summary>
     ///     The backend version to target, but returns <see langword="null" /> unless the user explicitly specified a version.
     /// </summary>
     public virtual bool IsPostgresVersionSet
-        => _postgresVersion is not null;
+    => _postgresVersion is not null;
 
     /// <summary>
     ///     The <see cref="DbDataSource" />, or <see langword="null" /> if a connection string or <see cref="DbConnection" /> was used
     ///     instead of a <see cref="DbDataSource" />.
     /// </summary>
-    public virtual DbDataSource? DataSource { get; private set; }
+    public virtual DbDataSource? DataSource {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     The name of the database for administrative operations.
     /// </summary>
-    public virtual string? AdminDatabase { get; private set; }
+    public virtual string? AdminDatabase {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     Whether to target Redshift.
     /// </summary>
-    public virtual bool UseRedshift { get; private set; }
+    public virtual bool UseRedshift {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     The list of range mappings specified by the user.
     /// </summary>
     public virtual IReadOnlyList<UserRangeDefinition> UserRangeDefinitions
-        => _userRangeDefinitions;
+    => _userRangeDefinitions;
 
     /// <summary>
     ///     The specified <see cref="ProvideClientCertificatesCallback" />.
     /// </summary>
-    public virtual ProvideClientCertificatesCallback? ProvideClientCertificatesCallback { get; private set; }
+    public virtual ProvideClientCertificatesCallback? ProvideClientCertificatesCallback {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     The specified <see cref="RemoteCertificateValidationCallback" />.
     /// </summary>
-    public virtual RemoteCertificateValidationCallback? RemoteCertificateValidationCallback { get; private set; }
+    public virtual RemoteCertificateValidationCallback? RemoteCertificateValidationCallback {
+        get;
+        private set;
+    }
     /// <summary>
     ///     True if reverse null ordering is enabled; otherwise, false.
     /// </summary>
-    public virtual bool ReverseNullOrdering { get; private set; }
+    public virtual bool ReverseNullOrdering {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     Initializes an instance of <see cref="KdbndpOptionsExtension" /> with the default settings.
@@ -106,7 +124,7 @@ public class KdbndpOptionsExtension : RelationalOptionsExtension
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override int? MinBatchSize
-        => base.MinBatchSize ?? 2;
+    => base.MinBatchSize ?? 2;
 
     /// <summary>
     ///     Creates a new instance with all options the same as for this instance, but with the given option changed.
@@ -150,7 +168,7 @@ public class KdbndpOptionsExtension : RelationalOptionsExtension
         string rangeName,
         string? schemaName = null,
         string? subtypeName = null)
-        => WithUserRangeDefinition(rangeName, schemaName, typeof(TSubtype), subtypeName);
+    => WithUserRangeDefinition(rangeName, schemaName, typeof(TSubtype), subtypeName);
 
     /// <summary>
     ///     Returns a copy of the current instance configured with the specified range mapping.
@@ -274,15 +292,15 @@ public class KdbndpOptionsExtension : RelationalOptionsExtension
 
     /// <inheritdoc />
     protected override RelationalOptionsExtension Clone()
-        => new KdbndpOptionsExtension(this);
+    => new KdbndpOptionsExtension(this);
 
     /// <inheritdoc />
     public override void ApplyServices(IServiceCollection services)
-        => services.AddEntityFrameworkKdbndp();
+    => services.AddEntityFrameworkKdbndp();
 
     /// <inheritdoc />
     public override DbContextOptionsExtensionInfo Info
-        => _info ??= new ExtensionInfo(this);
+    => _info ??= new ExtensionInfo(this);
 
     private sealed class ExtensionInfo : RelationalExtensionInfo
     {
@@ -295,10 +313,10 @@ public class KdbndpOptionsExtension : RelationalOptionsExtension
         }
 
         private new KdbndpOptionsExtension Extension
-            => (KdbndpOptionsExtension)base.Extension;
+        => (KdbndpOptionsExtension)base.Extension;
 
         public override bool IsDatabaseProvider
-            => true;
+        => true;
 
         public override string LogFragment
         {
@@ -401,12 +419,12 @@ public class KdbndpOptionsExtension : RelationalOptionsExtension
         }
 
         public override bool ShouldUseSameServiceProvider(DbContextOptionsExtensionInfo other)
-            => other is ExtensionInfo otherInfo
-                && Extension.PostgresVersion == otherInfo.Extension.PostgresVersion
-                && ReferenceEquals(Extension.DataSource, otherInfo.Extension.DataSource)
-                && Extension.ReverseNullOrdering == otherInfo.Extension.ReverseNullOrdering
-                && Extension.UserRangeDefinitions.SequenceEqual(otherInfo.Extension.UserRangeDefinitions)
-                && Extension.UseRedshift == otherInfo.Extension.UseRedshift;
+        => other is ExtensionInfo otherInfo
+        && Extension.PostgresVersion == otherInfo.Extension.PostgresVersion
+        && ReferenceEquals(Extension.DataSource, otherInfo.Extension.DataSource)
+        && Extension.ReverseNullOrdering == otherInfo.Extension.ReverseNullOrdering
+        && Extension.UserRangeDefinitions.SequenceEqual(otherInfo.Extension.UserRangeDefinitions)
+        && Extension.UseRedshift == otherInfo.Extension.UseRedshift;
 
         /// <inheritdoc />
         public override void PopulateDebugInfo(IDictionary<string, string> debugInfo)
@@ -432,10 +450,10 @@ public class KdbndpOptionsExtension : RelationalOptionsExtension
             foreach (var rangeDefinition in Extension._userRangeDefinitions)
             {
                 debugInfo[
-                        "Kdbndp.EntityFrameworkCore.KingbaseES:"
-                        + nameof(KdbndpDbContextOptionsBuilder.MapRange)
-                        + ":"
-                        + rangeDefinition.SubtypeClrType.Name]
+                    "Kdbndp.EntityFrameworkCore.KingbaseES:"
+                    + nameof(KdbndpDbContextOptionsBuilder.MapRange)
+                    + ":"
+                    + rangeDefinition.SubtypeClrType.Name]
                     = rangeDefinition.GetHashCode().ToString(CultureInfo.InvariantCulture);
             }
         }

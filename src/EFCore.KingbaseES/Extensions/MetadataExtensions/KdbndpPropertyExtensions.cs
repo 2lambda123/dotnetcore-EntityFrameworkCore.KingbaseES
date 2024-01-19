@@ -21,7 +21,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property"> The property.</param>
     /// <returns>The name to use for the hi-lo sequence.</returns>
     public static string? GetHiLoSequenceName(this IReadOnlyProperty property)
-        => (string?)property[KdbndpAnnotationNames.HiLoSequenceName];
+    => (string?)property[KdbndpAnnotationNames.HiLoSequenceName];
 
     /// <summary>
     ///     Returns the name to use for the hi-lo sequence.
@@ -39,8 +39,8 @@ public static class KdbndpPropertyExtensions
 
         var sharedTableRootProperty = property.FindSharedStoreObjectRootProperty(storeObject);
         return sharedTableRootProperty is not null
-            ? sharedTableRootProperty.GetHiLoSequenceName(storeObject)
-            : null;
+               ? sharedTableRootProperty.GetHiLoSequenceName(storeObject)
+               : null;
     }
 
     /// <summary>
@@ -49,9 +49,9 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <param name="name">The sequence name to use.</param>
     public static void SetHiLoSequenceName(this IMutableProperty property, string? name)
-        => property.SetOrRemoveAnnotation(
-            KdbndpAnnotationNames.HiLoSequenceName,
-            Check.NullButNotEmpty(name, nameof(name)));
+    => property.SetOrRemoveAnnotation(
+        KdbndpAnnotationNames.HiLoSequenceName,
+        Check.NullButNotEmpty(name, nameof(name)));
 
     /// <summary>
     ///     Sets the name to use for the hi-lo sequence.
@@ -78,7 +78,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the hi-lo sequence name.</returns>
     public static ConfigurationSource? GetHiLoSequenceNameConfigurationSource(this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.HiLoSequenceName)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.HiLoSequenceName)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the schema to use for the hi-lo sequence.
@@ -86,7 +86,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The schema to use for the hi-lo sequence.</returns>
     public static string? GetHiLoSequenceSchema(this IReadOnlyProperty property)
-        => (string?)property[KdbndpAnnotationNames.HiLoSequenceSchema];
+    => (string?)property[KdbndpAnnotationNames.HiLoSequenceSchema];
 
     /// <summary>
     ///     Returns the schema to use for the hi-lo sequence.
@@ -104,8 +104,8 @@ public static class KdbndpPropertyExtensions
 
         var sharedTableRootProperty = property.FindSharedStoreObjectRootProperty(storeObject);
         return sharedTableRootProperty is not null
-            ? sharedTableRootProperty.GetHiLoSequenceSchema(storeObject)
-            : null;
+               ? sharedTableRootProperty.GetHiLoSequenceSchema(storeObject)
+               : null;
     }
 
     /// <summary>
@@ -114,9 +114,9 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <param name="schema">The schema to use.</param>
     public static void SetHiLoSequenceSchema(this IMutableProperty property, string? schema)
-        => property.SetOrRemoveAnnotation(
-            KdbndpAnnotationNames.HiLoSequenceSchema,
-            Check.NullButNotEmpty(schema, nameof(schema)));
+    => property.SetOrRemoveAnnotation(
+        KdbndpAnnotationNames.HiLoSequenceSchema,
+        Check.NullButNotEmpty(schema, nameof(schema)));
 
     /// <summary>
     ///     Sets the schema to use for the hi-lo sequence.
@@ -143,7 +143,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the hi-lo sequence schema.</returns>
     public static ConfigurationSource? GetHiLoSequenceSchemaConfigurationSource(this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.HiLoSequenceSchema)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.HiLoSequenceSchema)?.GetConfigurationSource();
 
     /// <summary>
     ///     Finds the <see cref="ISequence" /> in the model to use for the hi-lo pattern.
@@ -155,10 +155,10 @@ public static class KdbndpPropertyExtensions
         var model = property.DeclaringType.Model;
 
         var sequenceName = property.GetHiLoSequenceName()
-            ?? model.GetHiLoSequenceName();
+                           ?? model.GetHiLoSequenceName();
 
         var sequenceSchema = property.GetHiLoSequenceSchema()
-            ?? model.GetHiLoSequenceSchema();
+                             ?? model.GetHiLoSequenceSchema();
 
         return model.FindSequence(sequenceName, sequenceSchema);
     }
@@ -174,10 +174,10 @@ public static class KdbndpPropertyExtensions
         var model = property.DeclaringType.Model;
 
         var sequenceName = property.GetHiLoSequenceName(storeObject)
-            ?? model.GetHiLoSequenceName();
+                           ?? model.GetHiLoSequenceName();
 
         var sequenceSchema = property.GetHiLoSequenceSchema(storeObject)
-            ?? model.GetHiLoSequenceSchema();
+                             ?? model.GetHiLoSequenceSchema();
 
         return model.FindSequence(sequenceName, sequenceSchema);
     }
@@ -188,7 +188,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property"> The property. </param>
     /// <returns> The sequence to use, or <see langword="null" /> if no sequence exists in the model. </returns>
     public static ISequence? FindHiLoSequence(this IProperty property)
-        => (ISequence?)((IReadOnlyProperty)property).FindHiLoSequence();
+    => (ISequence?)((IReadOnlyProperty)property).FindHiLoSequence();
 
     /// <summary>
     ///     Finds the <see cref="ISequence" /> in the model to use for the hi-lo pattern.
@@ -197,7 +197,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="storeObject"> The identifier of the store object. </param>
     /// <returns> The sequence to use, or <see langword="null" /> if no sequence exists in the model. </returns>
     public static ISequence? FindHiLoSequence(this IProperty property, in StoreObjectIdentifier storeObject)
-        => (ISequence?)((IReadOnlyProperty)property).FindHiLoSequence(storeObject);
+    => (ISequence?)((IReadOnlyProperty)property).FindHiLoSequence(storeObject);
 
     /// <summary>
     ///     Removes all identity sequence annotations from the property.
@@ -227,7 +227,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The name to use for the key value generation sequence.</returns>
     public static string? GetSequenceName(this IReadOnlyProperty property)
-        => (string?)property[KdbndpAnnotationNames.SequenceName];
+    => (string?)property[KdbndpAnnotationNames.SequenceName];
 
     /// <summary>
     ///     Returns the name to use for the key value generation sequence.
@@ -252,9 +252,9 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <param name="name">The sequence name to use.</param>
     public static void SetSequenceName(this IMutableProperty property, string? name)
-        => property.SetOrRemoveAnnotation(
-            KdbndpAnnotationNames.SequenceName,
-            Check.NullButNotEmpty(name, nameof(name)));
+    => property.SetOrRemoveAnnotation(
+        KdbndpAnnotationNames.SequenceName,
+        Check.NullButNotEmpty(name, nameof(name)));
 
     /// <summary>
     ///     Sets the name to use for the key value generation sequence.
@@ -282,7 +282,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the key value generation sequence name.</returns>
     public static ConfigurationSource? GetSequenceNameConfigurationSource(this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.SequenceName)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.SequenceName)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the schema to use for the key value generation sequence.
@@ -290,7 +290,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The schema to use for the key value generation sequence.</returns>
     public static string? GetSequenceSchema(this IReadOnlyProperty property)
-        => (string?)property[KdbndpAnnotationNames.SequenceSchema];
+    => (string?)property[KdbndpAnnotationNames.SequenceSchema];
 
     /// <summary>
     ///     Returns the schema to use for the key value generation sequence.
@@ -315,9 +315,9 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <param name="schema">The schema to use.</param>
     public static void SetSequenceSchema(this IMutableProperty property, string? schema)
-        => property.SetOrRemoveAnnotation(
-            KdbndpAnnotationNames.SequenceSchema,
-            Check.NullButNotEmpty(schema, nameof(schema)));
+    => property.SetOrRemoveAnnotation(
+        KdbndpAnnotationNames.SequenceSchema,
+        Check.NullButNotEmpty(schema, nameof(schema)));
 
     /// <summary>
     ///     Sets the schema to use for the key value generation sequence.
@@ -345,7 +345,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the key value generation sequence schema.</returns>
     public static ConfigurationSource? GetSequenceSchemaConfigurationSource(this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.SequenceSchema)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.SequenceSchema)?.GetConfigurationSource();
 
     /// <summary>
     ///     Finds the <see cref="ISequence" /> in the model to use for the key value generation pattern.
@@ -357,10 +357,10 @@ public static class KdbndpPropertyExtensions
         var model = property.DeclaringType.Model;
 
         var sequenceName = property.GetSequenceName()
-            ?? model.GetSequenceNameSuffix();
+                           ?? model.GetSequenceNameSuffix();
 
         var sequenceSchema = property.GetSequenceSchema()
-            ?? model.GetSequenceSchema();
+                             ?? model.GetSequenceSchema();
 
         return model.FindSequence(sequenceName, sequenceSchema);
     }
@@ -376,10 +376,10 @@ public static class KdbndpPropertyExtensions
         var model = property.DeclaringType.Model;
 
         var sequenceName = property.GetSequenceName(storeObject)
-            ?? model.GetSequenceNameSuffix();
+                           ?? model.GetSequenceNameSuffix();
 
         var sequenceSchema = property.GetSequenceSchema(storeObject)
-            ?? model.GetSequenceSchema();
+                             ?? model.GetSequenceSchema();
 
         return model.FindSequence(sequenceName, sequenceSchema);
     }
@@ -390,7 +390,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The sequence to use, or <see langword="null" /> if no sequence exists in the model.</returns>
     public static ISequence? FindSequence(this IProperty property)
-        => (ISequence?)((IReadOnlyProperty)property).FindSequence();
+    => (ISequence?)((IReadOnlyProperty)property).FindSequence();
 
     /// <summary>
     ///     Finds the <see cref="ISequence" /> in the model to use for the key value generation pattern.
@@ -399,7 +399,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="storeObject">The identifier of the store object.</param>
     /// <returns>The sequence to use, or <see langword="null" /> if no sequence exists in the model.</returns>
     public static ISequence? FindSequence(this IProperty property, in StoreObjectIdentifier storeObject)
-        => (ISequence?)((IReadOnlyProperty)property).FindSequence(storeObject);
+    => (ISequence?)((IReadOnlyProperty)property).FindSequence(storeObject);
 
     #endregion Sequence
 
@@ -422,10 +422,10 @@ public static class KdbndpPropertyExtensions
 
         var defaultValueGenerationStrategy = GetDefaultValueGenerationStrategy(property);
         if (property.ValueGenerated != ValueGenerated.OnAdd
-            || property.IsForeignKey()
-            || property.TryGetDefaultValue(out _)
-            || (defaultValueGenerationStrategy != KdbndpValueGenerationStrategy.Sequence && property.GetDefaultValueSql() != null)
-            || property.GetComputedColumnSql() is not null)
+                || property.IsForeignKey()
+                || property.TryGetDefaultValue(out _)
+                || (defaultValueGenerationStrategy != KdbndpValueGenerationStrategy.Sequence && property.GetDefaultValueSql() != null)
+                || property.GetComputedColumnSql() is not null)
         {
             return KdbndpValueGenerationStrategy.None;
         }
@@ -445,7 +445,7 @@ public static class KdbndpPropertyExtensions
     public static KdbndpValueGenerationStrategy GetValueGenerationStrategy(
         this IReadOnlyProperty property,
         in StoreObjectIdentifier storeObject)
-        => GetValueGenerationStrategy(property, storeObject, null);
+    => GetValueGenerationStrategy(property, storeObject, null);
 
     internal static KdbndpValueGenerationStrategy GetValueGenerationStrategy(
         this IReadOnlyProperty property,
@@ -460,7 +460,7 @@ public static class KdbndpPropertyExtensions
 
         var annotation = property.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy);
         if (annotation?.Value != null
-            && StoreObjectIdentifier.Create(property.DeclaringType, storeObject.StoreObjectType) == storeObject)
+                && StoreObjectIdentifier.Create(property.DeclaringType, storeObject.StoreObjectType) == storeObject)
         {
             return (KdbndpValueGenerationStrategy)annotation.Value;
         }
@@ -470,33 +470,33 @@ public static class KdbndpPropertyExtensions
         if (sharedTableRootProperty != null)
         {
             return sharedTableRootProperty.GetValueGenerationStrategy(storeObject, typeMappingSource) is var KdbndpValueGenerationStrategy
-                && KdbndpValueGenerationStrategy is
-                    KdbndpValueGenerationStrategy.IdentityByDefaultColumn
-                    or KdbndpValueGenerationStrategy.IdentityAlwaysColumn
-                    or KdbndpValueGenerationStrategy.SerialColumn
-                && table.StoreObjectType == StoreObjectType.Table
-                && !property.GetContainingForeignKeys().Any(
-                    fk =>
-                        !fk.IsBaseLinking()
-                        || (StoreObjectIdentifier.Create(fk.PrincipalEntityType, StoreObjectType.Table)
-                                is StoreObjectIdentifier principal
-                            && fk.GetConstraintName(table, principal) != null))
-                    ? KdbndpValueGenerationStrategy
-                    : KdbndpValueGenerationStrategy.None;
+                   && KdbndpValueGenerationStrategy is
+                   KdbndpValueGenerationStrategy.IdentityByDefaultColumn
+                   or KdbndpValueGenerationStrategy.IdentityAlwaysColumn
+                   or KdbndpValueGenerationStrategy.SerialColumn
+                   && table.StoreObjectType == StoreObjectType.Table
+                   && !property.GetContainingForeignKeys().Any(
+                       fk =>
+                       !fk.IsBaseLinking()
+                       || (StoreObjectIdentifier.Create(fk.PrincipalEntityType, StoreObjectType.Table)
+                           is StoreObjectIdentifier principal
+                           && fk.GetConstraintName(table, principal) != null))
+                   ? KdbndpValueGenerationStrategy
+                   : KdbndpValueGenerationStrategy.None;
         }
 
         if (property.ValueGenerated != ValueGenerated.OnAdd
-            || table.StoreObjectType != StoreObjectType.Table
-            || property.TryGetDefaultValue(storeObject, out _)
-            || property.GetDefaultValueSql(storeObject) != null
-            || property.GetComputedColumnSql(storeObject) != null
-            || property.GetContainingForeignKeys()
+                || table.StoreObjectType != StoreObjectType.Table
+                || property.TryGetDefaultValue(storeObject, out _)
+                || property.GetDefaultValueSql(storeObject) != null
+                || property.GetComputedColumnSql(storeObject) != null
+                || property.GetContainingForeignKeys()
                 .Any(
                     fk =>
-                        !fk.IsBaseLinking()
-                        || (StoreObjectIdentifier.Create(fk.PrincipalEntityType, StoreObjectType.Table)
-                                is StoreObjectIdentifier principal
-                            && fk.GetConstraintName(table, principal) != null)))
+                    !fk.IsBaseLinking()
+                    || (StoreObjectIdentifier.Create(fk.PrincipalEntityType, StoreObjectType.Table)
+                        is StoreObjectIdentifier principal
+                        && fk.GetConstraintName(table, principal) != null)))
         {
             return KdbndpValueGenerationStrategy.None;
         }
@@ -523,8 +523,8 @@ public static class KdbndpPropertyExtensions
     /// <returns>The strategy, or <see cref="KdbndpValueGenerationStrategy.None" /> if none was set.</returns>
     public static KdbndpValueGenerationStrategy? GetValueGenerationStrategy(
         this IReadOnlyRelationalPropertyOverrides overrides)
-        => (KdbndpValueGenerationStrategy?)overrides.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy)
-            ?.Value;
+    => (KdbndpValueGenerationStrategy?)overrides.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy)
+    ?.Value;
 
     private static KdbndpValueGenerationStrategy GetDefaultValueGenerationStrategy(IReadOnlyProperty property)
     {
@@ -532,19 +532,19 @@ public static class KdbndpPropertyExtensions
 
         switch (modelStrategy)
         {
-            case KdbndpValueGenerationStrategy.SequenceHiLo:
-            case KdbndpValueGenerationStrategy.SerialColumn:
-            case KdbndpValueGenerationStrategy.Sequence:
-            case KdbndpValueGenerationStrategy.IdentityAlwaysColumn:
-            case KdbndpValueGenerationStrategy.IdentityByDefaultColumn:
-                return IsCompatibleWithValueGeneration(property)
-                    ? modelStrategy.Value
-                    : KdbndpValueGenerationStrategy.None;
-            case KdbndpValueGenerationStrategy.None:
-            case null:
-                return KdbndpValueGenerationStrategy.None;
-            default:
-                throw new ArgumentOutOfRangeException();
+        case KdbndpValueGenerationStrategy.SequenceHiLo:
+        case KdbndpValueGenerationStrategy.SerialColumn:
+        case KdbndpValueGenerationStrategy.Sequence:
+        case KdbndpValueGenerationStrategy.IdentityAlwaysColumn:
+        case KdbndpValueGenerationStrategy.IdentityByDefaultColumn:
+            return IsCompatibleWithValueGeneration(property)
+                   ? modelStrategy.Value
+                   : KdbndpValueGenerationStrategy.None;
+        case KdbndpValueGenerationStrategy.None:
+        case null:
+            return KdbndpValueGenerationStrategy.None;
+        default:
+            throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -557,27 +557,27 @@ public static class KdbndpPropertyExtensions
 
         switch (modelStrategy)
         {
-            case KdbndpValueGenerationStrategy.SequenceHiLo:
-                return IsCompatibleWithValueGeneration(property, storeObject, typeMappingSource)
-                    ? modelStrategy.Value
-                    : KdbndpValueGenerationStrategy.None;
+        case KdbndpValueGenerationStrategy.SequenceHiLo:
+            return IsCompatibleWithValueGeneration(property, storeObject, typeMappingSource)
+                   ? modelStrategy.Value
+                   : KdbndpValueGenerationStrategy.None;
 
-            case KdbndpValueGenerationStrategy.SerialColumn:
-            case KdbndpValueGenerationStrategy.Sequence:
-            case KdbndpValueGenerationStrategy.IdentityAlwaysColumn:
-            case KdbndpValueGenerationStrategy.IdentityByDefaultColumn:
-                return !IsCompatibleWithValueGeneration(property, storeObject, typeMappingSource)
-                    ? KdbndpValueGenerationStrategy.None
-                    : property.DeclaringType.GetMappingStrategy() == RelationalAnnotationNames.TpcMappingStrategy
-                        ? KdbndpValueGenerationStrategy.Sequence
-                        : modelStrategy.Value;
+        case KdbndpValueGenerationStrategy.SerialColumn:
+        case KdbndpValueGenerationStrategy.Sequence:
+        case KdbndpValueGenerationStrategy.IdentityAlwaysColumn:
+        case KdbndpValueGenerationStrategy.IdentityByDefaultColumn:
+            return !IsCompatibleWithValueGeneration(property, storeObject, typeMappingSource)
+                   ? KdbndpValueGenerationStrategy.None
+                   : property.DeclaringType.GetMappingStrategy() == RelationalAnnotationNames.TpcMappingStrategy
+                   ? KdbndpValueGenerationStrategy.Sequence
+                   : modelStrategy.Value;
 
-            case KdbndpValueGenerationStrategy.None:
-            case null:
-                return KdbndpValueGenerationStrategy.None;
+        case KdbndpValueGenerationStrategy.None:
+        case null:
+            return KdbndpValueGenerationStrategy.None;
 
-            default:
-                throw new ArgumentOutOfRangeException();
+        default:
+            throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -609,8 +609,8 @@ public static class KdbndpPropertyExtensions
         CheckValueGenerationStrategy(property, value);
 
         return (KdbndpValueGenerationStrategy?)property.SetOrRemoveAnnotation(
-                KdbndpAnnotationNames.ValueGenerationStrategy, value, fromDataAnnotation)
-            ?.Value;
+                   KdbndpAnnotationNames.ValueGenerationStrategy, value, fromDataAnnotation)
+               ?.Value;
     }
 
     /// <summary>
@@ -623,8 +623,8 @@ public static class KdbndpPropertyExtensions
         this IMutableProperty property,
         KdbndpValueGenerationStrategy? value,
         in StoreObjectIdentifier storeObject)
-        => property.GetOrCreateOverrides(storeObject)
-            .SetValueGenerationStrategy(value);
+    => property.GetOrCreateOverrides(storeObject)
+    .SetValueGenerationStrategy(value);
 
     /// <summary>
     ///     Sets the <see cref="KdbndpValueGenerationStrategy" /> to use for the property for a particular table.
@@ -639,8 +639,8 @@ public static class KdbndpPropertyExtensions
         KdbndpValueGenerationStrategy? value,
         in StoreObjectIdentifier storeObject,
         bool fromDataAnnotation = false)
-        => property.GetOrCreateOverrides(storeObject, fromDataAnnotation)
-            .SetValueGenerationStrategy(value, fromDataAnnotation);
+    => property.GetOrCreateOverrides(storeObject, fromDataAnnotation)
+    .SetValueGenerationStrategy(value, fromDataAnnotation);
 
     /// <summary>
     ///     Sets the <see cref="KdbndpValueGenerationStrategy" /> to use for the property for a particular table.
@@ -671,8 +671,8 @@ public static class KdbndpPropertyExtensions
         CheckValueGenerationStrategy(overrides.Property, value);
 
         return (KdbndpValueGenerationStrategy?)overrides.SetOrRemoveAnnotation(
-                KdbndpAnnotationNames.ValueGenerationStrategy, value, fromDataAnnotation)
-            ?.Value;
+                   KdbndpAnnotationNames.ValueGenerationStrategy, value, fromDataAnnotation)
+               ?.Value;
     }
 
     private static void CheckValueGenerationStrategy(IReadOnlyProperty property, KdbndpValueGenerationStrategy? value)
@@ -682,7 +682,7 @@ public static class KdbndpPropertyExtensions
             var propertyType = property.ClrType;
 
             if ((value is KdbndpValueGenerationStrategy.IdentityAlwaysColumn or KdbndpValueGenerationStrategy.IdentityByDefaultColumn)
-                && !IsCompatibleWithValueGeneration(property))
+                    && !IsCompatibleWithValueGeneration(property))
             {
                 throw new ArgumentException(
                     KdbndpStrings.IdentityBadType(
@@ -690,7 +690,7 @@ public static class KdbndpPropertyExtensions
             }
 
             if (value is KdbndpValueGenerationStrategy.SerialColumn or KdbndpValueGenerationStrategy.SequenceHiLo
-                && !IsCompatibleWithValueGeneration(property))
+                    && !IsCompatibleWithValueGeneration(property))
             {
                 throw new ArgumentException(
                     KdbndpStrings.SequenceBadType(
@@ -706,7 +706,7 @@ public static class KdbndpPropertyExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for the <see cref="KdbndpValueGenerationStrategy" />.</returns>
     public static ConfigurationSource? GetValueGenerationStrategyConfigurationSource(
         this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the <see cref="ConfigurationSource" /> for the <see cref="KdbndpValueGenerationStrategy" /> for a particular table.
@@ -717,7 +717,7 @@ public static class KdbndpPropertyExtensions
     public static ConfigurationSource? GetValueGenerationStrategyConfigurationSource(
         this IConventionProperty property,
         in StoreObjectIdentifier storeObject)
-        => property.FindOverrides(storeObject)?.GetValueGenerationStrategyConfigurationSource();
+    => property.FindOverrides(storeObject)?.GetValueGenerationStrategyConfigurationSource();
 
     /// <summary>
     ///     Returns the <see cref="ConfigurationSource" /> for the <see cref="KdbndpValueGenerationStrategy" /> for a particular table.
@@ -726,7 +726,7 @@ public static class KdbndpPropertyExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for the <see cref="KdbndpValueGenerationStrategy" />.</returns>
     public static ConfigurationSource? GetValueGenerationStrategyConfigurationSource(
         this IConventionRelationalPropertyOverrides overrides)
-        => overrides.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy)?.GetConfigurationSource();
+    => overrides.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns a value indicating whether the property is compatible with any <see cref="KdbndpValueGenerationStrategy" />.
@@ -736,7 +736,7 @@ public static class KdbndpPropertyExtensions
     public static bool IsCompatibleWithValueGeneration(IReadOnlyProperty property)
     {
         var valueConverter = property.GetValueConverter()
-            ?? property.FindTypeMapping()?.Converter;
+                             ?? property.FindTypeMapping()?.Converter;
 
         var type = (valueConverter?.ProviderClrType ?? property.ClrType).UnwrapNullableType();
 
@@ -749,8 +749,8 @@ public static class KdbndpPropertyExtensions
         ITypeMappingSource? typeMappingSource)
     {
         var valueConverter = property.GetValueConverter()
-            ?? (property.FindRelationalTypeMapping(storeObject)
-                ?? typeMappingSource?.FindMapping((IProperty)property))?.Converter;
+                             ?? (property.FindRelationalTypeMapping(storeObject)
+                                 ?? typeMappingSource?.FindMapping((IProperty)property))?.Converter;
 
         var type = (valueConverter?.ProviderClrType ?? property.ClrType).UnwrapNullableType();
 
@@ -767,7 +767,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The identity start value.</returns>
     public static long? GetIdentityStartValue(this IReadOnlyProperty property)
-        => IdentitySequenceOptionsData.Get(property).StartValue;
+    => IdentitySequenceOptionsData.Get(property).StartValue;
 
     /// <summary>
     ///     Sets the identity start value.
@@ -805,7 +805,7 @@ public static class KdbndpPropertyExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for the identity start value.</returns>
     public static ConfigurationSource? GetIdentityStartValueConfigurationSource(
         this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the identity increment value.
@@ -813,7 +813,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The identity increment value.</returns>
     public static long? GetIdentityIncrementBy(this IReadOnlyProperty property)
-        => IdentitySequenceOptionsData.Get(property).IncrementBy;
+    => IdentitySequenceOptionsData.Get(property).IncrementBy;
 
     /// <summary>
     ///     Sets the identity increment value.
@@ -851,7 +851,7 @@ public static class KdbndpPropertyExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for the identity increment value.</returns>
     public static ConfigurationSource? GetIdentityIncrementByConfigurationSource(
         this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the identity minimum value.
@@ -859,7 +859,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The identity minimum value.</returns>
     public static long? GetIdentityMinValue(this IReadOnlyProperty property)
-        => IdentitySequenceOptionsData.Get(property).MinValue;
+    => IdentitySequenceOptionsData.Get(property).MinValue;
 
     /// <summary>
     ///     Sets the identity minimum value.
@@ -897,7 +897,7 @@ public static class KdbndpPropertyExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for the identity minimum value.</returns>
     public static ConfigurationSource? GetIdentityMinValueConfigurationSource(
         this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the identity maximum value.
@@ -905,7 +905,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The identity maximum value.</returns>
     public static long? GetIdentityMaxValue(this IReadOnlyProperty property)
-        => IdentitySequenceOptionsData.Get(property).MaxValue;
+    => IdentitySequenceOptionsData.Get(property).MaxValue;
 
     /// <summary>
     ///     Sets the identity maximum value.
@@ -943,7 +943,7 @@ public static class KdbndpPropertyExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for the identity maximum value.</returns>
     public static ConfigurationSource? GetIdentityMaxValueConfigurationSource(
         this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns whether the identity's sequence is cyclic.
@@ -951,7 +951,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>Whether the identity's sequence is cyclic.</returns>
     public static bool? GetIdentityIsCyclic(this IReadOnlyProperty property)
-        => IdentitySequenceOptionsData.Get(property).IsCyclic;
+    => IdentitySequenceOptionsData.Get(property).IsCyclic;
 
     /// <summary>
     ///     Sets whether the identity's sequence is cyclic.
@@ -989,7 +989,7 @@ public static class KdbndpPropertyExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for whether the identity's sequence is cyclic.</returns>
     public static ConfigurationSource? GetIdentityIsCyclicConfigurationSource(
         this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the number of sequence numbers to be preallocated and stored in memory for faster access.
@@ -998,7 +998,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The number of sequence numbers to be cached.</returns>
     public static long? GetIdentityNumbersToCache(this IReadOnlyProperty property)
-        => IdentitySequenceOptionsData.Get(property).NumbersToCache;
+    => IdentitySequenceOptionsData.Get(property).NumbersToCache;
 
     /// <summary>
     ///     Sets the number of sequence numbers to be preallocated and stored in memory for faster access.
@@ -1040,19 +1040,19 @@ public static class KdbndpPropertyExtensions
     /// </returns>
     public static ConfigurationSource? GetIdentityNumbersToCacheConfigurationSource(
         this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.IdentityOptions)?.GetConfigurationSource();
 
     /// <summary>
     ///     Removes identity sequence options from the property.
     /// </summary>
     public static void RemoveIdentityOptions(this IMutableProperty property)
-        => property.RemoveAnnotation(KdbndpAnnotationNames.IdentityOptions);
+    => property.RemoveAnnotation(KdbndpAnnotationNames.IdentityOptions);
 
     /// <summary>
     ///     Removes identity sequence options from the property.
     /// </summary>
     public static void RemoveIdentityOptions(this IConventionProperty property)
-        => property.RemoveAnnotation(KdbndpAnnotationNames.IdentityOptions);
+    => property.RemoveAnnotation(KdbndpAnnotationNames.IdentityOptions);
 
     #endregion Identity sequence options
 
@@ -1073,7 +1073,7 @@ public static class KdbndpPropertyExtensions
     ///     </para>
     /// </returns>
     public static string? GetTsVectorConfig(this IReadOnlyProperty property)
-        => (string?)property[KdbndpAnnotationNames.TsVectorConfig];
+    => (string?)property[KdbndpAnnotationNames.TsVectorConfig];
 
     /// <summary>
     ///     Sets the text search configuration for this generated tsvector property, or <c>null</c> if this is not a
@@ -1130,7 +1130,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The configuration source for the text search configuration for the generated tsvector property.</returns>
     public static ConfigurationSource? GetTsVectorConfigConfigurationSource(this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.TsVectorConfig)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.TsVectorConfig)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the properties included in this generated tsvector property, or <c>null</c> if this is not a
@@ -1139,7 +1139,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The included property names, or <c>null</c> if this is not a Generated tsvector column.</returns>
     public static IReadOnlyList<string>? GetTsVectorProperties(this IReadOnlyProperty property)
-        => (string[]?)property[KdbndpAnnotationNames.TsVectorProperties];
+    => (string[]?)property[KdbndpAnnotationNames.TsVectorProperties];
 
     /// <summary>
     ///     Sets the properties included in this generated tsvector property, or <c>null</c> to make this a regular,
@@ -1181,7 +1181,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="property">The property.</param>
     /// <returns>The configuration source for the properties included in the generated tsvector property.</returns>
     public static ConfigurationSource? GetTsVectorPropertiesConfigurationSource(this IConventionProperty property)
-        => property.FindAnnotation(KdbndpAnnotationNames.TsVectorConfig)?.GetConfigurationSource();
+    => property.FindAnnotation(KdbndpAnnotationNames.TsVectorConfig)?.GetConfigurationSource();
 
     #endregion Generated tsvector column
 
@@ -1196,9 +1196,9 @@ public static class KdbndpPropertyExtensions
     /// <returns> The collation for the column this property is mapped to. </returns>
     [Obsolete("Use EF Core's standard model bulk configuration API")]
     public static string? GetDefaultCollation(this IReadOnlyProperty property)
-        => property.FindTypeMapping() is StringTypeMapping
-            ? property.DeclaringType.Model.GetDefaultColumnCollation()
-            : null;
+    => property.FindTypeMapping() is StringTypeMapping
+    ? property.DeclaringType.Model.GetDefaultColumnCollation()
+    : null;
 
     #endregion Collation
 
@@ -1209,27 +1209,27 @@ public static class KdbndpPropertyExtensions
     /// </summary>
     /// <remarks>This feature was introduced in KingbaseES 14.</remarks>
     public static string? GetCompressionMethod(this IReadOnlyProperty property)
-        => (property is RuntimeProperty)
-            ? throw new InvalidOperationException(CoreStrings.RuntimeModelMissingData)
-            : (string?)property[KdbndpAnnotationNames.CompressionMethod];
+    => (property is RuntimeProperty)
+    ? throw new InvalidOperationException(CoreStrings.RuntimeModelMissingData)
+    : (string?)property[KdbndpAnnotationNames.CompressionMethod];
 
     /// <summary>
     ///     Returns the compression method to be used, or <c>null</c> if it hasn't been specified.
     /// </summary>
     /// <remarks>This feature was introduced in KingbaseES 14.</remarks>
     public static string? GetCompressionMethod(this IReadOnlyProperty property, in StoreObjectIdentifier storeObject)
-        => property is RuntimeProperty
-            ? throw new InvalidOperationException(CoreStrings.RuntimeModelMissingData)
-            : property.FindAnnotation(KdbndpAnnotationNames.CompressionMethod) is { } annotation
-                ? (string?)annotation.Value
-                : property.FindSharedStoreObjectRootProperty(storeObject)?.GetCompressionMethod(storeObject);
+    => property is RuntimeProperty
+    ? throw new InvalidOperationException(CoreStrings.RuntimeModelMissingData)
+    : property.FindAnnotation(KdbndpAnnotationNames.CompressionMethod) is { } annotation
+    ? (string?)annotation.Value
+    : property.FindSharedStoreObjectRootProperty(storeObject)?.GetCompressionMethod(storeObject);
 
     /// <summary>
     ///     Sets the compression method to be used, or <c>null</c> if it hasn't been specified.
     /// </summary>
     /// <remarks>This feature was introduced in KingbaseES 14.</remarks>
     public static void SetCompressionMethod(this IMutableProperty property, string? compressionMethod)
-        => property.SetOrRemoveAnnotation(KdbndpAnnotationNames.CompressionMethod, compressionMethod);
+    => property.SetOrRemoveAnnotation(KdbndpAnnotationNames.CompressionMethod, compressionMethod);
 
     /// <summary>
     ///     Sets the compression method to be used, or <c>null</c> if it hasn't been specified.
@@ -1253,7 +1253,7 @@ public static class KdbndpPropertyExtensions
     /// <param name="index">The property.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the compression method.</returns>
     public static ConfigurationSource? GetCompressionMethodConfigurationSource(this IConventionProperty index)
-        => index.FindAnnotation(KdbndpAnnotationNames.IndexMethod)?.GetConfigurationSource();
+    => index.FindAnnotation(KdbndpAnnotationNames.IndexMethod)?.GetConfigurationSource();
 
     #endregion Compression method
 }

@@ -14,7 +14,9 @@ public class KdbndpFloatTypeMapping : FloatTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static new KdbndpFloatTypeMapping Default { get; } = new();
+    public static new KdbndpFloatTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -45,7 +47,7 @@ public class KdbndpFloatTypeMapping : FloatTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpFloatTypeMapping(parameters);
+    => new KdbndpFloatTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to

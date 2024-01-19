@@ -34,7 +34,7 @@ public class KdbndpUpdateSqlGenerator : UpdateSqlGenerator
         IReadOnlyModificationCommand command,
         int commandPosition,
         out bool requiresTransaction)
-        => AppendInsertOperation(commandStringBuilder, command, commandPosition, overridingSystemValue: false, out requiresTransaction);
+    => AppendInsertOperation(commandStringBuilder, command, commandPosition, overridingSystemValue: false, out requiresTransaction);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -143,9 +143,9 @@ public class KdbndpUpdateSqlGenerator : UpdateSqlGenerator
 
             // TODO: Lax or not?
             stringBuilder
-                .Append("jsonb_set(")
-                .Append(updateSqlGeneratorHelper.DelimitIdentifier(columnModification.ColumnName))
-                .Append(", '{");
+            .Append("jsonb_set(")
+            .Append(updateSqlGeneratorHelper.DelimitIdentifier(columnModification.ColumnName))
+            .Append(", '{");
 
             // TODO: Unfortunately JsonPath is provided as a JSONPATH string, but PG's jsonb_set requires the path as an array.
             // Parse the components back out (https://github.com/dotnet/efcore/issues/32185)
@@ -175,8 +175,8 @@ public class KdbndpUpdateSqlGenerator : UpdateSqlGenerator
                 if (i > 0) // The first component is $, representing the root
                 {
                     stringBuilder
-                        .Append(propertyName)
-                        .Append(',');
+                    .Append(propertyName)
+                    .Append(',');
                 }
 
                 stringBuilder.Append(component[(bracketOpen + 1)..^1]);
@@ -189,7 +189,7 @@ public class KdbndpUpdateSqlGenerator : UpdateSqlGenerator
             if (columnModification.Value is null)
             {
                 _columnModificationValueField ??= typeof(ColumnModification).GetField(
-                    "_value", BindingFlags.Instance | BindingFlags.NonPublic)!;
+                                                      "_value", BindingFlags.Instance | BindingFlags.NonPublic)!;
                 _columnModificationValueField.SetValue(columnModification, "null");
             }
 
@@ -293,8 +293,8 @@ public class KdbndpUpdateSqlGenerator : UpdateSqlGenerator
             {
                 SqlGenerationHelper.GenerateParameterNamePlaceholder(
                     commandStringBuilder, columnModification.UseOriginalValueParameter
-                        ? columnModification.OriginalParameterName!
-                        : columnModification.ParameterName!);
+                    ? columnModification.OriginalParameterName!
+                    : columnModification.ParameterName!);
             }
 
             // KingbaseES stored procedures cannot return a regular result set, and output parameter values are simply sent back as the
@@ -305,8 +305,8 @@ public class KdbndpUpdateSqlGenerator : UpdateSqlGenerator
                 // The distinction between having only a rows affected output parameter and having other non-rows affected parameters
                 // is important later on (i.e. whether we need to propagate or not).
                 resultSetMapping = parameter == command.RowsAffectedColumn && resultSetMapping == ResultSetMapping.NoResults
-                    ? ResultSetMapping.ResultSetWithRowsAffectedOnly
-                    : ResultSetMapping.LastInResultSet;
+                                   ? ResultSetMapping.ResultSetWithRowsAffectedOnly
+                                   : ResultSetMapping.LastInResultSet;
             }
         }
 

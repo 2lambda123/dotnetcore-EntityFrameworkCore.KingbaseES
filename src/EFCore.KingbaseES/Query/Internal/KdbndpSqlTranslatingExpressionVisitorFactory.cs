@@ -31,8 +31,8 @@ public class KdbndpSqlTranslatingExpressionVisitorFactory : IRelationalSqlTransl
     public virtual RelationalSqlTranslatingExpressionVisitor Create(
         QueryCompilationContext queryCompilationContext,
         QueryableMethodTranslatingExpressionVisitor queryableMethodTranslatingExpressionVisitor)
-        => new KdbndpSqlTranslatingExpressionVisitor(
-            _dependencies,
-            queryCompilationContext,
-            queryableMethodTranslatingExpressionVisitor);
+    => new KdbndpSqlTranslatingExpressionVisitor(
+        _dependencies,
+        queryCompilationContext,
+        queryableMethodTranslatingExpressionVisitor);
 }

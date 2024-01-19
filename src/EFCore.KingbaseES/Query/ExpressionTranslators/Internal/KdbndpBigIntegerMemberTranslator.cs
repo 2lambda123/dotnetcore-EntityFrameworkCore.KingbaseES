@@ -49,8 +49,8 @@ public class KdbndpBigIntegerMemberTranslator : IMemberTranslator
             if (member == IsEven)
             {
                 return _sqlExpressionFactory.Equal(
-                    _sqlExpressionFactory.Modulo(instance!, _sqlExpressionFactory.Constant(new BigInteger(2))),
-                    _sqlExpressionFactory.Constant(BigInteger.Zero));
+                           _sqlExpressionFactory.Modulo(instance!, _sqlExpressionFactory.Constant(new BigInteger(2))),
+                           _sqlExpressionFactory.Constant(BigInteger.Zero));
             }
         }
 

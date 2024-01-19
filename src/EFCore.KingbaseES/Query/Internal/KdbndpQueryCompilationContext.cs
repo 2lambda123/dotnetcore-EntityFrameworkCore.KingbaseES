@@ -29,5 +29,5 @@ public class KdbndpQueryCompilationContext : RelationalQueryCompilationContext
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override bool IsBuffering
-        => base.IsBuffering || QuerySplittingBehavior == Microsoft.EntityFrameworkCore.QuerySplittingBehavior.SplitQuery;
+    => base.IsBuffering || QuerySplittingBehavior == Microsoft.EntityFrameworkCore.QuerySplittingBehavior.SplitQuery;
 }

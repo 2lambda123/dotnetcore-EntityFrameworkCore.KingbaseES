@@ -44,5 +44,5 @@ public class KdbndpModificationCommandBatchFactory : IModificationCommandBatchFa
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual ModificationCommandBatch Create()
-        => new KdbndpModificationCommandBatch(_dependencies, _maxBatchSize);
+    => new KdbndpModificationCommandBatch(_dependencies, _maxBatchSize);
 }

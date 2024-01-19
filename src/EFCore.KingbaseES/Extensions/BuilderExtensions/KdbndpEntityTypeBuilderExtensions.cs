@@ -48,7 +48,7 @@ public static class KdbndpEntityTypeBuilderExtensions
         Expression<Func<TEntity, KdbndpTsVector>> tsVectorPropertyExpression,
         string config,
         Expression<Func<TEntity, object>> includeExpression)
-        where TEntity : class
+    where TEntity : class
     {
         Check.NotNull(entityTypeBuilder, nameof(entityTypeBuilder));
         Check.NotNull(tsVectorPropertyExpression, nameof(tsVectorPropertyExpression));
@@ -102,7 +102,7 @@ public static class KdbndpEntityTypeBuilderExtensions
         this EntityTypeBuilder<TEntity> entityTypeBuilder,
         string parameterName,
         object? parameterValue)
-        where TEntity : class
+    where TEntity : class
         => (EntityTypeBuilder<TEntity>)HasStorageParameter((EntityTypeBuilder)entityTypeBuilder, parameterName, parameterValue);
 
     /// <summary>
@@ -152,7 +152,7 @@ public static class KdbndpEntityTypeBuilderExtensions
         Check.NotNull(entityTypeBuilder, nameof(entityTypeBuilder));
 
         return entityTypeBuilder.CanSetAnnotation(
-            KdbndpAnnotationNames.StorageParameterPrefix + parameterName, parameterValue, fromDataAnnotation);
+                   KdbndpAnnotationNames.StorageParameterPrefix + parameterName, parameterValue, fromDataAnnotation);
     }
 
     #endregion Storage parameters
@@ -195,8 +195,8 @@ public static class KdbndpEntityTypeBuilderExtensions
     public static EntityTypeBuilder<TEntity> IsUnlogged<TEntity>(
         this EntityTypeBuilder<TEntity> entityTypeBuilder,
         bool unlogged = true)
-        where TEntity : class
-        => (EntityTypeBuilder<TEntity>)IsUnlogged((EntityTypeBuilder)entityTypeBuilder, unlogged);
+    where TEntity : class
+            => (EntityTypeBuilder<TEntity>)IsUnlogged((EntityTypeBuilder)entityTypeBuilder, unlogged);
 
     /// <summary>
     ///     Configures the mapped table to use an unlogged table when targeting Kdbndp.
@@ -289,9 +289,9 @@ public static class KdbndpEntityTypeBuilderExtensions
         this EntityTypeBuilder<TEntity> entityTypeBuilder,
         Type parentTableType,
         List<string> interleavePrefix)
-        where TEntity : class
-        => (EntityTypeBuilder<TEntity>)UseCockroachDbInterleaveInParent(
-            (EntityTypeBuilder)entityTypeBuilder, parentTableType, interleavePrefix);
+    where TEntity : class
+            => (EntityTypeBuilder<TEntity>)UseCockroachDbInterleaveInParent(
+                (EntityTypeBuilder)entityTypeBuilder, parentTableType, interleavePrefix);
 
     #endregion CockroachDB Interleave-in-parent
 
@@ -313,9 +313,9 @@ public static class KdbndpEntityTypeBuilderExtensions
         Check.NotNull(entityTypeBuilder, nameof(entityTypeBuilder));
 
         entityTypeBuilder.Property<uint>("xmin")
-            .HasColumnType("xid")
-            .ValueGeneratedOnAddOrUpdate()
-            .IsConcurrencyToken();
+        .HasColumnType("xid")
+        .ValueGeneratedOnAddOrUpdate()
+        .IsConcurrencyToken();
 
         return entityTypeBuilder;
     }
@@ -331,8 +331,8 @@ public static class KdbndpEntityTypeBuilderExtensions
     [Obsolete("Use EF Core's standard IsRowVersion() or [Timestamp], see https://learn.microsoft.com/ef/core/saving/concurrency")]
     public static EntityTypeBuilder<TEntity> UseXminAsConcurrencyToken<TEntity>(
         this EntityTypeBuilder<TEntity> entityTypeBuilder)
-        where TEntity : class
-        => (EntityTypeBuilder<TEntity>)UseXminAsConcurrencyToken((EntityTypeBuilder)entityTypeBuilder);
+    where TEntity : class
+            => (EntityTypeBuilder<TEntity>)UseXminAsConcurrencyToken((EntityTypeBuilder)entityTypeBuilder);
 
     #endregion Obsolete
 }

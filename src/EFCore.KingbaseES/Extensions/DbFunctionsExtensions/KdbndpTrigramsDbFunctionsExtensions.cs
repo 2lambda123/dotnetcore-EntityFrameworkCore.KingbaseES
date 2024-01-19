@@ -20,7 +20,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static string[] TrigramsShow(this DbFunctions _, string text)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsShow)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsShow)));
 
     /// <summary>
     ///     Returns a number that indicates how similar the two arguments are.
@@ -32,7 +32,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static double TrigramsSimilarity(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsSimilarity)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsSimilarity)));
 
     /// <summary>
     ///     Returns a number that indicates the greatest similarity between the set of trigrams
@@ -44,7 +44,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static double TrigramsWordSimilarity(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsWordSimilarity)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsWordSimilarity)));
 
     /// <summary>
     ///     Same as word_similarity(text, text), but forces extent boundaries to match word boundaries.
@@ -56,7 +56,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static double TrigramsStrictWordSimilarity(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsStrictWordSimilarity)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsStrictWordSimilarity)));
 
     /// <summary>
     ///     Returns true if its arguments have a similarity that is greater than the current similarity
@@ -67,7 +67,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static bool TrigramsAreSimilar(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreSimilar)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreSimilar)));
 
     /// <summary>
     ///     Returns true if the similarity between the trigram set in the first argument and a continuous
@@ -79,7 +79,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static bool TrigramsAreWordSimilar(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreWordSimilar)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreWordSimilar)));
 
     /// <summary>
     ///     Commutator of the &lt;% operator.
@@ -89,7 +89,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static bool TrigramsAreNotWordSimilar(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreNotWordSimilar)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreNotWordSimilar)));
 
     /// <summary>
     ///     Returns true if its second argument has a continuous extent of an ordered trigram set that
@@ -102,7 +102,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static bool TrigramsAreStrictWordSimilar(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreStrictWordSimilar)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreStrictWordSimilar)));
 
     /// <summary>
     ///     Commutator of the &lt;&lt;% operator.
@@ -112,7 +112,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static bool TrigramsAreNotStrictWordSimilar(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreNotStrictWordSimilar)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsAreNotStrictWordSimilar)));
 
     /// <summary>
     ///     Returns the "distance" between the arguments, that is one minus the similarity() value.
@@ -122,7 +122,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static double TrigramsSimilarityDistance(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsSimilarityDistance)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsSimilarityDistance)));
 
     /// <summary>
     ///     Returns the "distance" between the arguments, that is one minus the word_similarity() value.
@@ -132,7 +132,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static double TrigramsWordSimilarityDistance(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsWordSimilarityDistance)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsWordSimilarityDistance)));
 
     /// <summary>
     ///     Commutator of the &lt;&lt;-&gt; operator.
@@ -142,7 +142,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static double TrigramsWordSimilarityDistanceInverted(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsWordSimilarityDistanceInverted)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsWordSimilarityDistanceInverted)));
 
     /// <summary>
     ///     Returns the "distance" between the arguments, that is one minus the strict_word_similarity() value.
@@ -152,7 +152,7 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static double TrigramsStrictWordSimilarityDistance(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsStrictWordSimilarityDistance)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsStrictWordSimilarityDistance)));
 
     /// <summary>
     ///     Commutator of the &lt;&lt;&lt;-&gt; operator.
@@ -162,5 +162,5 @@ public static class KdbndpTrigramsDbFunctionsExtensions
     ///     See https://www.KingbaseES.org/docs/current/pgtrgm.html.
     /// </remarks>
     public static double TrigramsStrictWordSimilarityDistanceInverted(this DbFunctions _, string source, string target)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsStrictWordSimilarityDistanceInverted)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TrigramsStrictWordSimilarityDistanceInverted)));
 }

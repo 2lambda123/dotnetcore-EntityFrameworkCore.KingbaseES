@@ -18,7 +18,9 @@ public class KdbndpIntervalTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpIntervalTypeMapping Default { get; } = new();
+    public static KdbndpIntervalTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -28,9 +30,9 @@ public class KdbndpIntervalTypeMapping : KdbndpTypeMapping
     /// </summary>
     public KdbndpIntervalTypeMapping()
         : this(
-            new RelationalTypeMappingParameters(
-                new CoreTypeMappingParameters(typeof(TimeSpan), jsonValueReaderWriter: KdbndpJsonTimeSpanReaderWriter.Instance),
-                "interval"))
+              new RelationalTypeMappingParameters(
+                  new CoreTypeMappingParameters(typeof(TimeSpan), jsonValueReaderWriter: KdbndpJsonTimeSpanReaderWriter.Instance),
+                  "interval"))
     {
     }
 
@@ -52,7 +54,7 @@ public class KdbndpIntervalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpIntervalTypeMapping(parameters);
+    => new KdbndpIntervalTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -61,7 +63,7 @@ public class KdbndpIntervalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string ProcessStoreType(RelationalTypeMappingParameters parameters, string storeType, string _)
-        => parameters.Precision is null ? storeType : $"interval({parameters.Precision})";
+    => parameters.Precision is null ? storeType : $"interval({parameters.Precision})";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -70,7 +72,7 @@ public class KdbndpIntervalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateNonNullSqlLiteral(object value)
-        => $"INTERVAL '{FormatTimeSpanAsInterval((TimeSpan)value)}'";
+    => $"INTERVAL '{FormatTimeSpanAsInterval((TimeSpan)value)}'";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -79,7 +81,7 @@ public class KdbndpIntervalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateEmbeddedNonNullSqlLiteral(object value)
-        => $@"""{FormatTimeSpanAsInterval((TimeSpan)value)}""";
+    => $@"""{FormatTimeSpanAsInterval((TimeSpan)value)}""";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -88,9 +90,9 @@ public class KdbndpIntervalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static string FormatTimeSpanAsInterval(TimeSpan ts)
-        => ts.ToString(
-            $@"{(ts < TimeSpan.Zero ? "\\-" : "")}{(ts.Days == 0 ? "" : "d\\ ")}hh\:mm\:ss{(ts.Ticks % 10000000 == 0 ? "" : "\\.FFFFFF")}",
-            CultureInfo.InvariantCulture);
+    => ts.ToString(
+        $@"{(ts < TimeSpan.Zero ? "\\-" : "")}{(ts.Days == 0 ? "" : "d\\ ")}hh\:mm\:ss{(ts.Ticks % 10000000 == 0 ? "" : "\\.FFFFFF")}",
+        CultureInfo.InvariantCulture);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -157,12 +159,14 @@ public class KdbndpIntervalTypeMapping : KdbndpTypeMapping
 
     private sealed class KdbndpJsonTimeSpanReaderWriter : JsonValueReaderWriter<TimeSpan>
     {
-        public static KdbndpJsonTimeSpanReaderWriter Instance { get; } = new();
+        public static KdbndpJsonTimeSpanReaderWriter Instance {
+            get;
+        } = new();
 
         public override TimeSpan FromJsonTyped(ref Utf8JsonReaderManager manager, object? existingObject = null)
-            => ParseIntervalAsTimeSpan(manager.CurrentReader.GetString()!);
+        => ParseIntervalAsTimeSpan(manager.CurrentReader.GetString()!);
 
         public override void ToJsonTyped(Utf8JsonWriter writer, TimeSpan value)
-            => writer.WriteStringValue(FormatTimeSpanAsInterval(value));
+        => writer.WriteStringValue(FormatTimeSpanAsInterval(value));
     }
 }

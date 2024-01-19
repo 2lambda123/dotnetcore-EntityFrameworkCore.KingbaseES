@@ -38,8 +38,8 @@ public class KdbndpMigrator : Migrator
         IRelationalCommandDiagnosticsLogger commandLogger,
         IDatabaseProvider databaseProvider)
         : base(migrationsAssembly, historyRepository, databaseCreator, migrationsSqlGenerator, rawSqlCommandBuilder,
-            migrationCommandExecutor, connection, sqlGenerationHelper, currentContext, modelRuntimeInitializer, logger,
-            commandLogger, databaseProvider)
+               migrationCommandExecutor, connection, sqlGenerationHelper, currentContext, modelRuntimeInitializer, logger,
+               commandLogger, databaseProvider)
     {
         _historyRepository = historyRepository;
         _connection = connection;
@@ -72,9 +72,9 @@ public class KdbndpMigrator : Migrator
         // If a KingbaseES extension, enum or range was added, we want Kdbndp to reload all types at the ADO.NET level.
         var migrations = migrationsToApply.Count > 0 ? migrationsToApply : migrationsToRevert;
         var reloadTypes = migrations
-            .SelectMany(m => m.UpOperations)
-            .OfType<AlterDatabaseOperation>()
-            .Any(o => o.GetPostgresExtensions().Any() || o.GetPostgresEnums().Any() || o.GetPostgresRanges().Any());
+                          .SelectMany(m => m.UpOperations)
+                          .OfType<AlterDatabaseOperation>()
+                          .Any(o => o.GetPostgresExtensions().Any() || o.GetPostgresEnums().Any() || o.GetPostgresRanges().Any());
 
         if (reloadTypes && _connection.DbConnection is KdbndpConnection KdbndpConnection)
         {
@@ -119,9 +119,9 @@ public class KdbndpMigrator : Migrator
         // If a KingbaseES extension, enum or range was added, we want Kdbndp to reload all types at the ADO.NET level.
         var migrations = migrationsToApply.Count > 0 ? migrationsToApply : migrationsToRevert;
         var reloadTypes = migrations
-            .SelectMany(m => m.UpOperations)
-            .OfType<AlterDatabaseOperation>()
-            .Any(o => o.GetPostgresExtensions().Any() || o.GetPostgresEnums().Any() || o.GetPostgresRanges().Any());
+                          .SelectMany(m => m.UpOperations)
+                          .OfType<AlterDatabaseOperation>()
+                          .Any(o => o.GetPostgresExtensions().Any() || o.GetPostgresEnums().Any() || o.GetPostgresRanges().Any());
 
         if (reloadTypes && _connection.DbConnection is KdbndpConnection kdbndpConnection)
         {

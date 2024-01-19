@@ -15,12 +15,12 @@ public class KdbndpDeleteConvertingExpressionVisitor : ExpressionVisitor
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual Expression Process(Expression node)
-        => node switch
-        {
-            DeleteExpression deleteExpression => VisitDelete(deleteExpression),
+    => node switch
+{
+    DeleteExpression deleteExpression => VisitDelete(deleteExpression),
 
-            _ => node
-        };
+                         _ => node
+    };
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -33,11 +33,11 @@ public class KdbndpDeleteConvertingExpressionVisitor : ExpressionVisitor
         var selectExpression = deleteExpression.SelectExpression;
 
         if (selectExpression.Offset != null
-            || selectExpression.Limit != null
-            || selectExpression.Having != null
-            || selectExpression.Orderings.Count > 0
-            || selectExpression.GroupBy.Count > 0
-            || selectExpression.Projection.Count > 0)
+                || selectExpression.Limit != null
+                || selectExpression.Having != null
+                || selectExpression.Orderings.Count > 0
+                || selectExpression.GroupBy.Count > 0
+                || selectExpression.Projection.Count > 0)
         {
             throw new InvalidOperationException(
                 RelationalStrings.ExecuteOperationWithUnsupportedOperatorInSqlGeneration(
@@ -55,38 +55,39 @@ public class KdbndpDeleteConvertingExpressionVisitor : ExpressionVisitor
         {
             switch (tableBase)
             {
-                case TableExpression tableExpression:
-                    if (tableExpression != deleteExpression.Table)
-                    {
-                        fromItems.Add(tableExpression);
-                    }
+            case TableExpression tableExpression:
+                if (tableExpression != deleteExpression.Table)
+                {
+                    fromItems.Add(tableExpression);
+                }
 
-                    break;
+                break;
 
-                case InnerJoinExpression { Table: { } tableExpression } innerJoinExpression:
-                    if (tableExpression != deleteExpression.Table)
-                    {
-                        fromItems.Add(tableExpression);
-                    }
+            case InnerJoinExpression { Table:
+                                           { } tableExpression } innerJoinExpression:
+                if (tableExpression != deleteExpression.Table)
+                {
+                    fromItems.Add(tableExpression);
+                }
 
-                    joinPredicates = joinPredicates is null
-                        ? innerJoinExpression.JoinPredicate
-                        : new SqlBinaryExpression(
-                            ExpressionType.AndAlso, joinPredicates, innerJoinExpression.JoinPredicate, typeof(bool),
-                            innerJoinExpression.JoinPredicate.TypeMapping);
-                    break;
+                joinPredicates = joinPredicates is null
+                                 ? innerJoinExpression.JoinPredicate
+                                 : new SqlBinaryExpression(
+                                     ExpressionType.AndAlso, joinPredicates, innerJoinExpression.JoinPredicate, typeof(bool),
+                                     innerJoinExpression.JoinPredicate.TypeMapping);
+                break;
 
-                default:
-                    throw new InvalidOperationException(
-                        RelationalStrings.ExecuteOperationWithUnsupportedOperatorInSqlGeneration(
-                            nameof(RelationalQueryableExtensions.ExecuteDelete)));
+            default:
+                throw new InvalidOperationException(
+                    RelationalStrings.ExecuteOperationWithUnsupportedOperatorInSqlGeneration(
+                        nameof(RelationalQueryableExtensions.ExecuteDelete)));
             }
         }
 
         // Combine the join predicates (if any) before the user-provided predicate
         var predicate = (joinPredicates, selectExpression.Predicate) switch
-        {
-            (null, not null) => selectExpression.Predicate,
+    {
+        (null, not null) => selectExpression.Predicate,
             (not null, null) => joinPredicates,
             (null, null) => null,
             (not null, not null) => new SqlBinaryExpression(

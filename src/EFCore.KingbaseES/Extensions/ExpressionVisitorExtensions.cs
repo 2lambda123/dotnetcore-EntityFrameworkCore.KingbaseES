@@ -57,7 +57,7 @@ internal static class ExpressionVisitorExtensions
         this ExpressionVisitor visitor,
         IReadOnlyList<T> nodes,
         [CallerMemberName] string? callerName = null)
-        where T : Expression
+    where T : Expression
     {
         T[]? newNodes = null;
         for (int i = 0, n = nodes.Count; i < n; i++)

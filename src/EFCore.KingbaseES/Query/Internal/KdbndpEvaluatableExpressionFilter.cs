@@ -39,11 +39,11 @@ public class KdbndpEvaluatableExpressionFilter : RelationalEvaluatableExpression
     {
         switch (expression)
         {
-            case MethodCallExpression methodCallExpression:
-                var declaringType = methodCallExpression.Method.DeclaringType;
-                var method = methodCallExpression.Method;
+        case MethodCallExpression methodCallExpression:
+            var declaringType = methodCallExpression.Method.DeclaringType;
+            var method = methodCallExpression.Method;
 
-                if (method == TsQueryParse
+            if (method == TsQueryParse
                     || method == TsVectorParse
                     || declaringType == typeof(KdbndpDbFunctionsExtensions)
                     || declaringType == typeof(KdbndpFullTextSearchDbFunctionsExtensions)
@@ -53,19 +53,19 @@ public class KdbndpEvaluatableExpressionFilter : RelationalEvaluatableExpression
                     || declaringType == typeof(KdbndpRangeDbFunctionsExtensions)
                     // Prevent evaluation of ValueTuple.Create, see NewExpression of ITuple below
                     || declaringType == typeof(ValueTuple) && method.Name == nameof(ValueTuple.Create))
-                {
-                    return false;
-                }
-
-                break;
-
-            case NewExpression newExpression when newExpression.Type.IsAssignableTo(typeof(ITuple)):
-                // We translate new ValueTuple<T1, T2...>(x, y...) to a SQL row value expression: (x, y)
-                // (see KdbndpSqlTranslatingExpressionVisitor.VisitNew).
-                // We must prevent evaluation when the tuple contains only constants/parameters, since SQL row values cannot be
-                // parameterized; we need to render them as "literals" instead:
-                // WHERE (x, y) > (3, $1)
+            {
                 return false;
+            }
+
+            break;
+
+        case NewExpression newExpression when newExpression.Type.IsAssignableTo(typeof(ITuple)):
+            // We translate new ValueTuple<T1, T2...>(x, y...) to a SQL row value expression: (x, y)
+            // (see KdbndpSqlTranslatingExpressionVisitor.VisitNew).
+            // We must prevent evaluation when the tuple contains only constants/parameters, since SQL row values cannot be
+            // parameterized; we need to render them as "literals" instead:
+            // WHERE (x, y) > (3, $1)
+            return false;
         }
 
         return base.IsEvaluatableExpression(expression, model);

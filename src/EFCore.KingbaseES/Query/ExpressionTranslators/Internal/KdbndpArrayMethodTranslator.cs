@@ -17,22 +17,26 @@ public class KdbndpArrayMethodTranslator : IMethodCallTranslator
     // ReSharper disable InconsistentNaming
     private static readonly MethodInfo Array_IndexOf1 =
         typeof(Array).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Single(m => m is { Name: nameof(Array.IndexOf), IsGenericMethod: true } && m.GetParameters().Length == 2);
+    .Single(m => m is {
+        Name: nameof(Array.IndexOf), IsGenericMethod: true
+    } && m.GetParameters().Length == 2);
 
     private static readonly MethodInfo Array_IndexOf2 =
         typeof(Array).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Single(m => m is { Name: nameof(Array.IndexOf), IsGenericMethod: true } && m.GetParameters().Length == 3);
+    .Single(m => m is {
+        Name: nameof(Array.IndexOf), IsGenericMethod: true
+    } && m.GetParameters().Length == 3);
 
     private static readonly MethodInfo Enumerable_ElementAt =
         typeof(Enumerable).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Single(
-                m => m.Name == nameof(Enumerable.ElementAt)
-                    && m.GetParameters().Length == 2
-                    && m.GetParameters()[1].ParameterType == typeof(int));
+        .Single(
+            m => m.Name == nameof(Enumerable.ElementAt)
+            && m.GetParameters().Length == 2
+            && m.GetParameters()[1].ParameterType == typeof(int));
 
     private static readonly MethodInfo Enumerable_SequenceEqual =
         typeof(Enumerable).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Single(m => m.Name == nameof(Enumerable.SequenceEqual) && m.GetParameters().Length == 2);
+        .Single(m => m.Name == nameof(Enumerable.SequenceEqual) && m.GetParameters().Length == 2);
     // ReSharper restore InconsistentNaming
 
     #endregion Methods
@@ -71,11 +75,11 @@ public class KdbndpArrayMethodTranslator : IMethodCallTranslator
             if (arguments[0].TypeMapping is KdbndpByteArrayTypeMapping)
             {
                 return _sqlExpressionFactory.Function(
-                    "get_byte",
-                    new[] { arguments[0], arguments[1] },
-                    nullable: true,
-                    argumentsPropagateNullability: TrueArrays[2],
-                    typeof(byte));
+                           "get_byte",
+                           new[] { arguments[0], arguments[1] },
+                           nullable: true,
+                           argumentsPropagateNullability: TrueArrays[2],
+                           typeof(byte));
             }
 
             // Try translating indexing inside JSON column
@@ -85,10 +89,10 @@ public class KdbndpArrayMethodTranslator : IMethodCallTranslator
         }
 
         if (method.IsClosedFormOf(Enumerable_SequenceEqual)
-            && arguments[0].Type.IsArrayOrGenericList()
-            && !IsMappedToNonArray(arguments[0])
-            && arguments[1].Type.IsArrayOrGenericList()
-            && !IsMappedToNonArray(arguments[1]))
+                && arguments[0].Type.IsArrayOrGenericList()
+                && !IsMappedToNonArray(arguments[0])
+                && arguments[1].Type.IsArrayOrGenericList()
+                && !IsMappedToNonArray(arguments[1]))
         {
             return _sqlExpressionFactory.Equal(arguments[0], arguments[1]);
         }
@@ -110,49 +114,49 @@ public class KdbndpArrayMethodTranslator : IMethodCallTranslator
         // The array/list CLR type may be mapped to a non-array database type (e.g. byte[] to bytea, or just
         // value converters) - we don't want to translate for those cases.
         static bool IsMappedToNonArray(SqlExpression arrayOrList)
-            => arrayOrList.TypeMapping is { } and not (KdbndpArrayTypeMapping or KdbndpJsonTypeMapping);
+        => arrayOrList.TypeMapping is { } and not (KdbndpArrayTypeMapping or KdbndpJsonTypeMapping);
 
 #pragma warning disable CS8321
         SqlExpression? TranslateCommon(SqlExpression arrayOrList, IReadOnlyList<SqlExpression> arguments)
 #pragma warning restore CS8321
         {
             if (method.IsClosedFormOf(Array_IndexOf1)
-                || method.Name == nameof(List<int>.IndexOf)
-                && method.DeclaringType.IsGenericList()
-                && method.GetParameters().Length == 1)
+                    || method.Name == nameof(List<int>.IndexOf)
+                    && method.DeclaringType.IsGenericList()
+                    && method.GetParameters().Length == 1)
             {
                 var (item, array) = _sqlExpressionFactory.ApplyTypeMappingsOnItemAndArray(arguments[0], arrayOrList);
 
                 return _sqlExpressionFactory.Coalesce(
-                    _sqlExpressionFactory.Subtract(
-                        _sqlExpressionFactory.Function(
-                            "array_position",
-                            new[] { array, item },
-                            nullable: true,
-                            TrueArrays[2],
-                            arrayOrList.Type),
-                        _sqlExpressionFactory.Constant(1)),
-                    _sqlExpressionFactory.Constant(-1));
+                           _sqlExpressionFactory.Subtract(
+                               _sqlExpressionFactory.Function(
+                                   "array_position",
+                                   new[] { array, item },
+                                   nullable: true,
+                                   TrueArrays[2],
+                                   arrayOrList.Type),
+                               _sqlExpressionFactory.Constant(1)),
+                           _sqlExpressionFactory.Constant(-1));
             }
 
             if (method.IsClosedFormOf(Array_IndexOf2)
-                || method.Name == nameof(List<int>.IndexOf)
-                && method.DeclaringType.IsGenericList()
-                && method.GetParameters().Length == 2)
+                    || method.Name == nameof(List<int>.IndexOf)
+                    && method.DeclaringType.IsGenericList()
+                    && method.GetParameters().Length == 2)
             {
                 var (item, array) = _sqlExpressionFactory.ApplyTypeMappingsOnItemAndArray(arguments[0], arrayOrList);
                 var startIndex = _sqlExpressionFactory.GenerateOneBasedIndexExpression(arguments[1]);
 
                 return _sqlExpressionFactory.Coalesce(
-                    _sqlExpressionFactory.Subtract(
-                        _sqlExpressionFactory.Function(
-                            "array_position",
-                            new[] { array, item, startIndex },
-                            nullable: true,
-                            TrueArrays[3],
-                            arrayOrList.Type),
-                        _sqlExpressionFactory.Constant(1)),
-                    _sqlExpressionFactory.Constant(-1));
+                           _sqlExpressionFactory.Subtract(
+                               _sqlExpressionFactory.Function(
+                                   "array_position",
+                                   new[] { array, item, startIndex },
+                                   nullable: true,
+                                   TrueArrays[3],
+                                   arrayOrList.Type),
+                               _sqlExpressionFactory.Constant(1)),
+                           _sqlExpressionFactory.Constant(-1));
             }
 
             return null;

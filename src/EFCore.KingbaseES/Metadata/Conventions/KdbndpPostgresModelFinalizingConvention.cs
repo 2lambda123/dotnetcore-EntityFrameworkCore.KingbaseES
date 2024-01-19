@@ -27,7 +27,7 @@ public class KdbndpPostgresModelFinalizingConvention : IModelFinalizingConventio
             foreach (var property in entityType.GetDeclaredProperties())
             {
                 var typeMapping = (RelationalTypeMapping?)property.FindTypeMapping()
-                    ?? _typeMappingSource.FindMapping((IProperty)property);
+                                  ?? _typeMappingSource.FindMapping((IProperty)property);
 
                 if (typeMapping is not null)
                 {
@@ -48,17 +48,17 @@ public class KdbndpPostgresModelFinalizingConvention : IModelFinalizingConventio
     {
         switch (typeMapping.StoreType)
         {
-            case "hstore":
-                modelBuilder.HasPostgresExtension("hstore");
-                break;
-            case "citext":
-                modelBuilder.HasPostgresExtension("citext");
-                break;
-            case "ltree":
-            case "lquery":
-            case "ltxtquery":
-                modelBuilder.HasPostgresExtension("ltree");
-                break;
+        case "hstore":
+            modelBuilder.HasPostgresExtension("hstore");
+            break;
+        case "citext":
+            modelBuilder.HasPostgresExtension("citext");
+            break;
+        case "ltree":
+        case "lquery":
+        case "ltxtquery":
+            modelBuilder.HasPostgresExtension("ltree");
+            break;
         }
     }
 
@@ -69,7 +69,7 @@ public class KdbndpPostgresModelFinalizingConvention : IModelFinalizingConventio
     protected virtual void ProcessRowVersionProperty(IConventionProperty property, RelationalTypeMapping typeMapping)
     {
         if (property is { ValueGenerated: ValueGenerated.OnAddOrUpdate, IsConcurrencyToken: true }
-            && typeMapping.StoreType == "xid")
+                && typeMapping.StoreType == "xid")
         {
             property.Builder.HasColumnName("xmin");
         }

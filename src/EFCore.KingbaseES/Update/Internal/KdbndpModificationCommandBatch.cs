@@ -31,7 +31,9 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
     /// <summary>
     ///     The maximum number of <see cref="ModificationCommand" /> instances that can be added to a single batch; defaults to 1000.
     /// </summary>
-    protected override int MaxBatchSize { get; }
+    protected override int MaxBatchSize {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -60,7 +62,7 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override void Consume(RelationalDataReader reader)
-        => Consume(reader, async: false).GetAwaiter().GetResult();
+    => Consume(reader, async: false).GetAwaiter().GetResult();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -69,7 +71,7 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override Task ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken = default)
-        => Consume(reader, async: true, cancellationToken);
+    => Consume(reader, async: true, cancellationToken);
 
     private async Task Consume(RelationalDataReader reader, bool async, CancellationToken cancellationToken = default)
     {
@@ -100,7 +102,7 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
                         if (!(await reader.ReadAsync(cancellationToken).ConfigureAwait(false)))
                         {
                             await ThrowAggregateUpdateConcurrencyExceptionAsync(reader, commandIndex, 1, 0, cancellationToken)
-                                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
                         }
                     }
                     else
@@ -126,9 +128,9 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
                         {
                             var columnModification = command.ColumnModifications[i];
                             if (columnModification.Column is IStoreStoredProcedureParameter
-                                {
-                                    Direction: ParameterDirection.Output or ParameterDirection.InputOutput
-                                })
+                        {
+                            Direction: ParameterDirection.Output or ParameterDirection.InputOutput
+                        })
                             {
                                 readerIndex++;
                             }
@@ -142,7 +144,7 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
                         if (reader.DbDataReader.GetInt32(readerIndex) != 1)
                         {
                             await ThrowAggregateUpdateConcurrencyExceptionAsync(reader, commandIndex, 1, 0, cancellationToken)
-                                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
                         }
                     }
 
@@ -151,8 +153,8 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
                     commandIndex++;
 
                     onResultSet = async
-                        ? await KdbndpReader.NextResultAsync(cancellationToken).ConfigureAwait(false)
-                        : KdbndpReader.NextResult();
+                                  ? await KdbndpReader.NextResultAsync(cancellationToken).ConfigureAwait(false)
+                                  : KdbndpReader.NextResult();
                 }
                 else
                 {
@@ -170,7 +172,7 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
                         if (async)
                         {
                             await ThrowAggregateUpdateConcurrencyExceptionAsync(reader, commandIndex, 1, 0, cancellationToken)
-                                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
                         }
                         else
                         {
@@ -226,10 +228,10 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
             entries);
 
         if (!Dependencies.UpdateLogger.OptimisticConcurrencyException(
-                Dependencies.CurrentContext.Context,
-                entries,
-                exception,
-                (c, ex, e, d) => CreateConcurrencyExceptionEventData(c, reader, ex, e, d)).IsSuppressed)
+                    Dependencies.CurrentContext.Context,
+                    entries,
+                    exception,
+                    (c, ex, e, d) => CreateConcurrencyExceptionEventData(c, reader, ex, e, d)).IsSuppressed)
         {
             throw exception;
         }
@@ -275,16 +277,16 @@ public class KdbndpModificationCommandBatch : ReaderModificationCommandBatch
         DbUpdateConcurrencyException exception,
         IReadOnlyList<IUpdateEntry> entries,
         EventDefinition<Exception> definition)
-        => new(
-            definition,
-            (definition1, payload)
-                => ((EventDefinition<Exception>)definition1).GenerateMessage(((ConcurrencyExceptionEventData)payload).Exception),
-            context,
-            reader.RelationalConnection.DbConnection,
-            reader.DbCommand,
-            reader.DbDataReader,
-            reader.CommandId,
-            reader.RelationalConnection.ConnectionId,
-            entries,
-            exception);
+    => new(
+        definition,
+        (definition1, payload)
+        => ((EventDefinition<Exception>)definition1).GenerateMessage(((ConcurrencyExceptionEventData)payload).Exception),
+        context,
+        reader.RelationalConnection.DbConnection,
+        reader.DbCommand,
+        reader.DbDataReader,
+        reader.CommandId,
+        reader.RelationalConnection.ConnectionId,
+        entries,
+        exception);
 }

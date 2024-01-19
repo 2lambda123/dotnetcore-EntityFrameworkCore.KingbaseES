@@ -11,5 +11,8 @@ public class KdbndpDropDatabaseOperation : MigrationOperation
     /// <summary>
     ///     The name of the database.
     /// </summary>
-    public virtual string Name { get; set; } = null!;
+    public virtual string Name {
+        get;
+        set;
+    } = null!;
 }

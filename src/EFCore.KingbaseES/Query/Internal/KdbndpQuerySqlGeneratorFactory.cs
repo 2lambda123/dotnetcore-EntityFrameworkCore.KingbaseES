@@ -34,9 +34,9 @@ public class KdbndpQuerySqlGeneratorFactory : IQuerySqlGeneratorFactory
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual QuerySqlGenerator Create()
-        => new KdbndpQuerySqlGenerator(
-            _dependencies,
-            _typeMappingSource,
-            _KdbndpSingletonOptions.ReverseNullOrderingEnabled,
-            _KdbndpSingletonOptions.PostgresVersion);
+    => new KdbndpQuerySqlGenerator(
+        _dependencies,
+        _typeMappingSource,
+        _KdbndpSingletonOptions.ReverseNullOrderingEnabled,
+        _KdbndpSingletonOptions.PostgresVersion);
 }

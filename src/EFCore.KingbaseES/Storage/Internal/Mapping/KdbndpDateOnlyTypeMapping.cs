@@ -18,7 +18,9 @@ public class KdbndpDateOnlyTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpDateOnlyTypeMapping Default { get; } = new();
+    public static KdbndpDateOnlyTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -49,7 +51,7 @@ public class KdbndpDateOnlyTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpDateOnlyTypeMapping(parameters);
+    => new KdbndpDateOnlyTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -58,7 +60,7 @@ public class KdbndpDateOnlyTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateNonNullSqlLiteral(object value)
-        => $"DATE '{GenerateEmbeddedNonNullSqlLiteral(value)}'";
+    => $"DATE '{GenerateEmbeddedNonNullSqlLiteral(value)}'";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -67,7 +69,7 @@ public class KdbndpDateOnlyTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateEmbeddedNonNullSqlLiteral(object value)
-        => Format((DateOnly)value);
+    => Format((DateOnly)value);
 
     private static string Format(DateOnly date)
     {
@@ -89,7 +91,9 @@ public class KdbndpDateOnlyTypeMapping : KdbndpTypeMapping
 
     private sealed class KdbndpJsonDateOnlyReaderWriter : JsonValueReaderWriter<DateOnly>
     {
-        public static KdbndpJsonDateOnlyReaderWriter Instance { get; } = new();
+        public static KdbndpJsonDateOnlyReaderWriter Instance {
+            get;
+        } = new();
 
         public override DateOnly FromJsonTyped(ref Utf8JsonReaderManager manager, object? existingObject = null)
         {
@@ -99,10 +103,10 @@ public class KdbndpDateOnlyTypeMapping : KdbndpTypeMapping
             {
                 switch (s)
                 {
-                    case "-infinity":
-                        return DateOnly.MinValue;
-                    case "infinity":
-                        return DateOnly.MaxValue;
+                case "-infinity":
+                    return DateOnly.MinValue;
+                case "infinity":
+                    return DateOnly.MaxValue;
                 }
             }
 
@@ -110,6 +114,6 @@ public class KdbndpDateOnlyTypeMapping : KdbndpTypeMapping
         }
 
         public override void ToJsonTyped(Utf8JsonWriter writer, DateOnly value)
-            => writer.WriteStringValue(Format(value));
+        => writer.WriteStringValue(Format(value));
     }
 }

@@ -16,7 +16,9 @@ public class KdbndpJsonTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpJsonTypeMapping Default { get; } = new("jsonb", typeof(JsonElement));
+    public static KdbndpJsonTypeMapping Default {
+        get;
+    } = new("jsonb", typeof(JsonElement));
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -51,7 +53,7 @@ public class KdbndpJsonTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual bool IsJsonb
-        => StoreType == "jsonb";
+    => StoreType == "jsonb";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -60,7 +62,7 @@ public class KdbndpJsonTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpJsonTypeMapping(parameters, KdbndpDbType);
+    => new KdbndpJsonTypeMapping(parameters, KdbndpDbType);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -69,7 +71,7 @@ public class KdbndpJsonTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected virtual string EscapeSqlLiteral(string literal)
-        => Check.NotNull(literal, nameof(literal)).Replace("'", "''");
+    => Check.NotNull(literal, nameof(literal)).Replace("'", "''");
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -81,27 +83,27 @@ public class KdbndpJsonTypeMapping : KdbndpTypeMapping
     {
         switch (value)
         {
-            case JsonDocument _:
-            case JsonElement _:
+        case JsonDocument _:
+        case JsonElement _:
+        {
+            using var stream = new MemoryStream();
+            using var writer = new Utf8JsonWriter(stream);
+            if (value is JsonDocument doc)
             {
-                using var stream = new MemoryStream();
-                using var writer = new Utf8JsonWriter(stream);
-                if (value is JsonDocument doc)
-                {
-                    doc.WriteTo(writer);
-                }
-                else
-                {
-                    ((JsonElement)value).WriteTo(writer);
-                }
-
-                writer.Flush();
-                return $"'{EscapeSqlLiteral(Encoding.UTF8.GetString(stream.ToArray()))}'";
+                doc.WriteTo(writer);
             }
-            case string s:
-                return $"'{EscapeSqlLiteral(s)}'";
-            default: // User POCO
-                return $"'{EscapeSqlLiteral(JsonSerializer.Serialize(value))}'";
+            else
+            {
+                ((JsonElement)value).WriteTo(writer);
+            }
+
+            writer.Flush();
+            return $"'{EscapeSqlLiteral(Encoding.UTF8.GetString(stream.ToArray()))}'";
+        }
+        case string s:
+            return $"'{EscapeSqlLiteral(s)}'";
+        default: // User POCO
+            return $"'{EscapeSqlLiteral(JsonSerializer.Serialize(value))}'";
         }
     }
 
@@ -112,16 +114,16 @@ public class KdbndpJsonTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override Expression GenerateCodeLiteral(object value)
-        => value switch
-        {
-            JsonDocument document => Expression.Call(
-                ParseMethod, Expression.Constant(document.RootElement.ToString()), DefaultJsonDocumentOptions),
-            JsonElement element => Expression.Property(
-                Expression.Call(ParseMethod, Expression.Constant(element.ToString()), DefaultJsonDocumentOptions),
-                nameof(JsonDocument.RootElement)),
-            string s => Expression.Constant(s),
-            _ => throw new NotSupportedException("Cannot generate code literals for JSON POCOs")
-        };
+    => value switch
+{
+    JsonDocument document => Expression.Call(
+        ParseMethod, Expression.Constant(document.RootElement.ToString()), DefaultJsonDocumentOptions),
+                         JsonElement element => Expression.Property(
+                             Expression.Call(ParseMethod, Expression.Constant(element.ToString()), DefaultJsonDocumentOptions),
+                             nameof(JsonDocument.RootElement)),
+                         string s => Expression.Constant(s),
+                         _ => throw new NotSupportedException("Cannot generate code literals for JSON POCOs")
+    };
 
     private static readonly Expression DefaultJsonDocumentOptions = Expression.New(typeof(JsonDocumentOptions));
 

@@ -46,7 +46,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> HasMethod<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         string? method)
-        => (IndexBuilder<TEntity>)HasMethod((IndexBuilder)indexBuilder, method);
+    => (IndexBuilder<TEntity>)HasMethod((IndexBuilder)indexBuilder, method);
 
     /// <summary>
     ///     The KingbaseES index method to be used. Null selects the default (currently btree).
@@ -130,7 +130,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> HasOperators<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         params string[]? operators)
-        => (IndexBuilder<TEntity>)HasOperators((IndexBuilder)indexBuilder, operators);
+    => (IndexBuilder<TEntity>)HasOperators((IndexBuilder)indexBuilder, operators);
 
     /// <summary>
     ///     The KingbaseES index operators to be used.
@@ -223,7 +223,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> IsTsVectorExpressionIndex<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         string config)
-        => (IndexBuilder<TEntity>)IsTsVectorExpressionIndex((IndexBuilder)indexBuilder, config);
+    => (IndexBuilder<TEntity>)IsTsVectorExpressionIndex((IndexBuilder)indexBuilder, config);
 
     /// <summary>
     ///     Configures this index to be a full-text tsvector expression index.
@@ -320,7 +320,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> UseCollation<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         params string[]? values)
-        => (IndexBuilder<TEntity>)UseCollation((IndexBuilder)indexBuilder, values);
+    => (IndexBuilder<TEntity>)UseCollation((IndexBuilder)indexBuilder, values);
 
     /// <summary>
     ///     The KingbaseES index collation to be used.
@@ -407,7 +407,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> HasNullSortOrder<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         params NullSortOrder[]? values)
-        => (IndexBuilder<TEntity>)HasNullSortOrder((IndexBuilder)indexBuilder, values);
+    => (IndexBuilder<TEntity>)HasNullSortOrder((IndexBuilder)indexBuilder, values);
 
     /// <summary>
     ///     The KingbaseES index NULL sort ordering to be used.
@@ -577,9 +577,9 @@ public static class KdbndpIndexBuilderExtensions
         Check.NotNull(indexBuilder, nameof(indexBuilder));
 
         return (fromDataAnnotation ? ConfigurationSource.DataAnnotation : ConfigurationSource.Convention)
-            .Overrides(indexBuilder.Metadata.GetIncludePropertiesConfigurationSource())
-            || StructuralComparisons.StructuralEqualityComparer.Equals(
-                propertyNames, indexBuilder.Metadata.GetIncludeProperties());
+               .Overrides(indexBuilder.Metadata.GetIncludePropertiesConfigurationSource())
+               || StructuralComparisons.StructuralEqualityComparer.Equals(
+                   propertyNames, indexBuilder.Metadata.GetIncludeProperties());
     }
 
     #endregion Include
@@ -618,7 +618,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> IsCreatedConcurrently<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         bool createdConcurrently = true)
-        => (IndexBuilder<TEntity>)IsCreatedConcurrently((IndexBuilder)indexBuilder, createdConcurrently);
+    => (IndexBuilder<TEntity>)IsCreatedConcurrently((IndexBuilder)indexBuilder, createdConcurrently);
 
     /// <summary>
     ///     When this option is used, KingbaseES will build the index without taking any locks that prevent concurrent inserts,
@@ -704,7 +704,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> AreNullsDistinct<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         bool nullsDistinct = true)
-        => (IndexBuilder<TEntity>)AreNullsDistinct((IndexBuilder)indexBuilder, nullsDistinct);
+    => (IndexBuilder<TEntity>)AreNullsDistinct((IndexBuilder)indexBuilder, nullsDistinct);
 
     /// <summary>
     ///     Specifies whether for a unique index, null values should be considered distinct (not equal).
@@ -793,7 +793,7 @@ public static class KdbndpIndexBuilderExtensions
         this IndexBuilder<TEntity> indexBuilder,
         string parameterName,
         object? parameterValue)
-        where TEntity : class
+    where TEntity : class
         => (IndexBuilder<TEntity>)HasStorageParameter((IndexBuilder)indexBuilder, parameterName, parameterValue);
 
     /// <summary>
@@ -843,7 +843,7 @@ public static class KdbndpIndexBuilderExtensions
         Check.NotNull(indexBuilder, nameof(indexBuilder));
 
         return indexBuilder.CanSetAnnotation(
-            KdbndpAnnotationNames.StorageParameterPrefix + parameterName, parameterValue, fromDataAnnotation);
+                   KdbndpAnnotationNames.StorageParameterPrefix + parameterName, parameterValue, fromDataAnnotation);
     }
 
     #endregion Storage parameters
@@ -892,7 +892,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> HasSortOrder<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         params SortOrder[]? values)
-        => (IndexBuilder<TEntity>)HasSortOrder((IndexBuilder)indexBuilder, values);
+    => (IndexBuilder<TEntity>)HasSortOrder((IndexBuilder)indexBuilder, values);
 
     /// <summary>
     ///     The KingbaseES index sort ordering to be used.
@@ -968,7 +968,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder HasCollation(
         this IndexBuilder indexBuilder,
         params string[]? values)
-        => UseCollation(indexBuilder, values);
+    => UseCollation(indexBuilder, values);
 
     /// <summary>
     ///     The KingbaseES index collation to be used.
@@ -983,7 +983,7 @@ public static class KdbndpIndexBuilderExtensions
     public static IndexBuilder<TEntity> HasCollation<TEntity>(
         this IndexBuilder<TEntity> indexBuilder,
         params string[]? values)
-        => UseCollation(indexBuilder, values);
+    => UseCollation(indexBuilder, values);
 
     /// <summary>
     ///     The KingbaseES index collation to be used.
@@ -1000,7 +1000,7 @@ public static class KdbndpIndexBuilderExtensions
         this IConventionIndexBuilder indexBuilder,
         IReadOnlyList<string>? values,
         bool fromDataAnnotation)
-        => UseCollation(indexBuilder, values, fromDataAnnotation);
+    => UseCollation(indexBuilder, values, fromDataAnnotation);
 
     /// <summary>
     ///     Returns a value indicating whether the KingbaseES index collation can be set.
@@ -1017,7 +1017,7 @@ public static class KdbndpIndexBuilderExtensions
         this IConventionIndexBuilder indexBuilder,
         IReadOnlyList<string>? values,
         bool fromDataAnnotation)
-        => CanSetCollation(indexBuilder, values, fromDataAnnotation);
+    => CanSetCollation(indexBuilder, values, fromDataAnnotation);
 
     /// <summary>
     ///     The KingbaseES index method to be used. Null selects the default (currently btree).
@@ -1034,7 +1034,7 @@ public static class KdbndpIndexBuilderExtensions
         this IConventionIndexBuilder indexBuilder,
         string? method,
         bool fromDataAnnotation = false)
-        => CanSetMethod(indexBuilder, method, fromDataAnnotation);
+    => CanSetMethod(indexBuilder, method, fromDataAnnotation);
 
     /// <summary>
     ///     Returns a value indicating whether the KingbaseES index operators can be set.
@@ -1051,7 +1051,7 @@ public static class KdbndpIndexBuilderExtensions
         this IConventionIndexBuilder indexBuilder,
         IReadOnlyList<string>? operators,
         bool fromDataAnnotation)
-        => CanSetOperators(indexBuilder, operators, fromDataAnnotation);
+    => CanSetOperators(indexBuilder, operators, fromDataAnnotation);
 
     /// <summary>
     ///     Returns a value indicating whether the index can be configured as a full-text tsvector expression index.
@@ -1073,7 +1073,7 @@ public static class KdbndpIndexBuilderExtensions
         this IConventionIndexBuilder indexBuilder,
         string? config,
         bool fromDataAnnotation = false)
-        => CanSetIsTsVectorExpressionIndex(indexBuilder, config, fromDataAnnotation);
+    => CanSetIsTsVectorExpressionIndex(indexBuilder, config, fromDataAnnotation);
 
     /// <summary>
     ///     Returns a value indicating whether the KingbaseES index sort ordering can be set.
@@ -1090,7 +1090,7 @@ public static class KdbndpIndexBuilderExtensions
         this IConventionIndexBuilder indexBuilder,
         IReadOnlyList<SortOrder>? values,
         bool fromDataAnnotation)
-        => CanSetSortOrder(indexBuilder, values, fromDataAnnotation);
+    => CanSetSortOrder(indexBuilder, values, fromDataAnnotation);
 
     /// <summary>
     ///     Returns a value indicating whether the KingbaseES index null sort ordering can be set.
@@ -1107,7 +1107,7 @@ public static class KdbndpIndexBuilderExtensions
         this IConventionIndexBuilder indexBuilder,
         IReadOnlyList<NullSortOrder>? values,
         bool fromDataAnnotation)
-        => CanSetNullSortOrder(indexBuilder, values, fromDataAnnotation);
+    => CanSetNullSortOrder(indexBuilder, values, fromDataAnnotation);
 
     /// <summary>
     ///     Returns a value indicating whether the given include properties can be set.
@@ -1121,7 +1121,7 @@ public static class KdbndpIndexBuilderExtensions
         this IConventionIndexBuilder indexBuilder,
         IReadOnlyList<string>? propertyNames,
         bool fromDataAnnotation = false)
-        => CanSetIncludeProperties(indexBuilder, propertyNames, fromDataAnnotation);
+    => CanSetIncludeProperties(indexBuilder, propertyNames, fromDataAnnotation);
 
     #endregion Obsolete
 }

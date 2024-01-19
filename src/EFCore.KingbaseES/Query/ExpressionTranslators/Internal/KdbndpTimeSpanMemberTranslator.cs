@@ -43,8 +43,8 @@ public class KdbndpTimeSpanMemberTranslator : IMemberTranslator
         if (member.DeclaringType == typeof(TimeSpan) && instance is not null)
         {
             return member.Name switch
-            {
-                nameof(TimeSpan.Days) => Floor(DatePart("day", instance)),
+        {
+            nameof(TimeSpan.Days) => Floor(DatePart("day", instance)),
                 nameof(TimeSpan.Hours) => Floor(DatePart("hour", instance)),
                 nameof(TimeSpan.Minutes) => Floor(DatePart("minute", instance)),
                 nameof(TimeSpan.Seconds) => Floor(DatePart("second", instance)),
@@ -65,23 +65,23 @@ public class KdbndpTimeSpanMemberTranslator : IMemberTranslator
         return null;
 
         SqlExpression Floor(SqlExpression value)
-            => _sqlExpressionFactory.Convert(
-                _sqlExpressionFactory.Function(
-                    "floor",
-                    new[] { value },
-                    nullable: true,
-                    argumentsPropagateNullability: TrueArrays[1],
-                    typeof(double)),
-                typeof(int));
+        => _sqlExpressionFactory.Convert(
+            _sqlExpressionFactory.Function(
+                "floor",
+                new[] { value },
+                nullable: true,
+                argumentsPropagateNullability: TrueArrays[1],
+                typeof(double)),
+            typeof(int));
 
         SqlFunctionExpression DatePart(string part, SqlExpression value)
-            => _sqlExpressionFactory.Function(
-                "date_part", new[] { _sqlExpressionFactory.Constant(part), value },
-                nullable: true,
-                argumentsPropagateNullability: FalseTrueArray,
-                returnType);
+        => _sqlExpressionFactory.Function(
+            "date_part", new[] { _sqlExpressionFactory.Constant(part), value },
+            nullable: true,
+            argumentsPropagateNullability: FalseTrueArray,
+            returnType);
 
         SqlBinaryExpression TranslateDurationTotalMember(SqlExpression instance, double divisor)
-            => _sqlExpressionFactory.Divide(DatePart("epoch", instance), _sqlExpressionFactory.Constant(divisor));
+        => _sqlExpressionFactory.Divide(DatePart("epoch", instance), _sqlExpressionFactory.Constant(divisor));
     }
 }

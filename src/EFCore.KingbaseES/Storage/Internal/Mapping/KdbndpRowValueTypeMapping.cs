@@ -38,7 +38,7 @@ public class KdbndpRowValueTypeMapping : RelationalTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpRowValueTypeMapping(parameters);
+    => new KdbndpRowValueTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -48,7 +48,7 @@ public class KdbndpRowValueTypeMapping : RelationalTypeMapping
     /// </summary>
     // SQL generation for row values is in KdbndpQuerySqlGenerator
     protected override string GenerateNonNullSqlLiteral(object value)
-        => throw new InvalidOperationException("GenerateNonNullSqlLiteral not supported on KdbndpRowValueTypeMapping");
+    => throw new InvalidOperationException("GenerateNonNullSqlLiteral not supported on KdbndpRowValueTypeMapping");
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -57,5 +57,5 @@ public class KdbndpRowValueTypeMapping : RelationalTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override void ConfigureParameter(DbParameter parameter)
-        => throw new InvalidOperationException("ConfigureParameter not supported on KdbndpRowValueTypeMapping");
+    => throw new InvalidOperationException("ConfigureParameter not supported on KdbndpRowValueTypeMapping");
 }

@@ -17,35 +17,35 @@ public class KdbndpSetOperationTypeResolutionCompensatingExpressionVisitor : Exp
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override Expression VisitExtension(Expression extensionExpression)
-        => extensionExpression switch
-        {
-            ShapedQueryExpression shapedQueryExpression
-                => shapedQueryExpression.Update(
-                    Visit(shapedQueryExpression.QueryExpression),
-                    Visit(shapedQueryExpression.ShaperExpression)),
-            SetOperationBase setOperationExpression => VisitSetOperation(setOperationExpression),
-            SelectExpression selectExpression => VisitSelect(selectExpression),
-            _ => base.VisitExtension(extensionExpression)
-        };
+    => extensionExpression switch
+{
+    ShapedQueryExpression shapedQueryExpression
+    => shapedQueryExpression.Update(
+        Visit(shapedQueryExpression.QueryExpression),
+        Visit(shapedQueryExpression.ShaperExpression)),
+                  SetOperationBase setOperationExpression => VisitSetOperation(setOperationExpression),
+                  SelectExpression selectExpression => VisitSelect(selectExpression),
+                  _ => base.VisitExtension(extensionExpression)
+    };
 
     private Expression VisitSetOperation(SetOperationBase setOperationExpression)
     {
         switch (_state)
         {
-            case State.Nothing:
-                _state = State.InSingleSetOperation;
-                var visited = base.VisitExtension(setOperationExpression);
-                _state = State.Nothing;
-                return visited;
+        case State.Nothing:
+            _state = State.InSingleSetOperation;
+            var visited = base.VisitExtension(setOperationExpression);
+            _state = State.Nothing;
+            return visited;
 
-            case State.InSingleSetOperation:
-                _state = State.InNestedSetOperation;
-                visited = base.VisitExtension(setOperationExpression);
-                _state = State.InSingleSetOperation;
-                return visited;
+        case State.InSingleSetOperation:
+            _state = State.InNestedSetOperation;
+            visited = base.VisitExtension(setOperationExpression);
+            _state = State.InSingleSetOperation;
+            return visited;
 
-            default:
-                return base.VisitExtension(setOperationExpression);
+        default:
+            return base.VisitExtension(setOperationExpression);
         }
     }
 
@@ -71,9 +71,9 @@ public class KdbndpSetOperationTypeResolutionCompensatingExpressionVisitor : Exp
         {
             // Inject an explicit cast node around null literals
             var updatedProjection = parentState == State.InNestedSetOperation && item.Expression is SqlConstantExpression { Value : null }
-                ? item.Update(
-                    new SqlUnaryExpression(ExpressionType.Convert, item.Expression, item.Expression.Type, item.Expression.TypeMapping))
-                : (ProjectionExpression)Visit(item);
+                                    ? item.Update(
+                                        new SqlUnaryExpression(ExpressionType.Convert, item.Expression, item.Expression.Type, item.Expression.TypeMapping))
+                                    : (ProjectionExpression)Visit(item);
 
             projections.Add(updatedProjection);
             changed |= updatedProjection != item;
@@ -112,9 +112,9 @@ public class KdbndpSetOperationTypeResolutionCompensatingExpressionVisitor : Exp
         _state = parentState == State.InNestedSetOperation ? State.AlreadyCompensated : parentState;
 
         return changed
-            ? selectExpression.Update(
-                projections, tables, predicate, groupBy, havingExpression, orderings, limit, offset)
-            : selectExpression;
+               ? selectExpression.Update(
+                   projections, tables, predicate, groupBy, havingExpression, orderings, limit, offset)
+               : selectExpression;
     }
 
     private enum State

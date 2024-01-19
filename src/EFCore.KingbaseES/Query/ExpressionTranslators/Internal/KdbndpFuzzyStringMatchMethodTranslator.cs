@@ -12,26 +12,26 @@ public class KdbndpFuzzyStringMatchMethodTranslator : IMethodCallTranslator
     {
         [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchSoundex), typeof(DbFunctions), typeof(string))]
             = "soundex",
-        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchDifference), typeof(DbFunctions), typeof(string), typeof(string))]
-            = "difference",
-        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchLevenshtein), typeof(DbFunctions), typeof(string), typeof(string))]
-            = "levenshtein",
-        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchLevenshtein), typeof(DbFunctions), typeof(string), typeof(string), typeof(int), typeof(int), typeof(int))]
-            = "levenshtein",
-        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchLevenshteinLessEqual), typeof(DbFunctions), typeof(string), typeof(string), typeof(int))]
-            = "levenshtein_less_equal",
-        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchLevenshteinLessEqual), typeof(DbFunctions), typeof(string), typeof(string), typeof(int), typeof(int), typeof(int), typeof(int))]
-            = "levenshtein_less_equal",
-        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchMetaphone), typeof(DbFunctions), typeof(string), typeof(int))]
-            = "metaphone",
-        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchDoubleMetaphone), typeof(DbFunctions), typeof(string))]
-            = "dmetaphone",
-        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchDoubleMetaphoneAlt), typeof(DbFunctions), typeof(string))]
-            = "dmetaphone_alt"
+              [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchDifference), typeof(DbFunctions), typeof(string), typeof(string))]
+              = "difference",
+                [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchLevenshtein), typeof(DbFunctions), typeof(string), typeof(string))]
+                = "levenshtein",
+                  [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchLevenshtein), typeof(DbFunctions), typeof(string), typeof(string), typeof(int), typeof(int), typeof(int))]
+                  = "levenshtein",
+                    [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchLevenshteinLessEqual), typeof(DbFunctions), typeof(string), typeof(string), typeof(int))]
+                    = "levenshtein_less_equal",
+                      [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchLevenshteinLessEqual), typeof(DbFunctions), typeof(string), typeof(string), typeof(int), typeof(int), typeof(int), typeof(int))]
+                      = "levenshtein_less_equal",
+                        [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchMetaphone), typeof(DbFunctions), typeof(string), typeof(int))]
+                        = "metaphone",
+                          [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchDoubleMetaphone), typeof(DbFunctions), typeof(string))]
+                          = "dmetaphone",
+                            [GetRuntimeMethod(nameof(KdbndpFuzzyStringMatchDbFunctionsExtensions.FuzzyStringMatchDoubleMetaphoneAlt), typeof(DbFunctions), typeof(string))]
+                            = "dmetaphone_alt"
     };
 
     private static MethodInfo GetRuntimeMethod(string name, params Type[] parameters)
-        => typeof(KdbndpFuzzyStringMatchDbFunctionsExtensions).GetRuntimeMethod(name, parameters)!;
+    => typeof(KdbndpFuzzyStringMatchDbFunctionsExtensions).GetRuntimeMethod(name, parameters)!;
 
     private readonly KdbndpSqlExpressionFactory _sqlExpressionFactory;
 
@@ -63,12 +63,12 @@ public class KdbndpFuzzyStringMatchMethodTranslator : IMethodCallTranslator
         MethodInfo method,
         IReadOnlyList<SqlExpression> arguments,
         IDiagnosticsLogger<DbLoggerCategory.Query> logger)
-        => Functions.TryGetValue(method, out var function)
-            ? _sqlExpressionFactory.Function(
-                function,
-                arguments.Skip(1),
-                nullable: true,
-                argumentsPropagateNullability: TrueArrays[arguments.Count - 1],
-                method.ReturnType)
-            : null;
+    => Functions.TryGetValue(method, out var function)
+    ? _sqlExpressionFactory.Function(
+        function,
+        arguments.Skip(1),
+        nullable: true,
+        argumentsPropagateNullability: TrueArrays[arguments.Count - 1],
+        method.ReturnType)
+    : null;
 }

@@ -18,7 +18,9 @@ public class KdbndpDecimalTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpDecimalTypeMapping Default { get; } = new();
+    public static KdbndpDecimalTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -27,19 +29,19 @@ public class KdbndpDecimalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public KdbndpDecimalTypeMapping(Type? clrType = null)
-        : this(
-            new RelationalTypeMappingParameters(
-                new CoreTypeMappingParameters(
-                    clrType ?? typeof(decimal),
-                    jsonValueReaderWriter: clrType == typeof(decimal) || clrType is null
-                        ? JsonDecimalReaderWriter.Instance
-                        : clrType == typeof(double)
-                            ? JsonDoubleReaderWriter.Instance
-                            : clrType == typeof(float)
-                                ? JsonFloatReaderWriter.Instance
-                                : throw new ArgumentException("clrType must be decimal, double or float", nameof(clrType))
-                ),
-                "numeric"))
+    : this(
+        new RelationalTypeMappingParameters(
+            new CoreTypeMappingParameters(
+                clrType ?? typeof(decimal),
+                jsonValueReaderWriter: clrType == typeof(decimal) || clrType is null
+                ? JsonDecimalReaderWriter.Instance
+                : clrType == typeof(double)
+                ? JsonDoubleReaderWriter.Instance
+                : clrType == typeof(float)
+                ? JsonFloatReaderWriter.Instance
+                : throw new ArgumentException("clrType must be decimal, double or float", nameof(clrType))
+            ),
+            "numeric"))
     {
     }
 
@@ -61,7 +63,7 @@ public class KdbndpDecimalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpDecimalTypeMapping(parameters);
+    => new KdbndpDecimalTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -70,11 +72,11 @@ public class KdbndpDecimalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string ProcessStoreType(RelationalTypeMappingParameters parameters, string storeType, string _)
-        => parameters.Precision is null
-            ? storeType
-            : parameters.Scale is null
-                ? $"numeric({parameters.Precision})"
-                : $"numeric({parameters.Precision},{parameters.Scale})";
+    => parameters.Precision is null
+    ? storeType
+    : parameters.Scale is null
+    ? $"numeric({parameters.Precision})"
+    : $"numeric({parameters.Precision},{parameters.Scale})";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -83,5 +85,5 @@ public class KdbndpDecimalTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string SqlLiteralFormatString
-        => DecimalFormatConst;
+    => DecimalFormatConst;
 }

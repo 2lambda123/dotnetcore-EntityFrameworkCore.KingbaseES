@@ -9,14 +9,16 @@ namespace Kdbndp.EntityFrameworkCore.KingbaseES.Storage.ValueConversion;
 /// </summary>
 public class KdbndpArrayConverter<TModelCollection, TConcreteModelCollection, TProviderCollection>
     : ValueConverter<TModelCollection, TProviderCollection>
-    where TModelCollection : IEnumerable
-    where TConcreteModelCollection : IEnumerable
-    where TProviderCollection : IEnumerable
+      where TModelCollection : IEnumerable
+      where TConcreteModelCollection : IEnumerable
+      where TProviderCollection : IEnumerable
 {
     /// <summary>
     ///     The value converter for the element type of the array.
     /// </summary>
-    public virtual ValueConverter? ElementConverter { get; }
+    public virtual ValueConverter? ElementConverter {
+        get;
+    }
 
     /// <summary>
     ///     Constructs a new instance of <see cref="KdbndpArrayConverter{TModel, TConcreteModel, TProvider}" />.
@@ -30,12 +32,12 @@ public class KdbndpArrayConverter<TModelCollection, TConcreteModelCollection, TP
     ///     Constructs a new instance of <see cref="KdbndpArrayConverter{TModel, TConcreteModel, TProvider}" />.
     /// </summary>
     public KdbndpArrayConverter(ValueConverter? elementConverter)
-        : base(
-            // We assume that TProviderCollection is always a concrete, instantiable type (in fact it's always an array over the element)
-            ArrayConversionExpression<TModelCollection, TProviderCollection, TProviderCollection>(
-                elementConverter?.ConvertToProviderExpression),
-            ArrayConversionExpression<TProviderCollection, TModelCollection, TConcreteModelCollection>(
-                elementConverter?.ConvertFromProviderExpression))
+    : base(
+        // We assume that TProviderCollection is always a concrete, instantiable type (in fact it's always an array over the element)
+        ArrayConversionExpression<TModelCollection, TProviderCollection, TProviderCollection>(
+            elementConverter?.ConvertToProviderExpression),
+        ArrayConversionExpression<TProviderCollection, TModelCollection, TConcreteModelCollection>(
+            elementConverter?.ConvertFromProviderExpression))
     {
         var modelElementType = typeof(TModelCollection).TryGetElementType(typeof(IEnumerable<>));
         var providerElementType = typeof(TProviderCollection).TryGetElementType(typeof(IEnumerable<>));
@@ -70,12 +72,12 @@ public class KdbndpArrayConverter<TModelCollection, TConcreteModelCollection, TP
         LambdaExpression? elementConversionExpression)
     {
         var inputElementType = typeof(TInput).IsArray
-            ? typeof(TInput).GetElementType()
-            : typeof(TInput).TryGetElementType(typeof(IEnumerable<>));
+                               ? typeof(TInput).GetElementType()
+                               : typeof(TInput).TryGetElementType(typeof(IEnumerable<>));
 
         var outputElementType = typeof(TOutput).IsArray
-            ? typeof(TOutput).GetElementType()
-            : typeof(TOutput).TryGetElementType(typeof(IEnumerable<>));
+                                ? typeof(TOutput).GetElementType()
+                                : typeof(TOutput).TryGetElementType(typeof(IEnumerable<>));
 
         if (inputElementType is null || outputElementType is null)
         {
@@ -89,20 +91,20 @@ public class KdbndpArrayConverter<TModelCollection, TConcreteModelCollection, TP
             // p => p is null ? null : elementConversionExpression(p)
             var p = Parameter(inputElementType, "foo");
             elementConversionExpression = Lambda(
-                Condition(
-                    Equal(p, Constant(null, inputElementType)),
-                    Constant(null, outputElementType),
-                    Convert(
-                        Invoke(
-                            elementConversionExpression,
-                            // The user-provided conversion lambda typically accepts non-nullable (value) types, with EF Core doing the
-                            // null-sanitization and conversion to non-nullable; do this here unless the user-provided lambda happens to
-                            // accept a nullable value type parameter.
-                            elementConversionExpression.Parameters[0].Type.IsNullableType()
-                                ? p
-                                : Convert(p, inputElementType.UnwrapNullableType())),
-                        outputElementType)),
-                p);
+                                              Condition(
+                                                  Equal(p, Constant(null, inputElementType)),
+                                                  Constant(null, outputElementType),
+                                                  Convert(
+                                                          Invoke(
+                                                                  elementConversionExpression,
+                                                                  // The user-provided conversion lambda typically accepts non-nullable (value) types, with EF Core doing the
+                                                                  // null-sanitization and conversion to non-nullable; do this here unless the user-provided lambda happens to
+                                                                  // accept a nullable value type parameter.
+                                                                  elementConversionExpression.Parameters[0].Type.IsNullableType()
+                                                                  ? p
+                                                                  : Convert(p, inputElementType.UnwrapNullableType())),
+                                                          outputElementType)),
+                                              p);
         }
 
         var input = Parameter(typeof(TInput), "value");
@@ -130,10 +132,10 @@ public class KdbndpArrayConverter<TModelCollection, TConcreteModelCollection, TP
                  && typeof(TInput).GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>)))
         {
             getInputLength = Property(
-                input,
-                typeof(TInput).GetProperty("Count")
-                // If TInput is an interface (IList<T>), its Count property needs to be found on ICollection<T>
-                ?? typeof(ICollection<>).MakeGenericType(typeof(TInput).GetGenericArguments()[0]).GetProperty("Count")!);
+                                 input,
+                                 typeof(TInput).GetProperty("Count")
+                                 // If TInput is an interface (IList<T>), its Count property needs to be found on ICollection<T>
+                                 ?? typeof(ICollection<>).MakeGenericType(typeof(TInput).GetGenericArguments()[0]).GetProperty("Count")!);
             indexer = i => Property(input, input.Type.FindIndexerProperty()!, i);
         }
         else
@@ -149,59 +151,59 @@ public class KdbndpArrayConverter<TModelCollection, TConcreteModelCollection, TP
 
             // TODO: Check and properly throw for non-IList<T>, e.g. set
             getInputLength = Property(
-                convertedInput, typeof(ICollection<>).MakeGenericType(typeof(TInput).GetGenericArguments()[0]).GetProperty("Count")!);
+                                 convertedInput, typeof(ICollection<>).MakeGenericType(typeof(TInput).GetGenericArguments()[0]).GetProperty("Count")!);
             indexer = i => Property(convertedInput, iListType.FindIndexerProperty()!, i);
         }
 
         expressions.AddRange(
             new[]
-            {
-                // Get the length of the input array or list
-                // var length = input.Length;
-                Assign(lengthVariable, getInputLength),
+        {
+            // Get the length of the input array or list
+            // var length = input.Length;
+            Assign(lengthVariable, getInputLength),
 
-                // Allocate an output array or list
-                // var result = new int[length];
-                Assign(
-                    output, typeof(TConcreteOutput).IsArray
-                        ? NewArrayBounds(outputElementType, lengthVariable)
-                        : typeof(TConcreteOutput).GetConstructor(new[] { typeof(int) }) is ConstructorInfo ctorWithLength
-                            ? New(ctorWithLength, lengthVariable)
-                            : New(typeof(TConcreteOutput).GetConstructor(Array.Empty<Type>())!)),
+            // Allocate an output array or list
+            // var result = new int[length];
+            Assign(
+                output, typeof(TConcreteOutput).IsArray
+                ? NewArrayBounds(outputElementType, lengthVariable)
+            : typeof(TConcreteOutput).GetConstructor(new[] { typeof(int) }) is ConstructorInfo ctorWithLength
+            ? New(ctorWithLength, lengthVariable)
+            : New(typeof(TConcreteOutput).GetConstructor(Array.Empty<Type>())!)),
 
-                // Loop over the elements, applying the element converter on them one by one
-                // for (var i = 0; i < length; i++)
-                // {
-                //     result[i] = input[i];
-                // }
-                ForLoop(
-                    loopVar: loopVariable,
-                    initValue: Constant(0),
-                    condition: LessThan(loopVariable, lengthVariable),
-                    increment: AddAssign(loopVariable, Constant(1)),
-                    loopContent:
-                    typeof(TConcreteOutput).IsArray
-                        ? Assign(
-                            ArrayAccess(output, loopVariable),
-                            elementConversionExpression is null
-                                ? indexer(loopVariable)
-                                : Invoke(elementConversionExpression, indexer(loopVariable)))
-                        : Call(
-                            output,
-                            typeof(TConcreteOutput).GetMethod("Add", new[] { outputElementType })!,
-                            elementConversionExpression is null
-                                ? indexer(loopVariable)
-                                : Invoke(elementConversionExpression, indexer(loopVariable)))),
-                output
-            });
+            // Loop over the elements, applying the element converter on them one by one
+            // for (var i = 0; i < length; i++)
+            // {
+            //     result[i] = input[i];
+            // }
+            ForLoop(
+                loopVar: loopVariable,
+                initValue: Constant(0),
+                condition: LessThan(loopVariable, lengthVariable),
+                increment: AddAssign(loopVariable, Constant(1)),
+                loopContent:
+                typeof(TConcreteOutput).IsArray
+                ? Assign(
+                    ArrayAccess(output, loopVariable),
+                    elementConversionExpression is null
+                    ? indexer(loopVariable)
+                    : Invoke(elementConversionExpression, indexer(loopVariable)))
+                : Call(
+                    output,
+            typeof(TConcreteOutput).GetMethod("Add", new[] { outputElementType })!,
+            elementConversionExpression is null
+            ? indexer(loopVariable)
+            : Invoke(elementConversionExpression, indexer(loopVariable)))),
+            output
+        });
 
         return Lambda<Func<TInput, TOutput>>(
-            // First, check if the given array value is null and return null immediately if so
-            Condition(
-                ReferenceEqual(input, Constant(null)),
-                Constant(null, typeof(TOutput)),
-                Block(typeof(TOutput), variables, expressions)),
-            input);
+                   // First, check if the given array value is null and return null immediately if so
+                   Condition(
+                       ReferenceEqual(input, Constant(null)),
+                       Constant(null, typeof(TOutput)),
+                       Block(typeof(TOutput), variables, expressions)),
+                   input);
     }
 
     private static Expression ForLoop(
@@ -214,19 +216,19 @@ public class KdbndpArrayConverter<TModelCollection, TConcreteModelCollection, TP
         var initAssign = Assign(loopVar, initValue);
         var breakLabel = Label("LoopBreak");
         var loop = Block(
-            new[] { loopVar },
-            initAssign,
-            Loop(
-                IfThenElse(
-                    condition,
-                    Block(
-                        loopContent,
-                        increment
-                    ),
-                    Break(breakLabel)
-                ),
-                breakLabel)
-        );
+                       new[] { loopVar },
+                       initAssign,
+                       Loop(
+                           IfThenElse(
+                               condition,
+                               Block(
+                                   loopContent,
+                                   increment
+                               ),
+                               Break(breakLabel)
+                           ),
+                           breakLabel)
+                   );
 
         return loop;
     }

@@ -24,7 +24,7 @@ public static class KdbndpDatabaseFacadeExtensions
     /// <param name="database">The facade from <see cref="DbContext.Database" />.</param>
     /// <returns>True if Kdbndp is being used; false otherwise.</returns>
     public static bool IsKdbndp(this DatabaseFacade database)
-        => database.ProviderName == typeof(KdbndpOptionsExtension).GetTypeInfo().Assembly.GetName().Name;
+    => database.ProviderName == typeof(KdbndpOptionsExtension).GetTypeInfo().Assembly.GetName().Name;
 
     /// <summary>
     ///     Sets the underlying <see cref="DbDataSource" /> configured for this <see cref="DbContext" />.
@@ -40,7 +40,7 @@ public static class KdbndpDatabaseFacadeExtensions
     /// <param name="databaseFacade">The <see cref="DatabaseFacade" /> for the context.</param>
     /// <param name="dataSource">The connection string.</param>
     public static void SetDbDataSource(this DatabaseFacade databaseFacade, DbDataSource dataSource)
-        => ((KdbndpRelationalConnection)GetFacadeDependencies(databaseFacade).RelationalConnection).DbDataSource = dataSource;
+    => ((KdbndpRelationalConnection)GetFacadeDependencies(databaseFacade).RelationalConnection).DbDataSource = dataSource;
 
     private static IRelationalDatabaseFacadeDependencies GetFacadeDependencies(DatabaseFacade databaseFacade)
     {

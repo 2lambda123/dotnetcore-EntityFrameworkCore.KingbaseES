@@ -63,10 +63,10 @@ public class KdbndpRegexIsMatchTranslator : IMethodCallTranslator
         }
 
         return (options & UnsupportedRegexOptions) == 0
-            ? _sqlExpressionFactory.RegexMatch(
-                _sqlExpressionFactory.ApplyTypeMapping(input, typeMapping),
-                _sqlExpressionFactory.ApplyTypeMapping(pattern, typeMapping),
-                options)
-            : null;
+               ? _sqlExpressionFactory.RegexMatch(
+                   _sqlExpressionFactory.ApplyTypeMapping(input, typeMapping),
+                   _sqlExpressionFactory.ApplyTypeMapping(pattern, typeMapping),
+                   options)
+               : null;
     }
 }

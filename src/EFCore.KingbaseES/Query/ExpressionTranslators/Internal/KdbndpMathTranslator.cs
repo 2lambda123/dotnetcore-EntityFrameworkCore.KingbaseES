@@ -160,8 +160,8 @@ public class KdbndpMathTranslator : IMethodCallTranslator
         if (SupportedMethodTranslations.TryGetValue(method, out var sqlFunctionName))
         {
             var typeMapping = arguments.Count == 1
-                ? ExpressionExtensions.InferTypeMapping(arguments[0])
-                : ExpressionExtensions.InferTypeMapping(arguments[0], arguments[1]);
+                              ? ExpressionExtensions.InferTypeMapping(arguments[0])
+                              : ExpressionExtensions.InferTypeMapping(arguments[0], arguments[1]);
 
             var newArguments = new SqlExpression[arguments.Count];
             newArguments[0] = _sqlExpressionFactory.ApplyTypeMapping(arguments[0], typeMapping);
@@ -174,12 +174,12 @@ public class KdbndpMathTranslator : IMethodCallTranslator
             // Note: GREATER/LEAST only return NULL if *all* arguments are null, but we currently can't
             // convey this.
             return _sqlExpressionFactory.Function(
-                sqlFunctionName,
-                newArguments,
-                nullable: true,
-                argumentsPropagateNullability: TrueArrays[newArguments.Length],
-                method.ReturnType,
-                typeMapping);
+                       sqlFunctionName,
+                       newArguments,
+                       nullable: true,
+                       argumentsPropagateNullability: TrueArrays[newArguments.Length],
+                       method.ReturnType,
+                       typeMapping);
         }
 
         if (TruncateMethodInfos.Contains(method))
@@ -189,11 +189,11 @@ public class KdbndpMathTranslator : IMethodCallTranslator
             // C# has Round over decimal/double/float only so our argument will be one of those types (compiler puts convert node)
             // In database result will be same type except for float which returns double which we need to cast back to float.
             var result = (SqlExpression)_sqlExpressionFactory.Function(
-                "trunc",
-                new[] { argument },
-                nullable: true,
-                argumentsPropagateNullability: new[] { true, false, false },
-                argument.Type == typeof(float) ? typeof(double) : argument.Type);
+                             "trunc",
+                             new[] { argument },
+                             nullable: true,
+                             argumentsPropagateNullability: new[] { true, false, false },
+                             argument.Type == typeof(float) ? typeof(double) : argument.Type);
 
             if (argument.Type == typeof(float))
             {
@@ -210,11 +210,11 @@ public class KdbndpMathTranslator : IMethodCallTranslator
             // C# has Round over decimal/double/float only so our argument will be one of those types (compiler puts convert node)
             // In database result will be same type except for float which returns double which we need to cast back to float.
             var result = (SqlExpression)_sqlExpressionFactory.Function(
-                "round",
-                new[] { argument },
-                nullable: true,
-                argumentsPropagateNullability: new[] { true, true },
-                argument.Type == typeof(float) ? typeof(double) : argument.Type);
+                             "round",
+                             new[] { argument },
+                             nullable: true,
+                             argumentsPropagateNullability: new[] { true, true },
+                             argument.Type == typeof(float) ? typeof(double) : argument.Type);
 
             if (argument.Type == typeof(float))
             {
@@ -243,16 +243,16 @@ public class KdbndpMathTranslator : IMethodCallTranslator
         if (method == RoundDecimalTwoParams)
         {
             return _sqlExpressionFactory.Function(
-                "round",
-                new[]
-                {
-                    _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]),
-                    _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1])
-                },
-                nullable: true,
-                argumentsPropagateNullability: TrueArrays[2],
-                method.ReturnType,
-                _decimalTypeMapping);
+                       "round",
+                       new[]
+            {
+                _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]),
+                _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1])
+            },
+            nullable: true,
+            argumentsPropagateNullability: TrueArrays[2],
+            method.ReturnType,
+            _decimalTypeMapping);
         }
 
         // KingbaseES treats NaN values as equal, against IEEE754

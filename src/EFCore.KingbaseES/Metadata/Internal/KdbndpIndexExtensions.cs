@@ -26,8 +26,8 @@ public static class KdbndpIndexExtensions
         if (index.GetIncludeProperties() != duplicateIndex.GetIncludeProperties())
         {
             if (index.GetIncludeProperties() is null
-                || duplicateIndex.GetIncludeProperties() is null
-                || !SameColumnNames(index, duplicateIndex, storeObject))
+                    || duplicateIndex.GetIncludeProperties() is null
+                    || !SameColumnNames(index, duplicateIndex, storeObject))
             {
                 if (shouldThrow)
                 {
@@ -84,21 +84,21 @@ public static class KdbndpIndexExtensions
         return true;
 
         static bool SameColumnNames(IReadOnlyIndex index, IReadOnlyIndex duplicateIndex, StoreObjectIdentifier storeObject)
-            => index.GetIncludeProperties()!.Select(
-                    p => index.DeclaringEntityType.FindProperty(p)!.GetColumnName(storeObject))
-                .SequenceEqual(
-                    duplicateIndex.GetIncludeProperties()!.Select(
-                        p => duplicateIndex.DeclaringEntityType.FindProperty(p)!.GetColumnName(storeObject)));
+        => index.GetIncludeProperties()!.Select(
+            p => index.DeclaringEntityType.FindProperty(p)!.GetColumnName(storeObject))
+        .SequenceEqual(
+            duplicateIndex.GetIncludeProperties()!.Select(
+                p => duplicateIndex.DeclaringEntityType.FindProperty(p)!.GetColumnName(storeObject)));
     }
 
     private static string FormatInclude(IReadOnlyIndex index, StoreObjectIdentifier storeObject)
-        => index.GetIncludeProperties() is null
-            ? "{}"
-            : "{'"
-            + string.Join(
-                "', '",
-                index.GetIncludeProperties()!.Select(
-                    p => index.DeclaringEntityType.FindProperty(p)
-                        ?.GetColumnName(storeObject)))
-            + "'}";
+    => index.GetIncludeProperties() is null
+    ? "{}"
+    : "{'"
+    + string.Join(
+        "', '",
+        index.GetIncludeProperties()!.Select(
+            p => index.DeclaringEntityType.FindProperty(p)
+            ?.GetColumnName(storeObject)))
+    + "'}";
 }

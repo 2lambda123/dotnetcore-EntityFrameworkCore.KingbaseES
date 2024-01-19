@@ -21,10 +21,10 @@ public class KdbndpSharedTableConvention : SharedTableConvention
 
     /// <inheritdoc />
     protected override bool AreCompatible(IReadOnlyIndex index, IReadOnlyIndex duplicateIndex, in StoreObjectIdentifier storeObject)
-        => base.AreCompatible(index, duplicateIndex, storeObject)
-            && index.AreCompatibleForKdbndp(duplicateIndex, storeObject, shouldThrow: false);
+    => base.AreCompatible(index, duplicateIndex, storeObject)
+    && index.AreCompatibleForKdbndp(duplicateIndex, storeObject, shouldThrow: false);
 
     /// <inheritdoc />
     protected override bool CheckConstraintsUniqueAcrossTables
-        => false;
+    => false;
 }

@@ -30,11 +30,11 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
         out bool nullable)
     {
         if (sqlBinaryExpression is not
-            {
-                OperatorType: ExpressionType.Equal or ExpressionType.NotEqual,
-                Left: PgRowValueExpression leftRowValue,
-                Right: PgRowValueExpression rightRowValue
-            })
+    {
+        OperatorType: ExpressionType.Equal or ExpressionType.NotEqual,
+        Left: PgRowValueExpression leftRowValue,
+        Right: PgRowValueExpression rightRowValue
+    })
         {
             return base.VisitSqlBinary(sqlBinaryExpression, allowOptimizedExpansion, out nullable);
         }
@@ -68,7 +68,7 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
             var visitedLeftValue = Visit(leftRowValue.Values[i], out var leftNullable);
 
             if (!leftNullable && !rightNullable
-                || allowOptimizedExpansion && (!leftNullable || !rightNullable))
+                    || allowOptimizedExpansion && (!leftNullable || !rightNullable))
             {
                 // The comparison for this value pair doesn't require expansion and can remain in the row value (so continue below).
                 // But if the visitation above changed a value, construct a list to hold the visited values.
@@ -98,7 +98,7 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
             // If we're here, the value pair requires null semantics compensation. We build a binary expression around the pair and visit
             // that (that adds the compensation). We then chain all such expressions together with AND.
             var valueBinaryExpression = Visit(
-                _sqlExpressionFactory.MakeBinary(operatorType, visitedLeftValue, visitedRightValue, null)!, allowOptimizedExpansion, out _);
+                                            _sqlExpressionFactory.MakeBinary(operatorType, visitedLeftValue, visitedRightValue, null)!, allowOptimizedExpansion, out _);
 
             if (expandedExpression is null)
             {
@@ -122,16 +122,16 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
             // Either return the original binary expression (if no value visitation changed anything), or construct a new one over the
             // visited values.
             return visitedLeftValues is null && visitedRightValues is null
-                ? sqlBinaryExpression
-                : _sqlExpressionFactory.MakeBinary(
-                    operatorType,
-                    visitedLeftValues is null
-                        ? leftRowValue
-                        : new PgRowValueExpression(visitedLeftValues, leftRowValue.Type, leftRowValue.TypeMapping),
-                    visitedRightValues is null
-                        ? rightRowValue
-                        : new PgRowValueExpression(visitedRightValues, leftRowValue.Type, leftRowValue.TypeMapping),
-                    null)!;
+                   ? sqlBinaryExpression
+                   : _sqlExpressionFactory.MakeBinary(
+                       operatorType,
+                       visitedLeftValues is null
+                       ? leftRowValue
+                       : new PgRowValueExpression(visitedLeftValues, leftRowValue.Type, leftRowValue.TypeMapping),
+                       visitedRightValues is null
+                       ? rightRowValue
+                       : new PgRowValueExpression(visitedRightValues, leftRowValue.Type, leftRowValue.TypeMapping),
+                       null)!;
         }
 
         Check.DebugAssert(visitedLeftValues is not null, "visitedLeftValues is not null");
@@ -140,11 +140,11 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
         // Some pairs required compensation. Combine the pairs which didn't (in visitedLeft/RightValues) with expandedExpression
         // (which contains the logic for those that did).
         return visitedLeftValues.Count switch
-        {
-            0 => expandedExpression,
-            1 => _sqlExpressionFactory.AndAlso(
-                _sqlExpressionFactory.MakeBinary(operatorType, visitedLeftValues[0], visitedRightValues[0], null)!,
-                expandedExpression),
+    {
+        0 => expandedExpression,
+        1 => _sqlExpressionFactory.AndAlso(
+            _sqlExpressionFactory.MakeBinary(operatorType, visitedLeftValues[0], visitedRightValues[0], null)!,
+            expandedExpression),
             // Technically the CLR type and type mappings are incorrect, as we're truncating the row values.
             // But that shouldn't matter.
             _ => _sqlExpressionFactory.AndAlso(
@@ -175,24 +175,24 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
         SqlExpression sqlExpression,
         bool allowOptimizedExpansion,
         out bool nullable)
-        => sqlExpression switch
-        {
-            PgAnyExpression e => VisitAny(e, allowOptimizedExpansion, out nullable),
-            PgAllExpression e => VisitAll(e, allowOptimizedExpansion, out nullable),
-            PgArrayIndexExpression e => VisitArrayIndex(e, allowOptimizedExpansion, out nullable),
-            PgArraySliceExpression e => VisitArraySlice(e, allowOptimizedExpansion, out nullable),
-            PgBinaryExpression e => VisitPostgresBinary(e, allowOptimizedExpansion, out nullable),
-            PgILikeExpression e => VisitILike(e, allowOptimizedExpansion, out nullable),
-            PgJsonTraversalExpression e => VisitJsonTraversal(e, allowOptimizedExpansion, out nullable),
-            PgNewArrayExpression e => VisitNewArray(e, allowOptimizedExpansion, out nullable),
-            PgRegexMatchExpression e => VisitRegexMatch(e, allowOptimizedExpansion, out nullable),
-            PgRowValueExpression e => VisitRowValueExpression(e, allowOptimizedExpansion, out nullable),
-            PgUnknownBinaryExpression e => VisitUnknownBinary(e, allowOptimizedExpansion, out nullable),
+    => sqlExpression switch
+{
+    PgAnyExpression e => VisitAny(e, allowOptimizedExpansion, out nullable),
+                        PgAllExpression e => VisitAll(e, allowOptimizedExpansion, out nullable),
+                        PgArrayIndexExpression e => VisitArrayIndex(e, allowOptimizedExpansion, out nullable),
+                        PgArraySliceExpression e => VisitArraySlice(e, allowOptimizedExpansion, out nullable),
+                        PgBinaryExpression e => VisitPostgresBinary(e, allowOptimizedExpansion, out nullable),
+                        PgILikeExpression e => VisitILike(e, allowOptimizedExpansion, out nullable),
+                        PgJsonTraversalExpression e => VisitJsonTraversal(e, allowOptimizedExpansion, out nullable),
+                        PgNewArrayExpression e => VisitNewArray(e, allowOptimizedExpansion, out nullable),
+                        PgRegexMatchExpression e => VisitRegexMatch(e, allowOptimizedExpansion, out nullable),
+                        PgRowValueExpression e => VisitRowValueExpression(e, allowOptimizedExpansion, out nullable),
+                        PgUnknownBinaryExpression e => VisitUnknownBinary(e, allowOptimizedExpansion, out nullable),
 
-            // PostgresFunctionExpression is visited via the SqlFunctionExpression override below
+                        // PostgresFunctionExpression is visited via the SqlFunctionExpression override below
 
-            _ => base.VisitCustomSqlExpression(sqlExpression, allowOptimizedExpansion, out nullable)
-        };
+                        _ => base.VisitCustomSqlExpression(sqlExpression, allowOptimizedExpansion, out nullable)
+    };
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -255,16 +255,16 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
         // The latter check is done with array_position, which returns null when a value was not found, and
         // a position if the item (including null!) was found (IS NOT DISTINCT FROM semantics)
         return _sqlExpressionFactory.OrElse(
-            updated,
-            _sqlExpressionFactory.AndAlso(
-                _sqlExpressionFactory.IsNull(item),
-                _sqlExpressionFactory.IsNotNull(
-                    _sqlExpressionFactory.Function(
-                        "array_position",
-                        new[] { array, _sqlExpressionFactory.Constant(null, item.TypeMapping) },
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[2],
-                        typeof(int)))));
+                   updated,
+                   _sqlExpressionFactory.AndAlso(
+                       _sqlExpressionFactory.IsNull(item),
+                       _sqlExpressionFactory.IsNotNull(
+                           _sqlExpressionFactory.Function(
+                               "array_position",
+                               new[] { array, _sqlExpressionFactory.Constant(null, item.TypeMapping) },
+                               nullable: true,
+                               argumentsPropagateNullability: FalseArrays[2],
+                               typeof(int)))));
     }
 
     /// <summary>
@@ -358,16 +358,16 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
         var right = Visit(binaryExpression.Right, allowOptimizedExpansion, out var rightNullable);
 
         nullable = binaryExpression.OperatorType switch
-        {
-            // The following LTree search methods return null for "not found"
-            PgExpressionType.LTreeFirstAncestor => true,
-            PgExpressionType.LTreeFirstDescendent => true,
-            PgExpressionType.LTreeFirstMatches => true,
+    {
+        // The following LTree search methods return null for "not found"
+        PgExpressionType.LTreeFirstAncestor => true,
+        PgExpressionType.LTreeFirstDescendent => true,
+        PgExpressionType.LTreeFirstMatches => true,
 
-            _ => leftNullable || rightNullable
-        };
+        _ => leftNullable || rightNullable
+    };
 
-        return binaryExpression.Update(left, right);
+    return binaryExpression.Update(left, right);
     }
 
     /// <summary>
@@ -389,15 +389,15 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
         // (see https://github.com/dotnet/efcore/issues/28158), so we need some special handling to properly visit the
         // PostgresFunctionExpression it wraps.
         if (sqlFunctionExpression.IsBuiltIn
-            && string.Equals(sqlFunctionExpression.Name, "SUM", StringComparison.OrdinalIgnoreCase)
-            && visitedBase is SqlFunctionExpression { Name: "COALESCE", Arguments: { } } coalesceExpression
-            && coalesceExpression.Arguments[0] is PgFunctionExpression wrappedFunctionExpression)
+                && string.Equals(sqlFunctionExpression.Name, "SUM", StringComparison.OrdinalIgnoreCase)
+                && visitedBase is SqlFunctionExpression { Name: "COALESCE", Arguments: { } } coalesceExpression
+                && coalesceExpression.Arguments[0] is PgFunctionExpression wrappedFunctionExpression)
         {
             // The base logic assumes sum is operating over numbers, which breaks sum over PG interval.
             // Detect that case and remove the coalesce entirely (note that we don't need coalescing since sum function is in
             // EF.Functions.Sum, and returns nullable. This is a temporary hack until #38158 is fixed.
             if (sqlFunctionExpression.Type == typeof(TimeSpan)
-                || sqlFunctionExpression.Type.FullName is "NodaTime.Period" or "NodaTime.Duration")
+                    || sqlFunctionExpression.Type.FullName is "NodaTime.Period" or "NodaTime.Duration")
             {
                 return coalesceExpression.Arguments[0];
             }
@@ -409,8 +409,8 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
         }
 
         return visitedBase is PgFunctionExpression pgFunctionExpression
-            ? VisitPostgresFunctionComponents(pgFunctionExpression)
-            : visitedBase;
+               ? VisitPostgresFunctionComponents(pgFunctionExpression)
+               : visitedBase;
 
         PgFunctionExpression VisitPostgresFunctionComponents(PgFunctionExpression pgFunctionExpression)
         {
@@ -442,10 +442,10 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
             }
 
             return aggregateChanged
-                ? pgFunctionExpression.UpdateAggregateComponents(
-                    visitedAggregatePredicate,
-                    visitedOrderings ?? pgFunctionExpression.AggregateOrderings)
-                : pgFunctionExpression;
+                   ? pgFunctionExpression.UpdateAggregateComponents(
+                       visitedAggregatePredicate,
+                       visitedOrderings ?? pgFunctionExpression.AggregateOrderings)
+                   : pgFunctionExpression;
         }
     }
 
@@ -468,10 +468,10 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
         var visited = base.VisitLike(like, allowOptimizedExpansion, out nullable);
 
         return visited == like
-            ? iLikeExpression
-            : visited is LikeExpression visitedLike
-                ? iLikeExpression.Update(visitedLike.Match, visitedLike.Pattern, visitedLike.EscapeChar)
-                : visited;
+               ? iLikeExpression
+               : visited is LikeExpression visitedLike
+               ? iLikeExpression.Update(visitedLike.Match, visitedLike.Pattern, visitedLike.EscapeChar)
+               : visited;
     }
 
     /// <summary>
@@ -509,8 +509,8 @@ public class KdbndpSqlNullabilityProcessor : SqlNullabilityProcessor
 
         nullable = false;
         return newInitializers is null
-            ? newArrayExpression
-            : new PgNewArrayExpression(newInitializers, newArrayExpression.Type, newArrayExpression.TypeMapping);
+               ? newArrayExpression
+               : new PgNewArrayExpression(newInitializers, newArrayExpression.Type, newArrayExpression.TypeMapping);
     }
 
     /// <summary>

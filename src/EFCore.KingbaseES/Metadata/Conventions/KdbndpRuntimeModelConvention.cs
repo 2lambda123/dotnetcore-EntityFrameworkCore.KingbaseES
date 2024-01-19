@@ -40,9 +40,9 @@ public class KdbndpRuntimeModelConvention : RelationalRuntimeModelConvention
 
             foreach (var annotationName in annotations.Keys.Where(
                          k =>
-                             k.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal)
-                             || k.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal)
-                             || k.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal)))
+                         k.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal)
+                         || k.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal)
+                         || k.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal)))
             {
                 annotations.Remove(annotationName);
             }

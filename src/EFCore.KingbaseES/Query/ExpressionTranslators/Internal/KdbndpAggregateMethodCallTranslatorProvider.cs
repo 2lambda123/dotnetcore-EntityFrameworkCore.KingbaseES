@@ -24,10 +24,10 @@ public class KdbndpAggregateMethodCallTranslatorProvider : RelationalAggregateMe
 
         AddTranslators(
             new IAggregateMethodCallTranslator[]
-            {
-                new KdbndpQueryableAggregateMethodTranslator(sqlExpressionFactory, typeMappingSource),
-                new KdbndpStatisticsAggregateMethodTranslator(sqlExpressionFactory, typeMappingSource),
-                new KdbndpMiscAggregateMethodTranslator(sqlExpressionFactory, typeMappingSource, model)
-            });
+        {
+            new KdbndpQueryableAggregateMethodTranslator(sqlExpressionFactory, typeMappingSource),
+            new KdbndpStatisticsAggregateMethodTranslator(sqlExpressionFactory, typeMappingSource),
+            new KdbndpMiscAggregateMethodTranslator(sqlExpressionFactory, typeMappingSource, model)
+        });
     }
 }

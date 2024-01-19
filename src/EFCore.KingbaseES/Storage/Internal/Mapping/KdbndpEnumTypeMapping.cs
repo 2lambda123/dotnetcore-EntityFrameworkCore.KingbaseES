@@ -22,7 +22,9 @@ public class KdbndpEnumTypeMapping : RelationalTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpEnumTypeMapping Default { get; } = new();
+    public static KdbndpEnumTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -30,7 +32,9 @@ public class KdbndpEnumTypeMapping : RelationalTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual IKdbndpNameTranslator NameTranslator { get; }
+    public virtual IKdbndpNameTranslator NameTranslator {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -39,11 +43,11 @@ public class KdbndpEnumTypeMapping : RelationalTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public KdbndpEnumTypeMapping(string storeType, Type enumType, IKdbndpNameTranslator? nameTranslator = null)
-        : base(
-            storeType,
-            enumType,
-            jsonValueReaderWriter: (JsonValueReaderWriter?)Activator.CreateInstance(
-                typeof(JsonPgEnumReaderWriter<>).MakeGenericType(enumType)))
+    : base(
+        storeType,
+        enumType,
+        jsonValueReaderWriter: (JsonValueReaderWriter?)Activator.CreateInstance(
+            typeof(JsonPgEnumReaderWriter<>).MakeGenericType(enumType)))
     {
         if (!enumType.IsEnum || !enumType.IsValueType)
         {
@@ -91,7 +95,7 @@ public class KdbndpEnumTypeMapping : RelationalTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpEnumTypeMapping(parameters, NameTranslator);
+    => new KdbndpEnumTypeMapping(parameters, NameTranslator);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -100,7 +104,7 @@ public class KdbndpEnumTypeMapping : RelationalTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateNonNullSqlLiteral(object value)
-        => $"'{_members[value]}'::{StoreType}";
+    => $"'{_members[value]}'::{StoreType}";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -109,10 +113,10 @@ public class KdbndpEnumTypeMapping : RelationalTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     private static Dictionary<object, string> CreateValueMapping(Type enumType, IKdbndpNameTranslator nameTranslator)
-        => enumType.GetFields(BindingFlags.Static | BindingFlags.Public)
-            .ToDictionary(
-                x => x.GetValue(null)!,
-                x => x.GetCustomAttribute<KbNameAttribute>()?.KbName ?? nameTranslator.TranslateMemberName(x.Name));
+    => enumType.GetFields(BindingFlags.Static | BindingFlags.Public)
+    .ToDictionary(
+        x => x.GetValue(null)!,
+        x => x.GetCustomAttribute<KbNameAttribute>()?.KbName ?? nameTranslator.TranslateMemberName(x.Name));
 
     // This is public for the compiled model
     /// <summary>
@@ -131,7 +135,7 @@ public class KdbndpEnumTypeMapping : RelationalTypeMapping
         ///     doing so can result in application failures when updating to a new Entity Framework Core release.
         /// </summary>
         public override T FromJsonTyped(ref Utf8JsonReaderManager manager, object? existingObject = null)
-            => Enum.Parse<T>(manager.CurrentReader.GetString()!);
+        => Enum.Parse<T>(manager.CurrentReader.GetString()!);
 
         /// <summary>
         ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -140,6 +144,6 @@ public class KdbndpEnumTypeMapping : RelationalTypeMapping
         ///     doing so can result in application failures when updating to a new Entity Framework Core release.
         /// </summary>
         public override void ToJsonTyped(Utf8JsonWriter writer, T value)
-            => writer.WriteStringValue(value.ToString());
+        => writer.WriteStringValue(value.ToString());
     }
 }

@@ -49,6 +49,6 @@ public class KdbndpParameterBasedSqlProcessor : RelationalParameterBasedSqlProce
         Check.NotNull(parametersValues, nameof(parametersValues));
 
         return new KdbndpSqlNullabilityProcessor(Dependencies, UseRelationalNulls).Process(
-            selectExpression, parametersValues, out canCache);
+                   selectExpression, parametersValues, out canCache);
     }
 }

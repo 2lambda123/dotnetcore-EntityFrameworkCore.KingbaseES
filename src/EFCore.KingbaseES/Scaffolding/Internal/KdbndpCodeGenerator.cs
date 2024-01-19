@@ -9,10 +9,10 @@ public class KdbndpCodeGenerator : ProviderCodeGenerator
 {
     private static readonly MethodInfo _useKdbndpMethodInfo
         = typeof(KdbndpDbContextOptionsBuilderExtensions).GetRequiredRuntimeMethod(
-            nameof(KdbndpDbContextOptionsBuilderExtensions.UseKdbndp),
-            typeof(DbContextOptionsBuilder),
-            typeof(string),
-            typeof(Action<KdbndpDbContextOptionsBuilder>));
+              nameof(KdbndpDbContextOptionsBuilderExtensions.UseKdbndp),
+              typeof(DbContextOptionsBuilder),
+              typeof(string),
+              typeof(Action<KdbndpDbContextOptionsBuilder>));
 
     /// <summary>
     ///     Constructs an instance of the <see cref="KdbndpCodeGenerator" /> class.
@@ -32,9 +32,9 @@ public class KdbndpCodeGenerator : ProviderCodeGenerator
     public override MethodCallCodeFragment GenerateUseProvider(
         string connectionString,
         MethodCallCodeFragment? providerOptions)
-        => new(
-            _useKdbndpMethodInfo,
-            providerOptions is null
-                ? new object[] { connectionString }
-                : new object[] { connectionString, new NestedClosureCodeFragment("x", providerOptions) });
+    => new(
+        _useKdbndpMethodInfo,
+        providerOptions is null
+        ? new object[] { connectionString }
+        : new object[] { connectionString, new NestedClosureCodeFragment("x", providerOptions) });
 }

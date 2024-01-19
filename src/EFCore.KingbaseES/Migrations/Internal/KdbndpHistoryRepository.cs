@@ -33,13 +33,13 @@ public class KdbndpHistoryRepository : HistoryRepository
 
             return
                 $"""
-SELECT EXISTS (
-    SELECT 1 FROM pg_catalog.pg_class c
-    JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
-    WHERE n.nspname={stringTypeMapping.GenerateSqlLiteral(TableSchema ?? "public")} AND
-          c.relname={stringTypeMapping.GenerateSqlLiteral(TableName)}
-)
-""";
+                SELECT EXISTS (
+                    SELECT 1 FROM pg_catalog.pg_class c
+                    JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+                            WHERE n.nspname= {stringTypeMapping.GenerateSqlLiteral(TableSchema ?? "public")} AND
+                                             c.relname= {stringTypeMapping.GenerateSqlLiteral(TableName)}
+                )
+                """;
         }
     }
 
@@ -50,7 +50,7 @@ SELECT EXISTS (
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override bool InterpretExistsResult(object? value)
-        => (bool?)value == true;
+    => (bool?)value == true;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -71,7 +71,7 @@ SELECT EXISTS (
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override string GetBeginIfNotExistsScript(string migrationId)
-        => $@"
+    => $@"
 DO $EF$
 BEGIN
     IF NOT EXISTS(SELECT 1 FROM {SqlGenerationHelper.DelimitIdentifier(TableName, TableSchema)} WHERE ""{MigrationIdColumnName}"" = '{migrationId}') THEN";
@@ -83,7 +83,7 @@ BEGIN
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override string GetBeginIfExistsScript(string migrationId)
-        => $@"
+    => $@"
 DO $EF$
 BEGIN
     IF EXISTS(SELECT 1 FROM {SqlGenerationHelper.DelimitIdentifier(TableName, TableSchema)} WHERE ""{MigrationIdColumnName}"" = '{migrationId}') THEN";
@@ -95,6 +95,6 @@ BEGIN
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override string GetEndIfScript()
-        => @"    END IF;
+    => @"    END IF;
 END $EF$;";
 }

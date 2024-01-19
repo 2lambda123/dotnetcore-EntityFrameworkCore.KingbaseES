@@ -11,5 +11,7 @@ public interface IKdbndpTypeMapping
     /// <summary>
     ///     The database type used by Kdbndp.
     /// </summary>
-    KdbndpDbType KdbndpDbType { get; }
+    KdbndpDbType KdbndpDbType {
+        get;
+    }
 }

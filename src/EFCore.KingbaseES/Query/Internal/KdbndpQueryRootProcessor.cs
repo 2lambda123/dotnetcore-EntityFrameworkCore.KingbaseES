@@ -39,5 +39,5 @@ public class KdbndpQueryRootProcessor : RelationalQueryRootProcessor
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </remarks>
     protected override bool ShouldConvertToParameterQueryRoot(ParameterExpression parameterExpression)
-        => _supportsUnnest;
+    => _supportsUnnest;
 }

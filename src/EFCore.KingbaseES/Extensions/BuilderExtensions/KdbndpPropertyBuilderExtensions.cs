@@ -62,7 +62,7 @@ public static class KdbndpPropertyBuilderExtensions
         this PropertyBuilder<TProperty> propertyBuilder,
         string? name = null,
         string? schema = null)
-        => (PropertyBuilder<TProperty>)UseHiLo((PropertyBuilder)propertyBuilder, name, schema);
+    => (PropertyBuilder<TProperty>)UseHiLo((PropertyBuilder)propertyBuilder, name, schema);
 
     /// <summary>
     ///     Configures the database sequence used for the hi-lo pattern to generate values for the key property,
@@ -88,8 +88,8 @@ public static class KdbndpPropertyBuilderExtensions
         propertyBuilder.Metadata.SetHiLoSequenceSchema(schema, fromDataAnnotation);
 
         return name is null
-            ? null
-            : propertyBuilder.Metadata.DeclaringType.Model.Builder.HasSequence(name, schema, fromDataAnnotation);
+               ? null
+               : propertyBuilder.Metadata.DeclaringType.Model.Builder.HasSequence(name, schema, fromDataAnnotation);
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public static class KdbndpPropertyBuilderExtensions
         Check.NullButNotEmpty(schema, nameof(schema));
 
         return propertyBuilder.CanSetAnnotation(KdbndpAnnotationNames.HiLoSequenceName, name, fromDataAnnotation)
-            && propertyBuilder.CanSetAnnotation(KdbndpAnnotationNames.HiLoSequenceSchema, schema, fromDataAnnotation);
+               && propertyBuilder.CanSetAnnotation(KdbndpAnnotationNames.HiLoSequenceSchema, schema, fromDataAnnotation);
     }
 
     #endregion HiLo
@@ -163,7 +163,7 @@ public static class KdbndpPropertyBuilderExtensions
         this PropertyBuilder<TProperty> propertyBuilder,
         string? name = null,
         string? schema = null)
-        => (PropertyBuilder<TProperty>)UseSequence((PropertyBuilder)propertyBuilder, name, schema);
+    => (PropertyBuilder<TProperty>)UseSequence((PropertyBuilder)propertyBuilder, name, schema);
 
     /// <summary>
     ///     Configures the database sequence used for the key value generation pattern to generate values for the key property,
@@ -189,8 +189,8 @@ public static class KdbndpPropertyBuilderExtensions
         propertyBuilder.Metadata.SetSequenceSchema(schema, fromDataAnnotation);
 
         return name == null
-            ? null
-            : propertyBuilder.Metadata.DeclaringType.Model.Builder.HasSequence(name, schema, fromDataAnnotation);
+               ? null
+               : propertyBuilder.Metadata.DeclaringType.Model.Builder.HasSequence(name, schema, fromDataAnnotation);
     }
 
     /// <summary>
@@ -211,7 +211,7 @@ public static class KdbndpPropertyBuilderExtensions
         Check.NullButNotEmpty(schema, nameof(schema));
 
         return propertyBuilder.CanSetAnnotation(KdbndpAnnotationNames.SequenceName, name, fromDataAnnotation)
-            && propertyBuilder.CanSetAnnotation(KdbndpAnnotationNames.SequenceSchema, schema, fromDataAnnotation);
+               && propertyBuilder.CanSetAnnotation(KdbndpAnnotationNames.SequenceSchema, schema, fromDataAnnotation);
     }
 
     #endregion Sequence
@@ -254,7 +254,7 @@ public static class KdbndpPropertyBuilderExtensions
     /// <returns>The same builder instance so that multiple calls can be chained.</returns>
     public static PropertyBuilder<TProperty> UseSerialColumn<TProperty>(
         this PropertyBuilder<TProperty> propertyBuilder)
-        => (PropertyBuilder<TProperty>)UseSerialColumn((PropertyBuilder)propertyBuilder);
+    => (PropertyBuilder<TProperty>)UseSerialColumn((PropertyBuilder)propertyBuilder);
 
     #endregion Serial
 
@@ -298,7 +298,7 @@ public static class KdbndpPropertyBuilderExtensions
     /// <returns>The same builder instance so that multiple calls can be chained.</returns>
     public static PropertyBuilder<TProperty> UseIdentityAlwaysColumn<TProperty>(
         this PropertyBuilder<TProperty> propertyBuilder)
-        => (PropertyBuilder<TProperty>)UseIdentityAlwaysColumn((PropertyBuilder)propertyBuilder);
+    => (PropertyBuilder<TProperty>)UseIdentityAlwaysColumn((PropertyBuilder)propertyBuilder);
 
     #endregion Identity always
 
@@ -347,7 +347,7 @@ public static class KdbndpPropertyBuilderExtensions
     /// <returns>The same builder instance so that multiple calls can be chained.</returns>
     public static PropertyBuilder<TProperty> UseIdentityByDefaultColumn<TProperty>(
         this PropertyBuilder<TProperty> propertyBuilder)
-        => (PropertyBuilder<TProperty>)UseIdentityByDefaultColumn((PropertyBuilder)propertyBuilder);
+    => (PropertyBuilder<TProperty>)UseIdentityByDefaultColumn((PropertyBuilder)propertyBuilder);
 
     /// <summary>
     ///     <para>
@@ -365,7 +365,7 @@ public static class KdbndpPropertyBuilderExtensions
     /// <returns>The same builder instance so that multiple calls can be chained.</returns>
     public static PropertyBuilder UseIdentityColumn(
         this PropertyBuilder propertyBuilder)
-        => propertyBuilder.UseIdentityByDefaultColumn();
+    => propertyBuilder.UseIdentityByDefaultColumn();
 
     /// <summary>
     ///     <para>
@@ -384,7 +384,7 @@ public static class KdbndpPropertyBuilderExtensions
     /// <returns>The same builder instance so that multiple calls can be chained.</returns>
     public static PropertyBuilder<TProperty> UseIdentityColumn<TProperty>(
         this PropertyBuilder<TProperty> propertyBuilder)
-        => propertyBuilder.UseIdentityByDefaultColumn();
+    => propertyBuilder.UseIdentityByDefaultColumn();
 
     #endregion Identity by default
 
@@ -405,7 +405,7 @@ public static class KdbndpPropertyBuilderExtensions
         bool fromDataAnnotation = false)
     {
         if (propertyBuilder.CanSetAnnotation(
-                KdbndpAnnotationNames.ValueGenerationStrategy, valueGenerationStrategy, fromDataAnnotation))
+                    KdbndpAnnotationNames.ValueGenerationStrategy, valueGenerationStrategy, fromDataAnnotation))
         {
             propertyBuilder.Metadata.SetValueGenerationStrategy(valueGenerationStrategy, fromDataAnnotation);
 
@@ -441,8 +441,8 @@ public static class KdbndpPropertyBuilderExtensions
 
         return (valueGenerationStrategy is null
                 || KdbndpPropertyExtensions.IsCompatibleWithValueGeneration(propertyBuilder.Metadata))
-            && propertyBuilder.CanSetAnnotation(
-                KdbndpAnnotationNames.ValueGenerationStrategy, valueGenerationStrategy, fromDataAnnotation);
+               && propertyBuilder.CanSetAnnotation(
+                   KdbndpAnnotationNames.ValueGenerationStrategy, valueGenerationStrategy, fromDataAnnotation);
     }
 
     #endregion General value generation strategy
@@ -532,8 +532,8 @@ public static class KdbndpPropertyBuilderExtensions
         long? maxValue = null,
         bool? cyclic = null,
         long? numbersToCache = null)
-        => (PropertyBuilder<TProperty>)HasIdentityOptions(
-            (PropertyBuilder)propertyBuilder, startValue, incrementBy, minValue, maxValue, cyclic, numbersToCache);
+    => (PropertyBuilder<TProperty>)HasIdentityOptions(
+        (PropertyBuilder)propertyBuilder, startValue, incrementBy, minValue, maxValue, cyclic, numbersToCache);
 
     /// <summary>
     ///     Sets the sequence options on an identity column. The column must be set as identity via
@@ -645,51 +645,51 @@ public static class KdbndpPropertyBuilderExtensions
     ///     Configures a KingbaseES array conversion.
     /// </summary>
     [Obsolete(
-        "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html",
-        error: true)]
+         "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html",
+         error: true)]
     public static PropertyBuilder<TElementProperty[]> HasPostgresArrayConversion<TElementProperty, TElementProvider>(
         this PropertyBuilder<TElementProperty[]> propertyBuilder,
         Expression<Func<TElementProperty, TElementProvider>> convertToProviderExpression,
         Expression<Func<TElementProvider, TElementProperty>> convertFromProviderExpression)
-        => throw new NotSupportedException(
-            "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html");
+    => throw new NotSupportedException(
+        "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html");
 
     /// <summary>
     ///     Configures a KingbaseES array conversion.
     /// </summary>
     [Obsolete(
-        "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html",
-        error: true)]
+         "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html",
+         error: true)]
     public static PropertyBuilder<List<TElementProperty>> HasPostgresArrayConversion<TElementProperty, TElementProvider>(
         this PropertyBuilder<List<TElementProperty>> propertyBuilder,
         Expression<Func<TElementProperty, TElementProvider>> convertToProviderExpression,
         Expression<Func<TElementProvider, TElementProperty>> convertFromProviderExpression)
-        => throw new NotSupportedException(
-            "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html");
+    => throw new NotSupportedException(
+        "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html");
 
     /// <summary>
     ///     Configures a KingbaseES array conversion.
     /// </summary>
     [Obsolete(
-        "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html",
-        error: true)]
+         "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html",
+         error: true)]
     public static PropertyBuilder<TElementProperty[]> HasPostgresArrayConversion<TElementProperty, TElementProvider>(
         this PropertyBuilder<TElementProperty[]> propertyBuilder,
         ValueConverter elementValueConverter)
-        => throw new NotSupportedException(
-            "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html");
+    => throw new NotSupportedException(
+        "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html");
 
     /// <summary>
     ///     Configures a KingbaseES array conversion.
     /// </summary>
     [Obsolete(
-        "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html",
-        error: true)]
+         "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html",
+         error: true)]
     public static PropertyBuilder<List<TElementProperty>> HasPostgresArrayConversion<TElementProperty, TElementProvider>(
         this PropertyBuilder<List<TElementProperty>> propertyBuilder,
         ValueConverter elementValueConverter)
-        => throw new NotSupportedException(
-            "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html");
+    => throw new NotSupportedException(
+        "HasPostgresArrayConversion has been replaced with the standard EF 8 primitive collection API, see https://www.Kdbndp.org/efcore/release-notes/8.0.html");
 
     #endregion Array value conversion
 
@@ -747,7 +747,7 @@ public static class KdbndpPropertyBuilderExtensions
         this PropertyBuilder<KdbndpTsVector> propertyBuilder,
         string config,
         params string[] includedPropertyNames)
-        => (PropertyBuilder<KdbndpTsVector>)IsGeneratedTsVectorColumn((PropertyBuilder)propertyBuilder, config, includedPropertyNames);
+    => (PropertyBuilder<KdbndpTsVector>)IsGeneratedTsVectorColumn((PropertyBuilder)propertyBuilder, config, includedPropertyNames);
 
     /// <summary>
     ///     Configures the property to be a full-text search tsvector column over the given properties.
@@ -812,12 +812,12 @@ public static class KdbndpPropertyBuilderExtensions
         Check.NotNull(propertyBuilder, nameof(propertyBuilder));
 
         return (fromDataAnnotation ? ConfigurationSource.DataAnnotation : ConfigurationSource.Convention)
-            .Overrides(propertyBuilder.Metadata.GetTsVectorConfigConfigurationSource())
-            && (fromDataAnnotation ? ConfigurationSource.DataAnnotation : ConfigurationSource.Convention)
-            .Overrides(propertyBuilder.Metadata.GetTsVectorPropertiesConfigurationSource())
-            || config == propertyBuilder.Metadata.GetTsVectorConfig()
-            && StructuralComparisons.StructuralEqualityComparer.Equals(
-                includedPropertyNames, propertyBuilder.Metadata.GetTsVectorProperties());
+               .Overrides(propertyBuilder.Metadata.GetTsVectorConfigConfigurationSource())
+               && (fromDataAnnotation ? ConfigurationSource.DataAnnotation : ConfigurationSource.Convention)
+               .Overrides(propertyBuilder.Metadata.GetTsVectorPropertiesConfigurationSource())
+               || config == propertyBuilder.Metadata.GetTsVectorConfig()
+               && StructuralComparisons.StructuralEqualityComparer.Equals(
+                   includedPropertyNames, propertyBuilder.Metadata.GetTsVectorProperties());
     }
 
     #endregion Generated tsvector column
@@ -853,7 +853,7 @@ public static class KdbndpPropertyBuilderExtensions
     public static PropertyBuilder<TEntity> UseCompressionMethod<TEntity>(
         this PropertyBuilder<TEntity> propertyBuilder,
         string? compressionMethod)
-        => (PropertyBuilder<TEntity>)UseCompressionMethod((PropertyBuilder)propertyBuilder, compressionMethod);
+    => (PropertyBuilder<TEntity>)UseCompressionMethod((PropertyBuilder)propertyBuilder, compressionMethod);
 
     /// <summary>
     ///     Sets the compression method for the column.

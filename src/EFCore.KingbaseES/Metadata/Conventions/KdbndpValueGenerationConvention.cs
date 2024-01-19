@@ -63,9 +63,9 @@ public class KdbndpValueGenerationConvention : RelationalValueGenerationConventi
         // TODO: move to relational?
         if (property.DeclaringType.IsMappedToJson()
 #pragma warning disable EF1001 // Internal EF Core API usage.
-            && property.IsOrdinalKeyProperty()
+                && property.IsOrdinalKeyProperty()
 #pragma warning restore EF1001 // Internal EF Core API usage.
-            && (property.DeclaringType as IReadOnlyEntityType)?.FindOwnership()!.IsUnique == false)
+                && (property.DeclaringType as IReadOnlyEntityType)?.FindOwnership()!.IsUnique == false)
         {
             return ValueGenerated.OnAdd;
         }
@@ -88,17 +88,17 @@ public class KdbndpValueGenerationConvention : RelationalValueGenerationConventi
     /// <param name="storeObject"> The identifier of the store object. </param>
     /// <returns>The store value generation strategy to set for the given property.</returns>
     public static new ValueGenerated? GetValueGenerated(IReadOnlyProperty property, in StoreObjectIdentifier storeObject)
-        => RelationalValueGenerationConvention.GetValueGenerated(property, storeObject)
-            ?? (property.GetValueGenerationStrategy(storeObject) != KdbndpValueGenerationStrategy.None
-                ? ValueGenerated.OnAdd
-                : null);
+    => RelationalValueGenerationConvention.GetValueGenerated(property, storeObject)
+    ?? (property.GetValueGenerationStrategy(storeObject) != KdbndpValueGenerationStrategy.None
+        ? ValueGenerated.OnAdd
+        : null);
 
     private ValueGenerated? GetValueGenerated(
         IReadOnlyProperty property,
         in StoreObjectIdentifier storeObject,
         ITypeMappingSource typeMappingSource)
-        => RelationalValueGenerationConvention.GetValueGenerated(property, storeObject)
-            ?? (property.GetValueGenerationStrategy(storeObject, typeMappingSource) != KdbndpValueGenerationStrategy.None
-                ? ValueGenerated.OnAdd
-                : null);
+    => RelationalValueGenerationConvention.GetValueGenerated(property, storeObject)
+    ?? (property.GetValueGenerationStrategy(storeObject, typeMappingSource) != KdbndpValueGenerationStrategy.None
+        ? ValueGenerated.OnAdd
+        : null);
 }

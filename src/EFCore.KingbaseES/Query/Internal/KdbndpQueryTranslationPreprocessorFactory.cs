@@ -31,12 +31,16 @@ public class KdbndpQueryTranslationPreprocessorFactory : IQueryTranslationPrepro
     /// <summary>
     ///     Dependencies for this service.
     /// </summary>
-    protected virtual QueryTranslationPreprocessorDependencies Dependencies { get; }
+    protected virtual QueryTranslationPreprocessorDependencies Dependencies {
+        get;
+    }
 
     /// <summary>
     ///     Relational provider-specific dependencies for this service.
     /// </summary>
-    protected virtual RelationalQueryTranslationPreprocessorDependencies RelationalDependencies { get; }
+    protected virtual RelationalQueryTranslationPreprocessorDependencies RelationalDependencies {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -45,5 +49,5 @@ public class KdbndpQueryTranslationPreprocessorFactory : IQueryTranslationPrepro
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual QueryTranslationPreprocessor Create(QueryCompilationContext queryCompilationContext)
-        => new KdbndpQueryTranslationPreprocessor(Dependencies, RelationalDependencies, _KdbndpSingletonOptions, queryCompilationContext);
+    => new KdbndpQueryTranslationPreprocessor(Dependencies, RelationalDependencies, _KdbndpSingletonOptions, queryCompilationContext);
 }

@@ -11,22 +11,30 @@ public class PgArraySliceExpression : SqlExpression, IEquatable<PgArraySliceExpr
     /// <summary>
     ///     The array being sliced.
     /// </summary>
-    public virtual SqlExpression Array { get; }
+    public virtual SqlExpression Array {
+        get;
+    }
 
     /// <summary>
     ///     The lower bound of the slice.
     /// </summary>
-    public virtual SqlExpression? LowerBound { get; }
+    public virtual SqlExpression? LowerBound {
+        get;
+    }
 
     /// <summary>
     ///     The upper bound of the slice.
     /// </summary>
-    public virtual SqlExpression? UpperBound { get; }
+    public virtual SqlExpression? UpperBound {
+        get;
+    }
 
     /// <summary>
     ///     Whether the expression is nullable.
     /// </summary>
-    public virtual bool IsNullable { get; }
+    public virtual bool IsNullable {
+        get;
+    }
 
     /// <summary>
     ///     Creates a new instance of the <see cref="PgArraySliceExpression" /> class.
@@ -44,7 +52,7 @@ public class PgArraySliceExpression : SqlExpression, IEquatable<PgArraySliceExpr
         bool nullable,
         Type type,
         RelationalTypeMapping? typeMapping)
-        : base(type.UnwrapNullableType(), typeMapping)
+    : base(type.UnwrapNullableType(), typeMapping)
     {
         Check.NotNull(array, nameof(array));
 
@@ -68,34 +76,34 @@ public class PgArraySliceExpression : SqlExpression, IEquatable<PgArraySliceExpr
     /// <param name="upperBound">The upper bound of the slice.</param>
     /// <returns>This expression if no children changed, or an expression with the updated children.</returns>
     public virtual PgArraySliceExpression Update(SqlExpression array, SqlExpression? lowerBound, SqlExpression? upperBound)
-        => array == Array && lowerBound == LowerBound && upperBound == UpperBound
-            ? this
-            : new PgArraySliceExpression(array, lowerBound, upperBound, IsNullable, Type, TypeMapping);
+    => array == Array && lowerBound == LowerBound && upperBound == UpperBound
+    ? this
+    : new PgArraySliceExpression(array, lowerBound, upperBound, IsNullable, Type, TypeMapping);
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Update(
-            (SqlExpression)visitor.Visit(Array),
-            (SqlExpression?)visitor.Visit(LowerBound),
-            (SqlExpression?)visitor.Visit(UpperBound));
+    => Update(
+        (SqlExpression)visitor.Visit(Array),
+        (SqlExpression?)visitor.Visit(LowerBound),
+        (SqlExpression?)visitor.Visit(UpperBound));
 
     /// <inheritdoc />
     public virtual bool Equals(PgArraySliceExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && Array.Equals(other.Array)
-            && (LowerBound is null ? other.LowerBound is null : LowerBound.Equals(other.LowerBound))
-            && (UpperBound is null ? other.UpperBound is null : UpperBound.Equals(other.UpperBound))
-            && IsNullable == other.IsNullable;
+    => ReferenceEquals(this, other)
+    || other is not null
+    && base.Equals(other)
+    && Array.Equals(other.Array)
+    && (LowerBound is null ? other.LowerBound is null : LowerBound.Equals(other.LowerBound))
+    && (UpperBound is null ? other.UpperBound is null : UpperBound.Equals(other.UpperBound))
+    && IsNullable == other.IsNullable;
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is PgArraySliceExpression e && Equals(e);
+    => obj is PgArraySliceExpression e && Equals(e);
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), Array, LowerBound, UpperBound);
+    => HashCode.Combine(base.GetHashCode(), Array, LowerBound, UpperBound);
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
@@ -110,5 +118,5 @@ public class PgArraySliceExpression : SqlExpression, IEquatable<PgArraySliceExpr
 
     /// <inheritdoc />
     public override string ToString()
-        => $"{Array}[{LowerBound}:{UpperBound}]";
+    => $"{Array}[{LowerBound}:{UpperBound}]";
 }

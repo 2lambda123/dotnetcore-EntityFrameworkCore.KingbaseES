@@ -16,7 +16,9 @@ public class KdbndpEStringTypeMapping : StringTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public new static KdbndpEStringTypeMapping Default { get; } = new();
+    public new static KdbndpEStringTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -36,5 +38,5 @@ public class KdbndpEStringTypeMapping : StringTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateNonNullSqlLiteral(object value)
-        => $"E'{EscapeSqlLiteral((string)value)}'";
+    => $"E'{EscapeSqlLiteral((string)value)}'";
 }

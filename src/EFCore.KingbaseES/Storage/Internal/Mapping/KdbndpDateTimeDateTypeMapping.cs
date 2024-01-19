@@ -18,7 +18,9 @@ public class KdbndpDateTimeDateTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpDateTimeDateTypeMapping Default { get; } = new();
+    public static KdbndpDateTimeDateTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -49,7 +51,7 @@ public class KdbndpDateTimeDateTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpDateTimeDateTypeMapping(parameters);
+    => new KdbndpDateTimeDateTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -58,7 +60,7 @@ public class KdbndpDateTimeDateTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateNonNullSqlLiteral(object value)
-        => $"DATE '{GenerateEmbeddedNonNullSqlLiteral(value)}'";
+    => $"DATE '{GenerateEmbeddedNonNullSqlLiteral(value)}'";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -67,7 +69,7 @@ public class KdbndpDateTimeDateTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateEmbeddedNonNullSqlLiteral(object value)
-        => Format((DateTime)value);
+    => Format((DateTime)value);
 
     private static string Format(DateTime date)
     {
@@ -89,7 +91,9 @@ public class KdbndpDateTimeDateTypeMapping : KdbndpTypeMapping
 
     private sealed class KdbndpJsonDateTimeReaderWriter : JsonValueReaderWriter<DateTime>
     {
-        public static KdbndpJsonDateTimeReaderWriter Instance { get; } = new();
+        public static KdbndpJsonDateTimeReaderWriter Instance {
+            get;
+        } = new();
 
         public override DateTime FromJsonTyped(ref Utf8JsonReaderManager manager, object? existingObject = null)
         {
@@ -99,10 +103,10 @@ public class KdbndpDateTimeDateTypeMapping : KdbndpTypeMapping
             {
                 switch (s)
                 {
-                    case "-infinity":
-                        return DateTime.MinValue;
-                    case "infinity":
-                        return DateTime.MaxValue;
+                case "-infinity":
+                    return DateTime.MinValue;
+                case "infinity":
+                    return DateTime.MaxValue;
                 }
             }
 
@@ -110,6 +114,6 @@ public class KdbndpDateTimeDateTypeMapping : KdbndpTypeMapping
         }
 
         public override void ToJsonTyped(Utf8JsonWriter writer, DateTime value)
-            => writer.WriteStringValue(Format(value));
+        => writer.WriteStringValue(Format(value));
     }
 }

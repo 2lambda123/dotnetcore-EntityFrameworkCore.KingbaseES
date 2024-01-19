@@ -8,7 +8,7 @@ internal static class StringBuilderExtensions
         this StringBuilder stringBuilder,
         IEnumerable<string> values,
         string separator = ", ")
-        => stringBuilder.AppendJoin(values, (sb, value) => sb.Append(value), separator);
+    => stringBuilder.AppendJoin(values, (sb, value) => sb.Append(value), separator);
 
     public static StringBuilder AppendJoin<T>(
         this StringBuilder stringBuilder,

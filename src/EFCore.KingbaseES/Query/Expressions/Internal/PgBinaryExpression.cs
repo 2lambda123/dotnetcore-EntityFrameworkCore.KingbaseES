@@ -21,7 +21,7 @@ public class PgBinaryExpression : SqlExpression
         SqlExpression right,
         Type type,
         RelationalTypeMapping? typeMapping)
-        : base(type, typeMapping)
+    : base(type, typeMapping)
     {
         Check.NotNull(left, nameof(left));
         Check.NotNull(right, nameof(right));
@@ -34,17 +34,23 @@ public class PgBinaryExpression : SqlExpression
     /// <summary>
     ///     The operator of this KingbaseES binary operation.
     /// </summary>
-    public virtual PgExpressionType OperatorType { get; }
+    public virtual PgExpressionType OperatorType {
+        get;
+    }
 
     /// <summary>
     ///     The left operand.
     /// </summary>
-    public virtual SqlExpression Left { get; }
+    public virtual SqlExpression Left {
+        get;
+    }
 
     /// <summary>
     ///     The right operand.
     /// </summary>
-    public virtual SqlExpression Right { get; }
+    public virtual SqlExpression Right {
+        get;
+    }
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
@@ -70,8 +76,8 @@ public class PgBinaryExpression : SqlExpression
         Check.NotNull(right, nameof(right));
 
         return left != Left || right != Right
-            ? new PgBinaryExpression(OperatorType, left, right, Type, TypeMapping)
-            : this;
+               ? new PgBinaryExpression(OperatorType, left, right, Type, TypeMapping)
+               : this;
     }
 
     /// <inheritdoc />
@@ -94,53 +100,53 @@ public class PgBinaryExpression : SqlExpression
         }
 
         expressionPrinter
-            .Append(" ")
-            .Append(
-                OperatorType switch
-                {
-                    PgExpressionType.Contains => "@>",
-                    PgExpressionType.ContainedBy => "<@",
-                    PgExpressionType.Overlaps => "&&",
+        .Append(" ")
+        .Append(
+            OperatorType switch
+    {
+        PgExpressionType.Contains => "@>",
+        PgExpressionType.ContainedBy => "<@",
+        PgExpressionType.Overlaps => "&&",
 
-                    PgExpressionType.NetworkContainedByOrEqual => "<<=",
-                    PgExpressionType.NetworkContainsOrEqual => ">>=",
-                    PgExpressionType.NetworkContainsOrContainedBy => "&&",
+        PgExpressionType.NetworkContainedByOrEqual => "<<=",
+        PgExpressionType.NetworkContainsOrEqual => ">>=",
+        PgExpressionType.NetworkContainsOrContainedBy => "&&",
 
-                    PgExpressionType.RangeIsStrictlyLeftOf => "<<",
-                    PgExpressionType.RangeIsStrictlyRightOf => ">>",
-                    PgExpressionType.RangeDoesNotExtendRightOf => "&<",
-                    PgExpressionType.RangeDoesNotExtendLeftOf => "&>",
-                    PgExpressionType.RangeIsAdjacentTo => "-|-",
-                    PgExpressionType.RangeUnion => "+",
-                    PgExpressionType.RangeIntersect => "*",
-                    PgExpressionType.RangeExcept => "-",
+        PgExpressionType.RangeIsStrictlyLeftOf => "<<",
+        PgExpressionType.RangeIsStrictlyRightOf => ">>",
+        PgExpressionType.RangeDoesNotExtendRightOf => "&<",
+        PgExpressionType.RangeDoesNotExtendLeftOf => "&>",
+        PgExpressionType.RangeIsAdjacentTo => "-|-",
+        PgExpressionType.RangeUnion => "+",
+        PgExpressionType.RangeIntersect => "*",
+        PgExpressionType.RangeExcept => "-",
 
-                    PgExpressionType.TextSearchMatch => "@@",
-                    PgExpressionType.TextSearchAnd => "&&",
-                    PgExpressionType.TextSearchOr => "||",
+        PgExpressionType.TextSearchMatch => "@@",
+        PgExpressionType.TextSearchAnd => "&&",
+        PgExpressionType.TextSearchOr => "||",
 
-                    PgExpressionType.JsonExists => "?",
-                    PgExpressionType.JsonExistsAny => "?|",
-                    PgExpressionType.JsonExistsAll => "?&",
+        PgExpressionType.JsonExists => "?",
+        PgExpressionType.JsonExistsAny => "?|",
+        PgExpressionType.JsonExistsAll => "?&",
 
-                    PgExpressionType.LTreeMatches
-                        when Right.TypeMapping is { StoreType: "lquery" } or KdbndpArrayTypeMapping
-                        {
-                            ElementTypeMapping.StoreType: "lquery"
-                        }
-                        => "~",
-                    PgExpressionType.LTreeMatches when Right.TypeMapping?.StoreType == "ltxtquery" => "@",
-                    PgExpressionType.LTreeMatchesAny => "?",
-                    PgExpressionType.LTreeFirstAncestor => "?@>",
-                    PgExpressionType.LTreeFirstDescendent => "?<@",
-                    PgExpressionType.LTreeFirstMatches when Right.TypeMapping?.StoreType == "lquery" => "?~",
-                    PgExpressionType.LTreeFirstMatches when Right.TypeMapping?.StoreType == "ltxtquery" => "?@",
+        PgExpressionType.LTreeMatches
+        when Right.TypeMapping is { StoreType: "lquery" } or KdbndpArrayTypeMapping
+        {
+            ElementTypeMapping.StoreType: "lquery"
+        }
+        => "~",
+        PgExpressionType.LTreeMatches when Right.TypeMapping?.StoreType == "ltxtquery" => "@",
+        PgExpressionType.LTreeMatchesAny => "?",
+        PgExpressionType.LTreeFirstAncestor => "?@>",
+        PgExpressionType.LTreeFirstDescendent => "?<@",
+        PgExpressionType.LTreeFirstMatches when Right.TypeMapping?.StoreType == "lquery" => "?~",
+        PgExpressionType.LTreeFirstMatches when Right.TypeMapping?.StoreType == "ltxtquery" => "?@",
 
-                    PgExpressionType.Distance => "<->",
+        PgExpressionType.Distance => "<->",
 
-                    _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {OperatorType}")
-                })
-            .Append(" ");
+        _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {OperatorType}")
+        })
+        .Append(" ");
 
         requiresBrackets = RequiresBrackets(Right);
 
@@ -157,23 +163,23 @@ public class PgBinaryExpression : SqlExpression
         }
 
         static bool RequiresBrackets(SqlExpression expression)
-            => expression is PgBinaryExpression or LikeExpression;
+        => expression is PgBinaryExpression or LikeExpression;
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is not null
-            && (ReferenceEquals(this, obj)
-                || obj is PgBinaryExpression sqlBinaryExpression
-                && Equals(sqlBinaryExpression));
+    => obj is not null
+    && (ReferenceEquals(this, obj)
+        || obj is PgBinaryExpression sqlBinaryExpression
+        && Equals(sqlBinaryExpression));
 
     private bool Equals(PgBinaryExpression sqlBinaryExpression)
-        => base.Equals(sqlBinaryExpression)
-            && OperatorType == sqlBinaryExpression.OperatorType
-            && Left.Equals(sqlBinaryExpression.Left)
-            && Right.Equals(sqlBinaryExpression.Right);
+    => base.Equals(sqlBinaryExpression)
+    && OperatorType == sqlBinaryExpression.OperatorType
+    && Left.Equals(sqlBinaryExpression.Left)
+    && Right.Equals(sqlBinaryExpression.Right);
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), OperatorType, Left, Right);
+    => HashCode.Combine(base.GetHashCode(), OperatorType, Left, Right);
 }

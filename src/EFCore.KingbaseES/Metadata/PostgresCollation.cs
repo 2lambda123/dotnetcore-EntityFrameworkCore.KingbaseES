@@ -75,9 +75,9 @@ public class PostgresCollation
     }
 
     private static string BuildAnnotationName(string? schema, string name)
-        => schema is not null
-            ? $"{KdbndpAnnotationNames.CollationDefinitionPrefix}{schema}.{name}"
-            : $"{KdbndpAnnotationNames.CollationDefinitionPrefix}{name}";
+    => schema is not null
+    ? $"{KdbndpAnnotationNames.CollationDefinitionPrefix}{schema}.{name}"
+    : $"{KdbndpAnnotationNames.CollationDefinitionPrefix}{name}";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -86,10 +86,10 @@ public class PostgresCollation
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static IEnumerable<PostgresCollation> GetCollations(IReadOnlyAnnotatable annotatable)
-        => Check.NotNull(annotatable, nameof(annotatable))
-            .GetAnnotations()
-            .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.CollationDefinitionPrefix, StringComparison.Ordinal))
-            .Select(a => new PostgresCollation(annotatable, a.Name));
+    => Check.NotNull(annotatable, nameof(annotatable))
+    .GetAnnotations()
+    .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.CollationDefinitionPrefix, StringComparison.Ordinal))
+    .Select(a => new PostgresCollation(annotatable, a.Name));
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -98,7 +98,7 @@ public class PostgresCollation
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual Annotatable Annotatable
-        => (Annotatable)_annotatable;
+    => (Annotatable)_annotatable;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -107,7 +107,7 @@ public class PostgresCollation
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual string? Schema
-        => GetData().Schema;
+    => GetData().Schema;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -116,7 +116,7 @@ public class PostgresCollation
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual string Name
-        => GetData().Name!;
+    => GetData().Name!;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -167,14 +167,14 @@ public class PostgresCollation
     }
 
     private (string? Schema, string? Name, string? LcCollate, string? LcCtype, string? Provider, bool? IsDeterministic) GetData()
-        => Deserialize(Annotatable.FindAnnotation(_annotationName));
+    => Deserialize(Annotatable.FindAnnotation(_annotationName));
 
     private void SetData(string? lcCollate = null, string? lcCtype = null, string? provider = null, bool? deterministic = null)
-        => Annotatable[_annotationName] =
-            $"{lcCollate ?? LcCollate},{lcCtype ?? LcCtype},{provider ?? Provider},{deterministic ?? IsDeterministic}";
+    => Annotatable[_annotationName] =
+        $"{lcCollate ?? LcCollate},{lcCtype ?? LcCtype},{provider ?? Provider},{deterministic ?? IsDeterministic}";
 
     private static (string? Schema, string? Name, string? LcCollate, string? LcCtype, string? Provider, bool? IsDeterministic)
-        Deserialize(IAnnotation? annotation)
+    Deserialize(IAnnotation? annotation)
     {
         if (annotation is null || !(annotation.Value is string value) || string.IsNullOrEmpty(value))
         {
@@ -196,20 +196,20 @@ public class PostgresCollation
         }
 
         var isDeterministic = elements[3] is { } isDeterminsticString
-            ? bool.Parse(isDeterminsticString)
-            : (bool?)null;
+                              ? bool.Parse(isDeterminsticString)
+                              : (bool?)null;
 
         // TODO: This would be a safer operation if we stored schema and name in the annotation value (see Sequence.cs).
         // Yes, this doesn't support dots in the schema/collation name, let somebody complain first.
         var schemaAndName = annotation.Name.Substring(KdbndpAnnotationNames.CollationDefinitionPrefix.Length).Split('.');
         switch (schemaAndName.Length)
         {
-            case 1:
-                return (null, schemaAndName[0], elements[0], elements[1], elements[2], isDeterministic);
-            case 2:
-                return (schemaAndName[0], schemaAndName[1], elements[0], elements[1], elements[2], isDeterministic);
-            default:
-                throw new ArgumentException($"Cannot parse collation name from annotation: {annotation.Name}");
+        case 1:
+            return (null, schemaAndName[0], elements[0], elements[1], elements[2], isDeterministic);
+        case 2:
+            return (schemaAndName[0], schemaAndName[1], elements[0], elements[1], elements[2], isDeterministic);
+        default:
+            throw new ArgumentException($"Cannot parse collation name from annotation: {annotation.Name}");
         }
     }
 }

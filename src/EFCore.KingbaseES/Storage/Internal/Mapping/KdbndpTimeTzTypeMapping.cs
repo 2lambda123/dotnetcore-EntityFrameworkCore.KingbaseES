@@ -17,7 +17,9 @@ public class KdbndpTimeTzTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpTimeTzTypeMapping Default { get; } = new();
+    public static KdbndpTimeTzTypeMapping Default {
+        get;
+    } = new();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -48,7 +50,7 @@ public class KdbndpTimeTzTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpTimeTzTypeMapping(parameters);
+    => new KdbndpTimeTzTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -57,7 +59,7 @@ public class KdbndpTimeTzTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string ProcessStoreType(RelationalTypeMappingParameters parameters, string storeType, string _)
-        => parameters.Precision is null ? storeType : $"time({parameters.Precision}) with time zone";
+    => parameters.Precision is null ? storeType : $"time({parameters.Precision}) with time zone";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -66,7 +68,7 @@ public class KdbndpTimeTzTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateNonNullSqlLiteral(object value)
-        => FormattableString.Invariant($"TIMETZ '{(DateTimeOffset)value:HH:mm:ss.FFFFFFz}'");
+    => FormattableString.Invariant($"TIMETZ '{(DateTimeOffset)value:HH:mm:ss.FFFFFFz}'");
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -75,7 +77,7 @@ public class KdbndpTimeTzTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateEmbeddedNonNullSqlLiteral(object value)
-        => FormattableString.Invariant(@$"{(DateTimeOffset)value:HH:mm:ss.FFFFFFz}");
+    => FormattableString.Invariant(@$"{(DateTimeOffset)value:HH:mm:ss.FFFFFFz}");
 
     private sealed class JsonTimeTzReaderWriter : JsonValueReaderWriter<DateTimeOffset>
     {
@@ -85,7 +87,9 @@ public class KdbndpTimeTzTypeMapping : KdbndpTypeMapping
         ///     any release. You should only use it directly in your code with extreme caution and knowing that
         ///     doing so can result in application failures when updating to a new Entity Framework Core release.
         /// </summary>
-        public static JsonTimeTzReaderWriter Instance { get; } = new();
+        public static JsonTimeTzReaderWriter Instance {
+            get;
+        } = new();
 
         private JsonTimeTzReaderWriter()
         {
@@ -93,10 +97,10 @@ public class KdbndpTimeTzTypeMapping : KdbndpTypeMapping
 
         /// <inheritdoc />
         public override DateTimeOffset FromJsonTyped(ref Utf8JsonReaderManager manager, object? existingObject = null)
-            => DateTimeOffset.Parse(manager.CurrentReader.GetString()!);
+        => DateTimeOffset.Parse(manager.CurrentReader.GetString()!);
 
         /// <inheritdoc />
         public override void ToJsonTyped(Utf8JsonWriter writer, DateTimeOffset value)
-            => writer.WriteStringValue(value.ToString("HH:mm:ss.FFFFFFz"));
+        => writer.WriteStringValue(value.ToString("HH:mm:ss.FFFFFFz"));
     }
 }

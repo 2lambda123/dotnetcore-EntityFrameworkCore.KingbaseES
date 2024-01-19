@@ -27,7 +27,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public bool IsAncestorOf(LTree other)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAncestorOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAncestorOf)));
 
     /// <summary>
     ///     Returns whether this ltree is a descendant of <paramref name="other" /> (or equal).
@@ -37,7 +37,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public bool IsDescendantOf(LTree other)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsDescendantOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsDescendantOf)));
 
     /// <summary>
     ///     Returns whether this ltree matches <paramref name="lquery" />.
@@ -47,7 +47,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public bool MatchesLQuery(string lquery)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchesLQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchesLQuery)));
 
     /// <summary>
     ///     Returns whether this ltree matches <paramref name="ltxtquery" />.
@@ -57,7 +57,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public bool MatchesLTxtQuery(string ltxtquery)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchesLTxtQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchesLTxtQuery)));
 
     /// <summary>
     ///     Returns subpath of this ltree from position <paramref name="start" /> to position <paramref name="end" />-1
@@ -68,7 +68,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public LTree Subtree(int start, int end)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Subtree)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Subtree)));
 
     /// <summary>
     ///     Returns subpath of this ltree starting at position <paramref name="offset" />, with length <paramref name="len" />.
@@ -80,7 +80,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public LTree Subpath(int offset, int len)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Subpath)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Subpath)));
 
     /// <summary>
     ///     Returns subpath of ltree starting at position <paramref name="offset" />, extending to end of path.
@@ -91,7 +91,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public LTree Subpath(int offset)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Subpath)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Subpath)));
 
     /// <summary>
     ///     Returns number of labels in path.
@@ -101,7 +101,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public int NLevel
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(NLevel)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(NLevel)));
 
     /// <summary>
     ///     Returns position of first occurrence of <paramref name="other" /> in this ltree, or -1 if not found.
@@ -111,7 +111,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public int Index(LTree other)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Index)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Index)));
 
     /// <summary>
     ///     Returns position of first occurrence of <paramref name="other" /> in this ltree, or -1 if not found.
@@ -122,7 +122,7 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public int Index(LTree other, int offset)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Index)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Index)));
 
     /// <summary>
     ///     Computes longest common ancestor of paths.
@@ -132,45 +132,45 @@ public readonly struct LTree : IEquatable<LTree>
     ///     <p>See https://www.KingbaseES.org/docs/current/ltree.html</p>
     /// </remarks>
     public static LTree LongestCommonAncestor(params LTree[] others)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(LongestCommonAncestor)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(LongestCommonAncestor)));
 
     /// <summary>
     ///     Converts an <see cref="LTree" /> type to a string.
     /// </summary>
     public static implicit operator LTree(string value)
-        => new(value);
+    => new(value);
 
     /// <summary>
     ///     Converts a string to an <see cref="LTree" /> type.
     /// </summary>
     public static implicit operator string(LTree ltree)
-        => ltree._value;
+    => ltree._value;
 
     /// <summary>
     ///     Compares two <see cref="LTree" /> instances for equality.
     /// </summary>
     public static bool operator ==(LTree x, LTree y)
-        => x._value == y._value;
+    => x._value == y._value;
 
     /// <summary>
     ///     Compares two <see cref="LTree" /> instances for inequality.
     /// </summary>
     public static bool operator !=(LTree x, LTree y)
-        => x._value != y._value;
+    => x._value != y._value;
 
     /// <inheritdocs />
     public bool Equals(LTree other)
-        => _value == other._value;
+    => _value == other._value;
 
     /// <inheritdocs />
     public override bool Equals(object? obj)
-        => obj is LTree other && Equals(other);
+    => obj is LTree other && Equals(other);
 
     /// <inheritdocs />
     public override int GetHashCode()
-        => _value is not null ? _value.GetHashCode() : 0;
+    => _value is not null ? _value.GetHashCode() : 0;
 
     /// <inheritdocs />
     public override string ToString()
-        => _value;
+    => _value;
 }

@@ -17,7 +17,7 @@ public static class KdbndpDbFunctionsExtensions
     /// <param name="pattern">The pattern which may involve wildcards %,_,[,],^.</param>
     /// <returns><see langword="true" /> if there is a match.</returns>
     public static bool ILike(this DbFunctions _, string matchExpression, string pattern)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ILike)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ILike)));
 
     // ReSharper disable once InconsistentNaming
     /// <summary>
@@ -32,7 +32,7 @@ public static class KdbndpDbFunctionsExtensions
     /// </param>
     /// <returns><see langword="true" /> if there is a match.</returns>
     public static bool ILike(this DbFunctions _, string matchExpression, string pattern, string escapeCharacter)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ILike)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ILike)));
 
     /// <summary>
     ///     Splits <paramref name="value" /> at occurrences of delimiter and forms the resulting fields into a text array.
@@ -45,7 +45,7 @@ public static class KdbndpDbFunctionsExtensions
     /// </param>
     /// <exception cref="InvalidOperationException"></exception>
     public static string[] StringToArray(this DbFunctions _, string value, string delimiter)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(StringToArray)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(StringToArray)));
 
     /// <summary>
     ///     Splits <paramref name="value" /> at occurrences of delimiter and forms the resulting fields into a text array.
@@ -58,7 +58,7 @@ public static class KdbndpDbFunctionsExtensions
     /// </param>
     /// <param name="nullString">Fields matching this value string are replaced by <c>null</c>.</param>
     public static string[] StringToArray(this DbFunctions _, string value, string delimiter, string nullString)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(StringToArray)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(StringToArray)));
 
     /// <summary>
     ///     Reverses a string by calling KingbaseES <c>reverse()</c>.
@@ -67,7 +67,7 @@ public static class KdbndpDbFunctionsExtensions
     /// <param name="value">The string that is to be reversed.</param>
     /// <returns>The reversed string.</returns>
     public static string Reverse(this DbFunctions _, string value)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Reverse)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Reverse)));
 
     /// <summary>
     ///     Returns whether the row value represented by <paramref name="a" /> is greater than the row value represented by
@@ -80,7 +80,7 @@ public static class KdbndpDbFunctionsExtensions
     ///     </see>
     /// </remarks>
     public static bool GreaterThan(this DbFunctions _, ITuple a, ITuple b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(GreaterThan)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(GreaterThan)));
 
     /// <summary>
     ///     Returns whether the row value represented by <paramref name="a" /> is less than the row value represented by <paramref name="b" />.
@@ -92,7 +92,7 @@ public static class KdbndpDbFunctionsExtensions
     ///     </see>
     /// </remarks>
     public static bool LessThan(this DbFunctions _, ITuple a, ITuple b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(LessThan)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(LessThan)));
 
     /// <summary>
     ///     Returns whether the row value represented by <paramref name="a" /> is greater than or equal to the row value represented by
@@ -105,7 +105,7 @@ public static class KdbndpDbFunctionsExtensions
     ///     </see>
     /// </remarks>
     public static bool GreaterThanOrEqual(this DbFunctions _, ITuple a, ITuple b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(GreaterThanOrEqual)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(GreaterThanOrEqual)));
 
     /// <summary>
     ///     Returns whether the row value represented by <paramref name="a" /> is less than or equal to the row value represented by
@@ -118,7 +118,7 @@ public static class KdbndpDbFunctionsExtensions
     ///     </see>
     /// </remarks>
     public static bool LessThanOrEqual(this DbFunctions _, ITuple a, ITuple b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(LessThanOrEqual)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(LessThanOrEqual)));
 
     /// <summary>
     ///     Returns the distance between two dates as a number of days, particularly suitable for sorting where the appropriate index is
@@ -129,7 +129,7 @@ public static class KdbndpDbFunctionsExtensions
     ///     <see href="https://www.KingbaseES.org/docs/current/btree-gist.html" />.
     /// </remarks>
     public static int Distance(this DbFunctions _, DateOnly a, DateOnly b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Distance)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Distance)));
 
     /// <summary>
     ///     Returns the distance between two timestamps as a KingbaseES <c>interval</c>, particularly suitable for sorting where the appropriate
@@ -140,5 +140,5 @@ public static class KdbndpDbFunctionsExtensions
     ///     <see href="https://www.KingbaseES.org/docs/current/btree-gist.html" />.
     /// </remarks>
     public static TimeSpan Distance(this DbFunctions _, DateTime a, DateTime b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Distance)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Distance)));
 }

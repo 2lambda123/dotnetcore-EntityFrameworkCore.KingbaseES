@@ -8,22 +8,30 @@ public sealed class PgDeleteExpression : Expression, IPrintableExpression
     /// <summary>
     ///     The tables that rows are to be deleted from.
     /// </summary>
-    public TableExpression Table { get; }
+    public TableExpression Table {
+        get;
+    }
 
     /// <summary>
     ///     Additional tables which can be referenced in the predicate.
     /// </summary>
-    public IReadOnlyList<TableExpressionBase> FromItems { get; }
+    public IReadOnlyList<TableExpressionBase> FromItems {
+        get;
+    }
 
     /// <summary>
     ///     The WHERE predicate for the DELETE.
     /// </summary>
-    public SqlExpression? Predicate { get; }
+    public SqlExpression? Predicate {
+        get;
+    }
 
     /// <summary>
     ///     The list of tags applied to this <see cref="DeleteExpression" />.
     /// </summary>
-    public ISet<string> Tags { get; }
+    public ISet<string> Tags {
+        get;
+    }
 
     /// <summary>
     ///     Creates a new instance of the <see cref="PgDeleteExpression" /> class.
@@ -39,17 +47,17 @@ public sealed class PgDeleteExpression : Expression, IPrintableExpression
 
     /// <inheritdoc />
     public override Type Type
-        => typeof(object);
+    => typeof(object);
 
     /// <inheritdoc />
     public override ExpressionType NodeType
-        => ExpressionType.Extension;
+    => ExpressionType.Extension;
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Predicate is null
-            ? this
-            : Update((SqlExpression?)visitor.Visit(Predicate));
+    => Predicate is null
+    ? this
+    : Update((SqlExpression?)visitor.Visit(Predicate));
 
     /// <summary>
     ///     Creates a new expression that is like this one, but using the supplied children. If all of the children are the same, it will
@@ -57,9 +65,9 @@ public sealed class PgDeleteExpression : Expression, IPrintableExpression
     /// </summary>
     /// <param name="predicate">The <see cref="Predicate" /> property of the result.</param>
     public PgDeleteExpression Update(SqlExpression? predicate)
-        => predicate == Predicate
-            ? this
-            : new PgDeleteExpression(Table, FromItems, predicate, Tags);
+    => predicate == Predicate
+    ? this
+    : new PgDeleteExpression(Table, FromItems, predicate, Tags);
 
     /// <inheritdoc />
     public void Print(ExpressionPrinter expressionPrinter)
@@ -94,17 +102,17 @@ public sealed class PgDeleteExpression : Expression, IPrintableExpression
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj != null
-            && (ReferenceEquals(this, obj)
-                || obj is PgDeleteExpression pgDeleteExpression
-                && Equals(pgDeleteExpression));
+    => obj != null
+    && (ReferenceEquals(this, obj)
+        || obj is PgDeleteExpression pgDeleteExpression
+        && Equals(pgDeleteExpression));
 
     private bool Equals(PgDeleteExpression pgDeleteExpression)
-        => Table == pgDeleteExpression.Table
-            && FromItems.SequenceEqual(pgDeleteExpression.FromItems)
-            && (Predicate is null ? pgDeleteExpression.Predicate is null : Predicate.Equals(pgDeleteExpression.Predicate));
+    => Table == pgDeleteExpression.Table
+    && FromItems.SequenceEqual(pgDeleteExpression.FromItems)
+    && (Predicate is null ? pgDeleteExpression.Predicate is null : Predicate.Equals(pgDeleteExpression.Predicate));
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => Table.GetHashCode();
+    => Table.GetHashCode();
 }

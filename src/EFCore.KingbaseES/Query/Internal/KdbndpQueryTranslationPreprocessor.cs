@@ -35,6 +35,6 @@ public class KdbndpQueryTranslationPreprocessor : RelationalQueryTranslationPrep
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override Expression ProcessQueryRoots(Expression expression)
-        => new KdbndpQueryRootProcessor(Dependencies, RelationalDependencies, QueryCompilationContext, _KdbndpSingletonOptions)
-            .Visit(expression);
+    => new KdbndpQueryRootProcessor(Dependencies, RelationalDependencies, QueryCompilationContext, _KdbndpSingletonOptions)
+    .Visit(expression);
 }

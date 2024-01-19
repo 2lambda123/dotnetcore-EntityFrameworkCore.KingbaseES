@@ -20,7 +20,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     https://www.KingbaseES.org/docs/current/static/functions-textsearch.html
     /// </remarks>
     public static KdbndpTsVector ArrayToTsVector(this DbFunctions _, string[] lexemes)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ArrayToTsVector)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ArrayToTsVector)));
 
     /// <summary>
     ///     Reduce <paramref name="document" /> to tsvector.
@@ -29,7 +29,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-DOCUMENTS
     /// </remarks>
     public static KdbndpTsVector ToTsVector(this DbFunctions _, string document)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ToTsVector)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ToTsVector)));
 
     /// <summary>
     ///     Reduce <paramref name="document" /> to tsvector using the text search configuration specified
@@ -39,7 +39,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-DOCUMENTS
     /// </remarks>
     public static KdbndpTsVector ToTsVector(this DbFunctions _, [NotParameterized] string config, string document)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ToTsVector)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ToTsVector)));
 
     /// <summary>
     ///     Produce tsquery from <paramref name="query" /> ignoring punctuation.
@@ -48,7 +48,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES
     /// </remarks>
     public static KdbndpTsQuery PlainToTsQuery(this DbFunctions _, string query)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PlainToTsQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PlainToTsQuery)));
 
     /// <summary>
     ///     Produce tsquery from <paramref name="query" /> ignoring punctuation and using the text search
@@ -58,7 +58,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES
     /// </remarks>
     public static KdbndpTsQuery PlainToTsQuery(this DbFunctions _, [NotParameterized] string config, string query)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PlainToTsQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PlainToTsQuery)));
 
     /// <summary>
     ///     Produce tsquery that searches for a phrase from <paramref name="query" /> ignoring punctuation.
@@ -67,7 +67,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES
     /// </remarks>
     public static KdbndpTsQuery PhraseToTsQuery(this DbFunctions _, string query)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PhraseToTsQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PhraseToTsQuery)));
 
     /// <summary>
     ///     Produce tsquery that searches for a phrase from <paramref name="query" /> ignoring punctuation
@@ -77,7 +77,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES
     /// </remarks>
     public static KdbndpTsQuery PhraseToTsQuery(this DbFunctions _, [NotParameterized] string config, string query)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PhraseToTsQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PhraseToTsQuery)));
 
     /// <summary>
     ///     Normalize words in <paramref name="query" /> and convert to tsquery. If your input
@@ -88,7 +88,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES
     /// </remarks>
     public static KdbndpTsQuery ToTsQuery(this DbFunctions _, string query)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ToTsQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ToTsQuery)));
 
     /// <summary>
     ///     Normalize words in <paramref name="query" /> and convert to tsquery using the text search
@@ -100,7 +100,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES
     /// </remarks>
     public static KdbndpTsQuery ToTsQuery(this DbFunctions _, [NotParameterized] string config, string query)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ToTsQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ToTsQuery)));
 
     /// <summary>
     ///     Convert <paramref name="query" /> tsquery using the simplified websearch syntax.
@@ -109,7 +109,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES
     /// </remarks>
     public static KdbndpTsQuery WebSearchToTsQuery(this DbFunctions _, string query)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(WebSearchToTsQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(WebSearchToTsQuery)));
 
     /// <summary>
     ///     Convert <paramref name="query" /> tsquery using the simplified websearch syntax and the text
@@ -119,7 +119,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     ///     http://www.KingbaseES.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES
     /// </remarks>
     public static KdbndpTsQuery WebSearchToTsQuery(this DbFunctions _, [NotParameterized] string config, string query)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(WebSearchToTsQuery)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(WebSearchToTsQuery)));
 
     /// <summary>
     ///     Returns a new string that removes diacritics from characters in the given <paramref name="text" />.
@@ -133,7 +133,7 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     /// </remarks>
     /// <returns>A string without diacritics.</returns>
     public static string Unaccent(this DbFunctions _, string regDictionary, string text)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Unaccent)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Unaccent)));
 
     /// <summary>
     ///     Returns a new string that removes diacritics from characters in the given <paramref name="text" />.
@@ -146,5 +146,5 @@ public static class KdbndpFullTextSearchDbFunctionsExtensions
     /// </remarks>
     /// <returns>A string without diacritics.</returns>
     public static string Unaccent(this DbFunctions _, string text)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Unaccent)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Unaccent)));
 }

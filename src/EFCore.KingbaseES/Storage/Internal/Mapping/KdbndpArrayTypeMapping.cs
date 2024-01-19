@@ -64,13 +64,17 @@ public class KdbndpArrayTypeMapping<TCollection, TConcreteCollection, TElement> 
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpArrayTypeMapping<TCollection, TConcreteCollection, TElement> Default { get; }
+    public static KdbndpArrayTypeMapping<TCollection, TConcreteCollection, TElement> Default {
+        get;
+    }
         = new();
 
     /// <summary>
     ///     The database type used by Kdbndp.
     /// </summary>
-    public virtual KdbndpDbType? KdbndpDbType { get; }
+    public virtual KdbndpDbType? KdbndpDbType {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -117,27 +121,27 @@ public class KdbndpArrayTypeMapping<TCollection, TConcreteCollection, TElement> 
             }
 
             converter = (ValueConverter)Activator.CreateInstance(
-                typeof(KdbndpArrayConverter<,,>).MakeGenericType(
-                    typeof(TCollection), typeof(TConcreteCollection), providerElementType.MakeArrayType()),
-                elementConverter)!;
+                            typeof(KdbndpArrayConverter<,,>).MakeGenericType(
+                                typeof(TCollection), typeof(TConcreteCollection), providerElementType.MakeArrayType()),
+                            elementConverter)!;
         }
         else if (typeof(TCollection) != typeof(TConcreteCollection))
         {
             converter = (ValueConverter)Activator.CreateInstance(
-                typeof(KdbndpArrayConverter<,,>).MakeGenericType(
-                    typeof(TCollection), typeof(TConcreteCollection), elementType.MakeArrayType()))!;
+                            typeof(KdbndpArrayConverter<,,>).MakeGenericType(
+                                typeof(TCollection), typeof(TConcreteCollection), elementType.MakeArrayType()))!;
         }
 
 #pragma warning disable EF1001
         var comparer = typeof(TCollection).IsArray && typeof(TCollection).GetArrayRank() > 1
-            ? null // TODO: Value comparer for multidimensional arrays
-            : (ValueComparer?)Activator.CreateInstance(
-                elementType.IsNullableValueType()
-                    ? typeof(NullableValueTypeListComparer<>).MakeGenericType(elementType.UnwrapNullableType())
-                    : elementMapping.Comparer.Type.IsAssignableFrom(elementType)
-                        ? typeof(ListComparer<>).MakeGenericType(elementType)
-                        : typeof(ObjectListComparer<>).MakeGenericType(elementType),
-                elementMapping.Comparer.ToNullableComparer(elementType)!);
+                       ? null // TODO: Value comparer for multidimensional arrays
+                       : (ValueComparer?)Activator.CreateInstance(
+                           elementType.IsNullableValueType()
+                           ? typeof(NullableValueTypeListComparer<>).MakeGenericType(elementType.UnwrapNullableType())
+                           : elementMapping.Comparer.Type.IsAssignableFrom(elementType)
+                           ? typeof(ListComparer<>).MakeGenericType(elementType)
+                           : typeof(ObjectListComparer<>).MakeGenericType(elementType),
+                           elementMapping.Comparer.ToNullableComparer(elementType)!);
 #pragma warning restore EF1001
 
         var elementJsonReaderWriter = elementMapping.JsonValueReaderWriter;
@@ -152,19 +156,19 @@ public class KdbndpArrayTypeMapping<TCollection, TConcreteCollection, TElement> 
         // TODO: Also, we don't (yet) support JSON serialization of multidimensional arrays.
         var collectionJsonReaderWriter =
             elementJsonReaderWriter is null || typeof(TCollection).IsArray && typeof(TCollection).GetArrayRank() > 1
-                ? null
-                : (JsonValueReaderWriter?)Activator.CreateInstance(
-                    (elementType.IsNullableValueType()
-                        ? typeof(JsonNullableStructCollectionReaderWriter<,,>)
-                        : typeof(JsonCollectionReaderWriter<,,>))
-                    .MakeGenericType(typeof(TCollection), typeof(TConcreteCollection), elementType.UnwrapNullableType()),
-                    elementJsonReaderWriter);
+            ? null
+            : (JsonValueReaderWriter?)Activator.CreateInstance(
+                (elementType.IsNullableValueType()
+                 ? typeof(JsonNullableStructCollectionReaderWriter<,,>)
+                 : typeof(JsonCollectionReaderWriter<,,>))
+                .MakeGenericType(typeof(TCollection), typeof(TConcreteCollection), elementType.UnwrapNullableType()),
+                elementJsonReaderWriter);
 
         return new RelationalTypeMappingParameters(
-            new CoreTypeMappingParameters(
-                typeof(TCollection), converter, comparer, elementMapping: elementMapping,
-                jsonValueReaderWriter: collectionJsonReaderWriter),
-            storeType);
+                   new CoreTypeMappingParameters(
+                       typeof(TCollection), converter, comparer, elementMapping: elementMapping,
+                       jsonValueReaderWriter: collectionJsonReaderWriter),
+                   storeType);
     }
 
     /// <summary>
@@ -187,19 +191,19 @@ public class KdbndpArrayTypeMapping<TCollection, TConcreteCollection, TElement> 
         // Otherwise let the ADO.NET layer infer the KingbaseES type. We can't always let it infer, otherwise
         // when given a byte[] it will infer byte (but we want smallint[])
         KdbndpDbType = KdbndpTypes.KdbndpDbType.Array
-            | (ElementTypeMapping is IKdbndpTypeMapping elementKdbndpTypeMapping
-                ? elementKdbndpTypeMapping.KdbndpDbType
-                : ElementTypeMapping.DbType.HasValue
-                    ? new KdbndpParameter { DbType = ElementTypeMapping.DbType.Value }.KdbndpDbType
-                    : default(KdbndpDbType?));
+                       | (ElementTypeMapping is IKdbndpTypeMapping elementKdbndpTypeMapping
+                          ? elementKdbndpTypeMapping.KdbndpDbType
+                          : ElementTypeMapping.DbType.HasValue
+                          ? new KdbndpParameter { DbType = ElementTypeMapping.DbType.Value }.KdbndpDbType
+                          : default(KdbndpDbType?));
     }
 
     // This constructor exists only to support the static Default property above, which is necessary to allow code generation for compiled
     // models. The constructor creates a completely blank type mapping, which will get cloned with all the correct details.
     private KdbndpArrayTypeMapping()
         : base(new RelationalTypeMappingParameters(
-            new CoreTypeMappingParameters(typeof(TCollection), elementMapping: NullMapping),
-            "int[]"))
+                   new CoreTypeMappingParameters(typeof(TCollection), elementMapping: NullMapping),
+                   "int[]"))
     {
     }
 
@@ -224,13 +228,13 @@ public class KdbndpArrayTypeMapping<TCollection, TConcreteCollection, TElement> 
         {
             switch (value)
             {
-                case IEnumerable<TElement> elements:
-                    value = elements.ToList();
-                    break;
+            case IEnumerable<TElement> elements:
+                value = elements.ToList();
+                break;
 
-                case IEnumerable elements:
-                    value = elements.Cast<TElement>().ToList();
-                    break;
+            case IEnumerable elements:
+                value = elements.Cast<TElement>().ToList();
+                break;
             }
         }
 

@@ -22,7 +22,7 @@ public class CockroachDbInterleaveInParent
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual Annotatable Annotatable
-        => (Annotatable)_annotatable;
+    => (Annotatable)_annotatable;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -87,12 +87,12 @@ public class CockroachDbInterleaveInParent
     {
         var str = Annotatable[AnnotationName] as string;
         return str is null
-            ? (null, null!, null!)
-            : Deserialize(str);
+               ? (null, null!, null!)
+               : Deserialize(str);
     }
 
     private void SetData(string? parentTableSchema, string parentTableName, List<string> interleavePrefix)
-        => Annotatable[AnnotationName] = Serialize(parentTableSchema, parentTableName, interleavePrefix);
+    => Annotatable[AnnotationName] = Serialize(parentTableSchema, parentTableName, interleavePrefix);
 
     private static string Serialize(string? parentTableSchema, string parentTableName, List<string> interleavePrefix)
     {
@@ -147,7 +147,7 @@ public class CockroachDbInterleaveInParent
         var end = value.IndexOf('\'', position);
 
         while ((end + 1 < value.Length)
-               && (value[end + 1] == '\''))
+                && (value[end + 1] == '\''))
         {
             end = value.IndexOf('\'', end + 2);
         }

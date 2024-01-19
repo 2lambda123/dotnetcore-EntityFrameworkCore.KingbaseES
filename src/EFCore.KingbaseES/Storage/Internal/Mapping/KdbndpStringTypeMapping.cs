@@ -14,7 +14,9 @@ public class KdbndpStringTypeMapping : StringTypeMapping, IKdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static new KdbndpStringTypeMapping Default { get; } = new("text", KdbndpDbType.Text);
+    public static new KdbndpStringTypeMapping Default {
+        get;
+    } = new("text", KdbndpDbType.Text);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -22,7 +24,9 @@ public class KdbndpStringTypeMapping : StringTypeMapping, IKdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual KdbndpDbType KdbndpDbType { get; }
+    public virtual KdbndpDbType KdbndpDbType {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -57,7 +61,7 @@ public class KdbndpStringTypeMapping : StringTypeMapping, IKdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpStringTypeMapping(parameters, KdbndpDbType);
+    => new KdbndpStringTypeMapping(parameters, KdbndpDbType);
 
     /// <summary>
     ///     This method exists only to support the compiled model.
@@ -69,7 +73,7 @@ public class KdbndpStringTypeMapping : StringTypeMapping, IKdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </remarks>
     public virtual KdbndpStringTypeMapping Clone(KdbndpDbType KdbndpDbType)
-        => new(Parameters, KdbndpDbType);
+    => new(Parameters, KdbndpDbType);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to

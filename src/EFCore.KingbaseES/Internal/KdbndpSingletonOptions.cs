@@ -13,7 +13,10 @@ namespace Kdbndp.EntityFrameworkCore.KingbaseES.Internal;
 public class KdbndpSingletonOptions : IKdbndpSingletonOptions
 {
     /// <inheritdoc />
-    public virtual Version PostgresVersion { get; private set; } = null!;
+    public virtual Version PostgresVersion {
+        get;
+        private set;
+    } = null!;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -21,7 +24,10 @@ public class KdbndpSingletonOptions : IKdbndpSingletonOptions
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual bool IsPostgresVersionSet { get; private set; }
+    public virtual bool IsPostgresVersionSet {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -29,7 +35,10 @@ public class KdbndpSingletonOptions : IKdbndpSingletonOptions
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual bool UseRedshift { get; private set; }
+    public virtual bool UseRedshift {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -37,7 +46,10 @@ public class KdbndpSingletonOptions : IKdbndpSingletonOptions
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual bool ReverseNullOrderingEnabled { get; private set; }
+    public virtual bool ReverseNullOrderingEnabled {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -45,7 +57,10 @@ public class KdbndpSingletonOptions : IKdbndpSingletonOptions
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual DbDataSource? DataSource { get; private set; }
+    public virtual DbDataSource? DataSource {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -53,7 +68,10 @@ public class KdbndpSingletonOptions : IKdbndpSingletonOptions
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual IReadOnlyList<UserRangeDefinition> UserRangeDefinitions { get; private set; }
+    public virtual IReadOnlyList<UserRangeDefinition> UserRangeDefinitions {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -61,7 +79,10 @@ public class KdbndpSingletonOptions : IKdbndpSingletonOptions
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public virtual IServiceProvider? ApplicationServiceProvider { get; private set; }
+    public virtual IServiceProvider? ApplicationServiceProvider {
+        get;
+        private set;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to

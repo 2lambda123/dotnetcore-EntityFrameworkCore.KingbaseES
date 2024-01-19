@@ -11,39 +11,49 @@ public class PgFunctionExpression : SqlFunctionExpression, IEquatable<PgFunction
 {
     /// <inheritdoc />
     public new virtual IReadOnlyList<SqlExpression> Arguments
-        => base.Arguments!;
+    => base.Arguments!;
 
     /// <inheritdoc />
     public new virtual IReadOnlyList<bool> ArgumentsPropagateNullability
-        => base.ArgumentsPropagateNullability!;
+    => base.ArgumentsPropagateNullability!;
 
     /// <summary>
     ///     For aggregate methods, contains whether to apply distinct.
     /// </summary>
-    public virtual bool IsAggregateDistinct { get; }
+    public virtual bool IsAggregateDistinct {
+        get;
+    }
 
     /// <summary>
     ///     For aggregate methods, contains the predicate to be applied (generated as the SQL FILTER clause).
     /// </summary>
-    public virtual SqlExpression? AggregatePredicate { get; }
+    public virtual SqlExpression? AggregatePredicate {
+        get;
+    }
 
     /// <summary>
     ///     For aggregate methods, contains the orderings to be applied.
     /// </summary>
-    public virtual IReadOnlyList<OrderingExpression> AggregateOrderings { get; }
+    public virtual IReadOnlyList<OrderingExpression> AggregateOrderings {
+        get;
+    }
 
     /// <summary>
     ///     List of argument names, corresponding position-wise to arguments in <see cref="SqlFunctionExpression.Arguments" />.
     ///     Unnamed (positional) arguments must come first, so this list must contain possible nulls, followed by
     ///     non-nulls.
     /// </summary>
-    public virtual IReadOnlyList<string?> ArgumentNames { get; }
+    public virtual IReadOnlyList<string?> ArgumentNames {
+        get;
+    }
 
     /// <summary>
     ///     List of non-comma separators between argument separators, in the order in which they appear between
     ///     the arguments. <c>null</c> as well as positions beyond the end of the list mean regular commas.
     /// </summary>
-    public virtual IReadOnlyList<string?> ArgumentSeparators { get; }
+    public virtual IReadOnlyList<string?> ArgumentSeparators {
+        get;
+    }
 
     /// <summary>
     ///     Creates an instance of <see cref="PgFunctionExpression" /> with named arguments.
@@ -62,9 +72,9 @@ public class PgFunctionExpression : SqlFunctionExpression, IEquatable<PgFunction
         Check.NotNull(argumentNames, nameof(argumentNames));
 
         return new PgFunctionExpression(
-            name, arguments, argumentNames, argumentSeparators: null,
-            aggregateDistinct: false, aggregatePredicate: null, aggregateOrderings: Array.Empty<OrderingExpression>(),
-            nullable: nullable, argumentsPropagateNullability: argumentsPropagateNullability, type: type, typeMapping: typeMapping);
+                   name, arguments, argumentNames, argumentSeparators: null,
+                   aggregateDistinct: false, aggregatePredicate: null, aggregateOrderings: Array.Empty<OrderingExpression>(),
+                   nullable: nullable, argumentsPropagateNullability: argumentsPropagateNullability, type: type, typeMapping: typeMapping);
     }
 
     /// <summary>
@@ -84,9 +94,9 @@ public class PgFunctionExpression : SqlFunctionExpression, IEquatable<PgFunction
         Check.NotNull(argumentSeparators, nameof(argumentSeparators));
 
         return new PgFunctionExpression(
-            name, arguments, argumentNames: null, argumentSeparators: argumentSeparators,
-            aggregateDistinct: false, aggregatePredicate: null, aggregateOrderings: Array.Empty<OrderingExpression>(),
-            nullable: nullable, argumentsPropagateNullability: argumentsPropagateNullability, type: type, typeMapping: typeMapping);
+                   name, arguments, argumentNames: null, argumentSeparators: argumentSeparators,
+                   aggregateDistinct: false, aggregatePredicate: null, aggregateOrderings: Array.Empty<OrderingExpression>(),
+                   nullable: nullable, argumentsPropagateNullability: argumentsPropagateNullability, type: type, typeMapping: typeMapping);
     }
 
     /// <summary>
@@ -104,7 +114,7 @@ public class PgFunctionExpression : SqlFunctionExpression, IEquatable<PgFunction
         IEnumerable<bool> argumentsPropagateNullability,
         Type type,
         RelationalTypeMapping? typeMapping)
-        : base(name, arguments, nullable, argumentsPropagateNullability, type, typeMapping)
+    : base(name, arguments, nullable, argumentsPropagateNullability, type, typeMapping)
     {
         Check.NotEmpty(name, nameof(name));
         Check.NotNull(type, nameof(type));
@@ -183,27 +193,27 @@ public class PgFunctionExpression : SqlFunctionExpression, IEquatable<PgFunction
         }
 
         return changed
-            ? new PgFunctionExpression(
-                Name, visitedArguments ?? Arguments, ArgumentNames, ArgumentSeparators,
-                IsAggregateDistinct,
-                visitedAggregatePredicate ?? AggregatePredicate,
-                visitedAggregateOrderings ?? AggregateOrderings,
-                IsNullable, ArgumentsPropagateNullability!, Type, TypeMapping)
-            : this;
+               ? new PgFunctionExpression(
+                   Name, visitedArguments ?? Arguments, ArgumentNames, ArgumentSeparators,
+                   IsAggregateDistinct,
+                   visitedAggregatePredicate ?? AggregatePredicate,
+                   visitedAggregateOrderings ?? AggregateOrderings,
+                   IsNullable, ArgumentsPropagateNullability!, Type, TypeMapping)
+               : this;
     }
 
     /// <inheritdoc />
     public override SqlFunctionExpression ApplyTypeMapping(RelationalTypeMapping? typeMapping)
-        => new PgFunctionExpression(
-            Name,
-            Arguments,
-            ArgumentNames,
-            ArgumentSeparators,
-            IsAggregateDistinct,
-            AggregatePredicate,
-            AggregateOrderings,
-            IsNullable,
-            ArgumentsPropagateNullability, Type, typeMapping ?? TypeMapping);
+    => new PgFunctionExpression(
+        Name,
+        Arguments,
+        ArgumentNames,
+        ArgumentSeparators,
+        IsAggregateDistinct,
+        AggregatePredicate,
+        AggregateOrderings,
+        IsNullable,
+        ArgumentsPropagateNullability, Type, typeMapping ?? TypeMapping);
 
     /// <inheritdoc />
     public override SqlFunctionExpression Update(SqlExpression? instance, IReadOnlyList<SqlExpression>? arguments)
@@ -216,13 +226,13 @@ public class PgFunctionExpression : SqlFunctionExpression, IEquatable<PgFunction
         }
 
         return !arguments.SequenceEqual(Arguments)
-            ? new PgFunctionExpression(
-                Name, arguments, ArgumentNames, ArgumentSeparators,
-                IsAggregateDistinct,
-                AggregatePredicate,
-                AggregateOrderings,
-                IsNullable, ArgumentsPropagateNullability, Type, TypeMapping)
-            : this;
+               ? new PgFunctionExpression(
+                   Name, arguments, ArgumentNames, ArgumentSeparators,
+                   IsAggregateDistinct,
+                   AggregatePredicate,
+                   AggregateOrderings,
+                   IsNullable, ArgumentsPropagateNullability, Type, TypeMapping)
+               : this;
     }
 
     /// <summary>
@@ -232,14 +242,14 @@ public class PgFunctionExpression : SqlFunctionExpression, IEquatable<PgFunction
     public virtual PgFunctionExpression UpdateAggregateComponents(
         SqlExpression? predicate,
         IReadOnlyList<OrderingExpression> orderings)
-        => predicate != AggregatePredicate || orderings != AggregateOrderings
-            ? new PgFunctionExpression(
-                Name, Arguments, ArgumentNames, ArgumentSeparators,
-                IsAggregateDistinct,
-                predicate,
-                orderings,
-                IsNullable, ArgumentsPropagateNullability, Type, TypeMapping)
-            : this;
+    => predicate != AggregatePredicate || orderings != AggregateOrderings
+    ? new PgFunctionExpression(
+        Name, Arguments, ArgumentNames, ArgumentSeparators,
+        IsAggregateDistinct,
+        predicate,
+        orderings,
+        IsNullable, ArgumentsPropagateNullability, Type, TypeMapping)
+    : this;
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
@@ -285,18 +295,18 @@ public class PgFunctionExpression : SqlFunctionExpression, IEquatable<PgFunction
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is PgFunctionExpression pgFunction && Equals(pgFunction);
+    => obj is PgFunctionExpression pgFunction && Equals(pgFunction);
 
     /// <inheritdoc />
     public virtual bool Equals(PgFunctionExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && ArgumentNames.SequenceEqual(other.ArgumentNames)
-            && ArgumentSeparators.SequenceEqual(other.ArgumentSeparators)
-            && AggregateOrderings.SequenceEqual(other.AggregateOrderings)
-            && (AggregatePredicate is null && other.AggregatePredicate is null
-                || AggregatePredicate != null && AggregatePredicate.Equals(other.AggregatePredicate));
+    => ReferenceEquals(this, other)
+    || other is not null
+    && base.Equals(other)
+    && ArgumentNames.SequenceEqual(other.ArgumentNames)
+    && ArgumentSeparators.SequenceEqual(other.ArgumentSeparators)
+    && AggregateOrderings.SequenceEqual(other.AggregateOrderings)
+    && (AggregatePredicate is null && other.AggregatePredicate is null
+        || AggregatePredicate != null && AggregatePredicate.Equals(other.AggregatePredicate));
 
     /// <inheritdoc />
     public override int GetHashCode()

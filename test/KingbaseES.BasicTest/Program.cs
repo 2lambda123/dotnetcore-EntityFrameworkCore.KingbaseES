@@ -8,7 +8,7 @@ internal static class Program
 
         services.AddDbContext<BlogContext>(options =>
         {
-            options.UseKdbndp(@"host=localhost;port=54321;database=test;user id=system;password=123456;");   
+            options.UseKdbndp(@"host=localhost;port=54321;database=test;user id=system;password=123456;");
         });
 
         var serviceProvider = services.BuildServiceProvider();
@@ -30,7 +30,9 @@ internal static class Program
         }
         //add
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "新增 Blog 实体 值为I love EFCore!");
-        context.Add(new Blog() { Name = "I love EFCore!" });
+        context.Add(new Blog() {
+            Name = "I love EFCore!"
+        });
         var result = context.SaveChanges();
 
         //update

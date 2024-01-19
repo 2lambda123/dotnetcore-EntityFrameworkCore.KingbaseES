@@ -49,9 +49,9 @@ public class KdbndpModificationCommand : ModificationCommand
         var value = parameters.Value;
 
         value = value is null
-            ? "null"
-            : (mapping.JsonValueReaderWriter?.ToJsonString(value)
-                ?? (mapping.Converter == null ? value : mapping.Converter.ConvertToProvider(value)));
+                ? "null"
+                : (mapping.JsonValueReaderWriter?.ToJsonString(value)
+                   ?? (mapping.Converter == null ? value : mapping.Converter.ConvertToProvider(value)));
 
         parameters = parameters with { Value = value };
     }
@@ -77,18 +77,20 @@ public class KdbndpModificationCommand : ModificationCommand
 
             switch (columnModification.Column)
             {
-                case IColumn when columnModification.IsRead:
-                case IStoreStoredProcedureParameter { Direction: ParameterDirection.Output or ParameterDirection.InputOutput }:
-                    readerIndex++;
-                    break;
+            case IColumn when columnModification.IsRead:
+            case IStoreStoredProcedureParameter { Direction:
+                                                          ParameterDirection.Output or ParameterDirection.InputOutput
+                                                        }:
+                readerIndex++;
+                break;
 
-                case IColumn:
-                case IStoreStoredProcedureParameter:
-                case null when columnModification.JsonPath is not null:
-                    continue;
+            case IColumn:
+            case IStoreStoredProcedureParameter:
+            case null when columnModification.JsonPath is not null:
+                continue;
 
-                default:
-                    throw new ArgumentOutOfRangeException();
+            default:
+                throw new ArgumentOutOfRangeException();
             }
 
             // For regular result sets, results are always propagated back into entity properties.

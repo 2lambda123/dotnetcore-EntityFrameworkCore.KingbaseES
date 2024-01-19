@@ -52,44 +52,44 @@ public class KdbndpByteArrayMethodTranslator : IMethodCallTranslator
 
                 // We have a byte value, but we need a bytea for KingbaseES POSITION.
                 var value = arguments[1] is SqlConstantExpression constantValue
-                    ? (SqlExpression)_sqlExpressionFactory.Constant(new[] { (byte)constantValue.Value! }, typeMapping)
-                    // Create bytea from non-constant byte: SELECT set_byte('\x00', 0, 8::smallint);
-                    : _sqlExpressionFactory.Function(
-                        "set_byte",
-                        new[]
-                        {
-                            _sqlExpressionFactory.Constant(new[] { (byte)0 }, typeMapping),
-                            _sqlExpressionFactory.Constant(0),
-                            arguments[1]
-                        },
-                        nullable: true,
-                        argumentsPropagateNullability: TrueArrays[3],
-                        typeof(byte[]),
-                        typeMapping);
+                            ? (SqlExpression)_sqlExpressionFactory.Constant(new[] { (byte)constantValue.Value! }, typeMapping)
+                            // Create bytea from non-constant byte: SELECT set_byte('\x00', 0, 8::smallint);
+                            : _sqlExpressionFactory.Function(
+                                "set_byte",
+                                new[]
+                {
+                    _sqlExpressionFactory.Constant(new[] { (byte)0 }, typeMapping),
+                    _sqlExpressionFactory.Constant(0),
+                    arguments[1]
+                },
+                nullable: true,
+                argumentsPropagateNullability: TrueArrays[3],
+                typeof(byte[]),
+                typeMapping);
 
                 return _sqlExpressionFactory.GreaterThan(
-                    PgFunctionExpression.CreateWithArgumentSeparators(
-                        "position",
-                        new[] { value, source },
-                        new[] { "IN" }, // POSITION(x IN y)
-                        nullable: true,
-                        argumentsPropagateNullability: TrueArrays[2],
-                        builtIn: true,
-                        typeof(int),
-                        null),
-                    _sqlExpressionFactory.Constant(0));
+                           PgFunctionExpression.CreateWithArgumentSeparators(
+                               "position",
+                               new[] { value, source },
+                               new[] { "IN" }, // POSITION(x IN y)
+                               nullable: true,
+                               argumentsPropagateNullability: TrueArrays[2],
+                               builtIn: true,
+                               typeof(int),
+                               null),
+                           _sqlExpressionFactory.Constant(0));
             }
 
             if (method.GetGenericMethodDefinition().Equals(EnumerableMethods.FirstWithoutPredicate))
             {
                 return _sqlExpressionFactory.Convert(
-                    _sqlExpressionFactory.Function(
-                        "get_byte",
-                        new[] { arguments[0], _sqlExpressionFactory.Constant(0) },
-                        nullable: true,
-                        argumentsPropagateNullability: TrueArrays[2],
-                        typeof(byte)),
-                    method.ReturnType);
+                           _sqlExpressionFactory.Function(
+                               "get_byte",
+                               new[] { arguments[0], _sqlExpressionFactory.Constant(0) },
+                               nullable: true,
+                               argumentsPropagateNullability: TrueArrays[2],
+                               typeof(byte)),
+                           method.ReturnType);
             }
         }
 

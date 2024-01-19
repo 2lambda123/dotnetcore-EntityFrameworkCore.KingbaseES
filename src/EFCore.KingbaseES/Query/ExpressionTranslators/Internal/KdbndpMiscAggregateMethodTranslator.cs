@@ -63,105 +63,105 @@ public class KdbndpMiscAggregateMethodTranslator : IAggregateMethodCallTranslato
             if (sqlExpression is not ColumnExpression { IsNullable: false })
             {
                 sqlExpression = _sqlExpressionFactory.Coalesce(
-                    sqlExpression,
-                    _sqlExpressionFactory.Constant(string.Empty, typeof(string)));
+                                    sqlExpression,
+                                    _sqlExpressionFactory.Constant(string.Empty, typeof(string)));
             }
 
             // string_agg returns null when there are no rows (or non-null values), but string.Join returns an empty string.
             return _sqlExpressionFactory.Coalesce(
-                _sqlExpressionFactory.AggregateFunction(
-                    "string_agg",
-                    new[]
-                    {
-                        sqlExpression,
-                        method == StringJoin ? arguments[0] : _sqlExpressionFactory.Constant(string.Empty, typeof(string))
-                    },
-                    source,
-                    nullable: true,
-                    argumentsPropagateNullability: new[] { false, true },
-                    typeof(string),
-                    _typeMappingSource.FindMapping("text")), // Note that string_agg returns text even if its inputs are varchar(x)
-                _sqlExpressionFactory.Constant(string.Empty, typeof(string)));
+                       _sqlExpressionFactory.AggregateFunction(
+                           "string_agg",
+                           new[]
+            {
+                sqlExpression,
+                method == StringJoin ? arguments[0] : _sqlExpressionFactory.Constant(string.Empty, typeof(string))
+            },
+            source,
+            nullable: true,
+            argumentsPropagateNullability: new[] { false, true },
+            typeof(string),
+            _typeMappingSource.FindMapping("text")), // Note that string_agg returns text even if its inputs are varchar(x)
+            _sqlExpressionFactory.Constant(string.Empty, typeof(string)));
         }
 
         if (method.DeclaringType == typeof(KdbndpAggregateDbFunctionsExtensions))
         {
             switch (method.Name)
             {
-                case nameof(KdbndpAggregateDbFunctionsExtensions.ArrayAgg):
-                    return _sqlExpressionFactory.AggregateFunction(
-                        "array_agg",
-                        new[] { sqlExpression },
-                        source,
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[1],
-                        returnType: method.ReturnType,
-                        typeMapping: sqlExpression.TypeMapping is null
-                            ? null
-                            : _typeMappingSource.FindMapping(method.ReturnType, _model, sqlExpression.TypeMapping));
+            case nameof(KdbndpAggregateDbFunctionsExtensions.ArrayAgg):
+                return _sqlExpressionFactory.AggregateFunction(
+                           "array_agg",
+                           new[] { sqlExpression },
+                           source,
+                           nullable: true,
+                           argumentsPropagateNullability: FalseArrays[1],
+                           returnType: method.ReturnType,
+                           typeMapping: sqlExpression.TypeMapping is null
+                           ? null
+                           : _typeMappingSource.FindMapping(method.ReturnType, _model, sqlExpression.TypeMapping));
 
-                case nameof(KdbndpAggregateDbFunctionsExtensions.JsonAgg):
-                    return _sqlExpressionFactory.AggregateFunction(
-                        "json_agg",
-                        new[] { sqlExpression },
-                        source,
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[1],
-                        returnType: method.ReturnType,
-                        _typeMappingSource.FindMapping(method.ReturnType, "json"));
+            case nameof(KdbndpAggregateDbFunctionsExtensions.JsonAgg):
+                return _sqlExpressionFactory.AggregateFunction(
+                           "json_agg",
+                           new[] { sqlExpression },
+                           source,
+                           nullable: true,
+                           argumentsPropagateNullability: FalseArrays[1],
+                           returnType: method.ReturnType,
+                           _typeMappingSource.FindMapping(method.ReturnType, "json"));
 
-                case nameof(KdbndpAggregateDbFunctionsExtensions.JsonbAgg):
-                    return _sqlExpressionFactory.AggregateFunction(
-                        "jsonb_agg",
-                        new[] { sqlExpression },
-                        source,
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[1],
-                        returnType: method.ReturnType,
-                        _typeMappingSource.FindMapping(method.ReturnType, "jsonb"));
+            case nameof(KdbndpAggregateDbFunctionsExtensions.JsonbAgg):
+                return _sqlExpressionFactory.AggregateFunction(
+                           "jsonb_agg",
+                           new[] { sqlExpression },
+                           source,
+                           nullable: true,
+                           argumentsPropagateNullability: FalseArrays[1],
+                           returnType: method.ReturnType,
+                           _typeMappingSource.FindMapping(method.ReturnType, "jsonb"));
 
-                case nameof(KdbndpAggregateDbFunctionsExtensions.Sum):
-                    return _sqlExpressionFactory.AggregateFunction(
-                        "sum",
-                        new[] { sqlExpression },
-                        source,
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[1],
-                        returnType: sqlExpression.Type,
-                        sqlExpression.TypeMapping);
+            case nameof(KdbndpAggregateDbFunctionsExtensions.Sum):
+                return _sqlExpressionFactory.AggregateFunction(
+                           "sum",
+                           new[] { sqlExpression },
+                           source,
+                           nullable: true,
+                           argumentsPropagateNullability: FalseArrays[1],
+                           returnType: sqlExpression.Type,
+                           sqlExpression.TypeMapping);
 
-                case nameof(KdbndpAggregateDbFunctionsExtensions.Average):
-                    return _sqlExpressionFactory.AggregateFunction(
-                        "avg",
-                        new[] { sqlExpression },
-                        source,
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[1],
-                        returnType: sqlExpression.Type,
-                        sqlExpression.TypeMapping);
+            case nameof(KdbndpAggregateDbFunctionsExtensions.Average):
+                return _sqlExpressionFactory.AggregateFunction(
+                           "avg",
+                           new[] { sqlExpression },
+                           source,
+                           nullable: true,
+                           argumentsPropagateNullability: FalseArrays[1],
+                           returnType: sqlExpression.Type,
+                           sqlExpression.TypeMapping);
 
-                case nameof(KdbndpAggregateDbFunctionsExtensions.JsonbObjectAgg):
-                case nameof(KdbndpAggregateDbFunctionsExtensions.JsonObjectAgg):
-                    var isJsonb = method.Name == nameof(KdbndpAggregateDbFunctionsExtensions.JsonbObjectAgg);
+            case nameof(KdbndpAggregateDbFunctionsExtensions.JsonbObjectAgg):
+            case nameof(KdbndpAggregateDbFunctionsExtensions.JsonObjectAgg):
+                var isJsonb = method.Name == nameof(KdbndpAggregateDbFunctionsExtensions.JsonbObjectAgg);
 
-                    // These methods accept two enumerable (column) arguments; this is represented in LINQ as a projection from the grouping
-                    // to a tuple of the two columns. Since we generally translate tuples to PostgresRowValueExpression, we take it apart
-                    // here.
-                    if (source.Selector is not PgRowValueExpression rowValueExpression)
-                    {
-                        return null;
-                    }
+                // These methods accept two enumerable (column) arguments; this is represented in LINQ as a projection from the grouping
+                // to a tuple of the two columns. Since we generally translate tuples to PostgresRowValueExpression, we take it apart
+                // here.
+                if (source.Selector is not PgRowValueExpression rowValueExpression)
+                {
+                    return null;
+                }
 
-                    var (keys, values) = (rowValueExpression.Values[0], rowValueExpression.Values[1]);
+                var (keys, values) = (rowValueExpression.Values[0], rowValueExpression.Values[1]);
 
-                    return _sqlExpressionFactory.AggregateFunction(
-                        isJsonb ? "jsonb_object_agg" : "json_object_agg",
-                        new[] { keys, values },
-                        source,
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[2],
-                        returnType: method.ReturnType,
-                        _typeMappingSource.FindMapping(method.ReturnType, isJsonb ? "jsonb" : "json"));
+                return _sqlExpressionFactory.AggregateFunction(
+                           isJsonb ? "jsonb_object_agg" : "json_object_agg",
+                           new[] { keys, values },
+                           source,
+                           nullable: true,
+                           argumentsPropagateNullability: FalseArrays[2],
+                           returnType: method.ReturnType,
+                           _typeMappingSource.FindMapping(method.ReturnType, isJsonb ? "jsonb" : "json"));
             }
         }
 
@@ -169,27 +169,27 @@ public class KdbndpMiscAggregateMethodTranslator : IAggregateMethodCallTranslato
         {
             switch (method.Name)
             {
-                case nameof(KdbndpRangeDbFunctionsExtensions.RangeAgg):
-                    var arrayClrType = sqlExpression.Type.MakeArrayType();
+            case nameof(KdbndpRangeDbFunctionsExtensions.RangeAgg):
+                var arrayClrType = sqlExpression.Type.MakeArrayType();
 
-                    return _sqlExpressionFactory.AggregateFunction(
-                        "range_agg",
-                        new[] { sqlExpression },
-                        source,
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[1],
-                        returnType: arrayClrType,
-                        _typeMappingSource.FindMapping(arrayClrType));
+                return _sqlExpressionFactory.AggregateFunction(
+                           "range_agg",
+                           new[] { sqlExpression },
+                           source,
+                           nullable: true,
+                           argumentsPropagateNullability: FalseArrays[1],
+                           returnType: arrayClrType,
+                           _typeMappingSource.FindMapping(arrayClrType));
 
-                case nameof(KdbndpRangeDbFunctionsExtensions.RangeIntersectAgg):
-                    return _sqlExpressionFactory.AggregateFunction(
-                        "range_intersect_agg",
-                        new[] { sqlExpression },
-                        source,
-                        nullable: true,
-                        argumentsPropagateNullability: FalseArrays[1],
-                        returnType: sqlExpression.Type,
-                        sqlExpression.TypeMapping);
+            case nameof(KdbndpRangeDbFunctionsExtensions.RangeIntersectAgg):
+                return _sqlExpressionFactory.AggregateFunction(
+                           "range_intersect_agg",
+                           new[] { sqlExpression },
+                           source,
+                           nullable: true,
+                           argumentsPropagateNullability: FalseArrays[1],
+                           returnType: sqlExpression.Type,
+                           sqlExpression.TypeMapping);
             }
         }
 

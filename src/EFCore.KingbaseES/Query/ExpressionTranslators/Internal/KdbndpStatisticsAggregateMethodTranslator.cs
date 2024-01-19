@@ -44,15 +44,15 @@ public class KdbndpStatisticsAggregateMethodTranslator : IAggregateMethodCallTra
         // Docs: https://www.KingbaseES.org/docs/current/functions-aggregate.html#FUNCTIONS-AGGREGATE-STATISTICS-TABLE
 
         if (method.DeclaringType != typeof(KdbndpAggregateDbFunctionsExtensions)
-            || source.Selector is not SqlExpression sqlExpression)
+                || source.Selector is not SqlExpression sqlExpression)
         {
             return null;
         }
 
         // These four functions are simple and take a single enumerable argument
         var functionName = method.Name switch
-        {
-            nameof(KdbndpAggregateDbFunctionsExtensions.StandardDeviationSample) => "stddev_samp",
+    {
+        nameof(KdbndpAggregateDbFunctionsExtensions.StandardDeviationSample) => "stddev_samp",
             nameof(KdbndpAggregateDbFunctionsExtensions.StandardDeviationPopulation) => "stddev_pop",
             nameof(KdbndpAggregateDbFunctionsExtensions.VarianceSample) => "var_samp",
             nameof(KdbndpAggregateDbFunctionsExtensions.VariancePopulation) => "var_pop",
@@ -62,18 +62,18 @@ public class KdbndpStatisticsAggregateMethodTranslator : IAggregateMethodCallTra
         if (functionName is not null)
         {
             return _sqlExpressionFactory.AggregateFunction(
-                functionName,
-                new[] { sqlExpression },
-                source,
-                nullable: true,
-                argumentsPropagateNullability: FalseArrays[1],
-                typeof(double),
-                _doubleTypeMapping);
+                       functionName,
+                       new[] { sqlExpression },
+                       source,
+                       nullable: true,
+                       argumentsPropagateNullability: FalseArrays[1],
+                       typeof(double),
+                       _doubleTypeMapping);
         }
 
         functionName = method.Name switch
-        {
-            nameof(KdbndpAggregateDbFunctionsExtensions.Correlation) => "corr",
+    {
+        nameof(KdbndpAggregateDbFunctionsExtensions.Correlation) => "corr",
             nameof(KdbndpAggregateDbFunctionsExtensions.CovariancePopulation) => "covar_pop",
             nameof(KdbndpAggregateDbFunctionsExtensions.CovarianceSample) => "covar_samp",
             nameof(KdbndpAggregateDbFunctionsExtensions.RegrAverageX) => "regr_avgx",
@@ -99,22 +99,22 @@ public class KdbndpStatisticsAggregateMethodTranslator : IAggregateMethodCallTra
             var (y, x) = (rowValueExpression.Values[0], rowValueExpression.Values[1]);
 
             return method.Name == nameof(KdbndpAggregateDbFunctionsExtensions.RegrCount)
-                ? _sqlExpressionFactory.AggregateFunction(
-                    functionName,
-                    new[] { y, x },
-                    source,
-                    nullable: true,
-                    argumentsPropagateNullability: FalseArrays[2],
-                    typeof(long),
-                    _longTypeMapping)
-                : _sqlExpressionFactory.AggregateFunction(
-                    functionName,
-                    new[] { y, x },
-                    source,
-                    nullable: true,
-                    argumentsPropagateNullability: FalseArrays[2],
-                    typeof(double),
-                    _doubleTypeMapping);
+                   ? _sqlExpressionFactory.AggregateFunction(
+                       functionName,
+                       new[] { y, x },
+                       source,
+                       nullable: true,
+                       argumentsPropagateNullability: FalseArrays[2],
+                       typeof(long),
+                       _longTypeMapping)
+                   : _sqlExpressionFactory.AggregateFunction(
+                       functionName,
+                       new[] { y, x },
+                       source,
+                       nullable: true,
+                       argumentsPropagateNullability: FalseArrays[2],
+                       typeof(double),
+                       _doubleTypeMapping);
         }
 
         return null;

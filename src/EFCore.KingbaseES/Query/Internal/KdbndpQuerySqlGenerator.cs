@@ -49,39 +49,39 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override Expression VisitExtension(Expression extensionExpression)
-        => extensionExpression switch
-        {
-            PgAllExpression e => VisitArrayAll(e),
-            PgAnyExpression e => VisitArrayAny(e),
-            PgArrayIndexExpression e => VisitArrayIndex(e),
-            PgArraySliceExpression e => VisitArraySlice(e),
-            PgBinaryExpression e => VisitPgBinary(e),
-            PgDeleteExpression e => VisitPgDelete(e),
-            PgFunctionExpression e => VisitPgFunction(e),
-            PgILikeExpression e => VisitILike(e),
-            PgJsonTraversalExpression e => VisitJsonPathTraversal(e),
-            PgNewArrayExpression e => VisitNewArray(e),
-            PgRegexMatchExpression e => VisitRegexMatch(e),
-            PgRowValueExpression e => VisitRowValue(e),
-            PgUnknownBinaryExpression e => VisitUnknownBinary(e),
-            PgTableValuedFunctionExpression e => VisitPgTableValuedFunctionExpression(e),
+    => extensionExpression switch
+{
+    PgAllExpression e => VisitArrayAll(e),
+                        PgAnyExpression e => VisitArrayAny(e),
+                        PgArrayIndexExpression e => VisitArrayIndex(e),
+                        PgArraySliceExpression e => VisitArraySlice(e),
+                        PgBinaryExpression e => VisitPgBinary(e),
+                        PgDeleteExpression e => VisitPgDelete(e),
+                        PgFunctionExpression e => VisitPgFunction(e),
+                        PgILikeExpression e => VisitILike(e),
+                        PgJsonTraversalExpression e => VisitJsonPathTraversal(e),
+                        PgNewArrayExpression e => VisitNewArray(e),
+                        PgRegexMatchExpression e => VisitRegexMatch(e),
+                        PgRowValueExpression e => VisitRowValue(e),
+                        PgUnknownBinaryExpression e => VisitUnknownBinary(e),
+                        PgTableValuedFunctionExpression e => VisitPgTableValuedFunctionExpression(e),
 
-            _ => base.VisitExtension(extensionExpression)
-        };
+                        _ => base.VisitExtension(extensionExpression)
+    };
 
     /// <inheritdoc />
     protected override void GenerateRootCommand(Expression queryExpression)
     {
         switch (queryExpression)
         {
-            case PgDeleteExpression postgresDeleteExpression:
-                GenerateTagsHeaderComment(postgresDeleteExpression.Tags);
-                VisitPgDelete(postgresDeleteExpression);
-                break;
+        case PgDeleteExpression postgresDeleteExpression:
+            GenerateTagsHeaderComment(postgresDeleteExpression.Tags);
+            VisitPgDelete(postgresDeleteExpression);
+            break;
 
-            default:
-                base.GenerateRootCommand(queryExpression);
-                break;
+        default:
+            base.GenerateRootCommand(queryExpression);
+            break;
         }
     }
 
@@ -114,25 +114,25 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
 
     /// <inheritdoc />
     protected override string GetOperator(SqlBinaryExpression e)
-        => e.OperatorType switch
-        {
-            // KingbaseES has a special string concatenation operator: ||
-            // We switch to it if the expression itself has type string, or if one of the sides has a string type mapping.
-            // Same for full-text search's TsVector, arrays.
-            ExpressionType.Add when
-                e.Type == typeof(string)
-                || e.Left.TypeMapping?.ClrType == typeof(string)
-                || e.Right.TypeMapping?.ClrType == typeof(string)
-                || e.Type == typeof(KdbndpTsVector)
-                || e.Left.TypeMapping?.ClrType == typeof(KdbndpTsVector)
-                || e.Right.TypeMapping?.ClrType == typeof(KdbndpTsVector)
-                || e.Left.TypeMapping is KdbndpArrayTypeMapping && e.Right.TypeMapping is KdbndpArrayTypeMapping
-                => " || ",
+    => e.OperatorType switch
+{
+    // KingbaseES has a special string concatenation operator: ||
+    // We switch to it if the expression itself has type string, or if one of the sides has a string type mapping.
+    // Same for full-text search's TsVector, arrays.
+    ExpressionType.Add when
+    e.Type == typeof(string)
+        || e.Left.TypeMapping?.ClrType == typeof(string)
+        || e.Right.TypeMapping?.ClrType == typeof(string)
+        || e.Type == typeof(KdbndpTsVector)
+        || e.Left.TypeMapping?.ClrType == typeof(KdbndpTsVector)
+        || e.Right.TypeMapping?.ClrType == typeof(KdbndpTsVector)
+        || e.Left.TypeMapping is KdbndpArrayTypeMapping && e.Right.TypeMapping is KdbndpArrayTypeMapping
+        => " || ",
 
-            ExpressionType.And when e.Type == typeof(bool) => " AND ",
-            ExpressionType.Or when e.Type == typeof(bool) => " OR ",
-            _ => base.GetOperator(e)
-        };
+        ExpressionType.And when e.Type == typeof(bool) => " AND ",
+        ExpressionType.Or when e.Type == typeof(bool) => " OR ",
+        _ => base.GetOperator(e)
+    };
 
     /// <inheritdoc />
     protected override Expression VisitOrdering(OrderingExpression ordering)
@@ -168,11 +168,11 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
             // KingbaseES doesn't support LATERAL JOIN over table, and it doesn't really make sense to do it - but EF Core
             // will sometimes generate that. #1560
             Sql
-                .Append("(SELECT * FROM ")
-                .Append(_sqlGenerationHelper.DelimitIdentifier(table.Name, table.Schema))
-                .Append(")")
-                .Append(AliasSeparator)
-                .Append(_sqlGenerationHelper.DelimitIdentifier(table.Alias));
+            .Append("(SELECT * FROM ")
+            .Append(_sqlGenerationHelper.DelimitIdentifier(table.Name, table.Schema))
+            .Append(")")
+            .Append(AliasSeparator)
+            .Append(_sqlGenerationHelper.DelimitIdentifier(table.Alias));
         }
         else
         {
@@ -198,11 +198,11 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
             // KingbaseES doesn't support LATERAL JOIN over table, and it doesn't really make sense to do it - but EF Core
             // will sometimes generate that. #1560
             Sql
-                .Append("(SELECT * FROM ")
-                .Append(_sqlGenerationHelper.DelimitIdentifier(table.Name, table.Schema))
-                .Append(")")
-                .Append(AliasSeparator)
-                .Append(_sqlGenerationHelper.DelimitIdentifier(table.Alias));
+            .Append("(SELECT * FROM ")
+            .Append(_sqlGenerationHelper.DelimitIdentifier(table.Name, table.Schema))
+            .Append(")")
+            .Append(AliasSeparator)
+            .Append(_sqlGenerationHelper.DelimitIdentifier(table.Alias));
         }
         else
         {
@@ -218,32 +218,32 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
     {
         switch (binary.OperatorType)
         {
-            case ExpressionType.Add:
+        case ExpressionType.Add:
+        {
+            if (_postgresVersion >= new Version(9, 5))
             {
-                if (_postgresVersion >= new Version(9, 5))
-                {
-                    return base.VisitSqlBinary(binary);
-                }
-
-                // KingbaseES 9.4 and below has some weird operator precedence fixed in 9.5 and described here:
-                // http://git.KingbaseES.org/gitweb/?p=KingbaseES.git&a=commitdiff&h=c6b3c939b7e0f1d35f4ed4996e71420a993810d2
-                // As a result we must surround string concatenation with parentheses
-                if (binary.Left.Type == typeof(string) && binary.Right.Type == typeof(string))
-                {
-                    Sql.Append("(");
-                    var exp = base.VisitSqlBinary(binary);
-                    Sql.Append(")");
-                    return exp;
-                }
-
                 return base.VisitSqlBinary(binary);
             }
 
-            case ExpressionType.ArrayIndex:
-                return VisitArrayIndex(binary);
+            // KingbaseES 9.4 and below has some weird operator precedence fixed in 9.5 and described here:
+            // http://git.KingbaseES.org/gitweb/?p=KingbaseES.git&a=commitdiff&h=c6b3c939b7e0f1d35f4ed4996e71420a993810d2
+            // As a result we must surround string concatenation with parentheses
+            if (binary.Left.Type == typeof(string) && binary.Right.Type == typeof(string))
+            {
+                Sql.Append("(");
+                var exp = base.VisitSqlBinary(binary);
+                Sql.Append(")");
+                return exp;
+            }
 
-            default:
-                return base.VisitSqlBinary(binary);
+            return base.VisitSqlBinary(binary);
+        }
+
+        case ExpressionType.ArrayIndex:
+            return VisitArrayIndex(binary);
+
+        default:
+            return base.VisitSqlBinary(binary);
         }
     }
 
@@ -256,7 +256,7 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override Expression VisitDelete(DeleteExpression deleteExpression)
-        => throw new InvalidOperationException("Inconceivable!");
+    => throw new InvalidOperationException("Inconceivable!");
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -295,15 +295,15 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
         var selectExpression = updateExpression.SelectExpression;
 
         if (selectExpression.Offset == null
-            && selectExpression.Limit == null
-            && selectExpression.Having == null
-            && selectExpression.Orderings.Count == 0
-            && selectExpression.GroupBy.Count == 0
-            && selectExpression.Projection.Count == 0
-            && (selectExpression.Tables.Count == 1
-                || !ReferenceEquals(selectExpression.Tables[0], updateExpression.Table)
-                || selectExpression.Tables[1] is InnerJoinExpression
-                || selectExpression.Tables[1] is CrossJoinExpression))
+                && selectExpression.Limit == null
+                && selectExpression.Having == null
+                && selectExpression.Orderings.Count == 0
+                && selectExpression.GroupBy.Count == 0
+                && selectExpression.Projection.Count == 0
+                && (selectExpression.Tables.Count == 1
+                    || !ReferenceEquals(selectExpression.Tables[0], updateExpression.Table)
+                    || selectExpression.Tables[1] is InnerJoinExpression
+                    || selectExpression.Tables[1] is CrossJoinExpression))
         {
             Sql.Append("UPDATE ");
             Visit(updateExpression.Table);
@@ -384,13 +384,13 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
                             Check.DebugAssert(joinExpression is not LeftJoinExpression, "Cannot lift predicate for left join");
 
                             predicate = predicate == null
-                                ? predicateJoinExpression.JoinPredicate
-                                : new SqlBinaryExpression(
-                                    ExpressionType.AndAlso,
-                                    predicateJoinExpression.JoinPredicate,
-                                    predicate,
-                                    typeof(bool),
-                                    predicate.TypeMapping);
+                                        ? predicateJoinExpression.JoinPredicate
+                                        : new SqlBinaryExpression(
+                                            ExpressionType.AndAlso,
+                                            predicateJoinExpression.JoinPredicate,
+                                            predicate,
+                                            typeof(bool),
+                                            predicate.TypeMapping);
                         }
                     }
                 }
@@ -434,8 +434,8 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
 
         // Not sure if the explicit store type is necessary, but just to be sure.
         Sql
-            .Append("]::")
-            .Append(pgNewArrayExpression.TypeMapping.StoreType);
+        .Append("]::")
+        .Append(pgNewArrayExpression.TypeMapping.StoreType);
 
         return pgNewArrayExpression;
     }
@@ -468,54 +468,54 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
         Debug.Assert(binaryExpression.Right.TypeMapping is not null);
 
         Sql
-            .Append(" ")
-            .Append(
-                binaryExpression.OperatorType switch
-                {
-                    PgExpressionType.Contains => "@>",
-                    PgExpressionType.ContainedBy => "<@",
-                    PgExpressionType.Overlaps => "&&",
+        .Append(" ")
+        .Append(
+            binaryExpression.OperatorType switch
+    {
+        PgExpressionType.Contains => "@>",
+        PgExpressionType.ContainedBy => "<@",
+        PgExpressionType.Overlaps => "&&",
 
-                    PgExpressionType.NetworkContainedByOrEqual => "<<=",
-                    PgExpressionType.NetworkContainsOrEqual => ">>=",
-                    PgExpressionType.NetworkContainsOrContainedBy => "&&",
+        PgExpressionType.NetworkContainedByOrEqual => "<<=",
+        PgExpressionType.NetworkContainsOrEqual => ">>=",
+        PgExpressionType.NetworkContainsOrContainedBy => "&&",
 
-                    PgExpressionType.RangeIsStrictlyLeftOf => "<<",
-                    PgExpressionType.RangeIsStrictlyRightOf => ">>",
-                    PgExpressionType.RangeDoesNotExtendRightOf => "&<",
-                    PgExpressionType.RangeDoesNotExtendLeftOf => "&>",
-                    PgExpressionType.RangeIsAdjacentTo => "-|-",
-                    PgExpressionType.RangeUnion => "+",
-                    PgExpressionType.RangeIntersect => "*",
-                    PgExpressionType.RangeExcept => "-",
+        PgExpressionType.RangeIsStrictlyLeftOf => "<<",
+        PgExpressionType.RangeIsStrictlyRightOf => ">>",
+        PgExpressionType.RangeDoesNotExtendRightOf => "&<",
+        PgExpressionType.RangeDoesNotExtendLeftOf => "&>",
+        PgExpressionType.RangeIsAdjacentTo => "-|-",
+        PgExpressionType.RangeUnion => "+",
+        PgExpressionType.RangeIntersect => "*",
+        PgExpressionType.RangeExcept => "-",
 
-                    PgExpressionType.TextSearchMatch => "@@",
-                    PgExpressionType.TextSearchAnd => "&&",
-                    PgExpressionType.TextSearchOr => "||",
+        PgExpressionType.TextSearchMatch => "@@",
+        PgExpressionType.TextSearchAnd => "&&",
+        PgExpressionType.TextSearchOr => "||",
 
-                    PgExpressionType.JsonExists => "?",
-                    PgExpressionType.JsonExistsAny => "?|",
-                    PgExpressionType.JsonExistsAll => "?&",
+        PgExpressionType.JsonExists => "?",
+        PgExpressionType.JsonExistsAny => "?|",
+        PgExpressionType.JsonExistsAll => "?&",
 
-                    PgExpressionType.LTreeMatches
-                        when binaryExpression.Right.TypeMapping.StoreType == "lquery"
-                        || binaryExpression.Right.TypeMapping is KdbndpArrayTypeMapping { ElementTypeMapping.StoreType: "lquery" } => "~",
-                    PgExpressionType.LTreeMatches
-                        when binaryExpression.Right.TypeMapping.StoreType == "ltxtquery"
-                        => "@",
-                    PgExpressionType.LTreeMatchesAny => "?",
-                    PgExpressionType.LTreeFirstAncestor => "?@>",
-                    PgExpressionType.LTreeFirstDescendent => "?<@",
-                    PgExpressionType.LTreeFirstMatches
-                        when binaryExpression.Right.TypeMapping.StoreType == "lquery" => "?~",
-                    PgExpressionType.LTreeFirstMatches
-                        when binaryExpression.Right.TypeMapping.StoreType == "ltxtquery" => "?@",
+        PgExpressionType.LTreeMatches
+        when binaryExpression.Right.TypeMapping.StoreType == "lquery"
+        || binaryExpression.Right.TypeMapping is KdbndpArrayTypeMapping { ElementTypeMapping.StoreType: "lquery" } => "~",
+        PgExpressionType.LTreeMatches
+        when binaryExpression.Right.TypeMapping.StoreType == "ltxtquery"
+        => "@",
+        PgExpressionType.LTreeMatchesAny => "?",
+        PgExpressionType.LTreeFirstAncestor => "?@>",
+        PgExpressionType.LTreeFirstDescendent => "?<@",
+        PgExpressionType.LTreeFirstMatches
+        when binaryExpression.Right.TypeMapping.StoreType == "lquery" => "?~",
+        PgExpressionType.LTreeFirstMatches
+        when binaryExpression.Right.TypeMapping.StoreType == "ltxtquery" => "?@",
 
-                    PgExpressionType.Distance => "<->",
+        PgExpressionType.Distance => "<->",
 
-                    _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {binaryExpression.OperatorType}")
-                })
-            .Append(" ");
+        _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {binaryExpression.OperatorType}")
+        })
+        .Append(" ");
 
         requiresParentheses = RequiresParentheses(binaryExpression, binaryExpression.Right);
 
@@ -562,49 +562,51 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
 
         switch (sqlUnaryExpression.OperatorType)
         {
-            case ExpressionType.Convert:
+        case ExpressionType.Convert:
+        {
+            // KingbaseES supports the standard CAST(x AS y), but also a lighter x::y which we use
+            // where there's no precedence issues
+            switch (sqlUnaryExpression.Operand)
             {
-                // KingbaseES supports the standard CAST(x AS y), but also a lighter x::y which we use
-                // where there's no precedence issues
-                switch (sqlUnaryExpression.Operand)
+            case SqlConstantExpression:
+            case SqlParameterExpression:
+            case SqlUnaryExpression { OperatorType:
+                                              ExpressionType.Convert
+                                            }:
+                case ColumnExpression:
+                case SqlFunctionExpression:
+                case ScalarSubqueryExpression:
+                    var storeType = sqlUnaryExpression.TypeMapping.StoreType switch
                 {
-                    case SqlConstantExpression:
-                    case SqlParameterExpression:
-                    case SqlUnaryExpression { OperatorType: ExpressionType.Convert }:
-                    case ColumnExpression:
-                    case SqlFunctionExpression:
-                    case ScalarSubqueryExpression:
-                        var storeType = sqlUnaryExpression.TypeMapping.StoreType switch
-                        {
-                            "integer" => "int",
-                            "timestamp with time zone" => "timestamptz",
-                            "timestamp without time zone" => "timestamp",
-                            var s => s
-                        };
+                    "integer" => "int",
+                    "timestamp with time zone" => "timestamptz",
+                    "timestamp without time zone" => "timestamp",
+                    var s => s
+                };
 
-                        Visit(sqlUnaryExpression.Operand);
-                        Sql.Append("::");
-                        Sql.Append(storeType);
-                        return sqlUnaryExpression;
+                Visit(sqlUnaryExpression.Operand);
+                    Sql.Append("::");
+                    Sql.Append(storeType);
+                    return sqlUnaryExpression;
                 }
 
                 break;
             }
 
-            // Bitwise complement on networking types
-            case ExpressionType.Not when
+        // Bitwise complement on networking types
+        case ExpressionType.Not when
                 sqlUnaryExpression.Operand.TypeMapping.ClrType == typeof(IPAddress)
                 || sqlUnaryExpression.Operand.TypeMapping.ClrType == typeof((IPAddress, int))
                 || sqlUnaryExpression.Operand.TypeMapping.ClrType == typeof(PhysicalAddress):
-                Sql.Append("~");
-                Visit(sqlUnaryExpression.Operand);
-                return sqlUnaryExpression;
+            Sql.Append("~");
+            Visit(sqlUnaryExpression.Operand);
+            return sqlUnaryExpression;
 
-            // Not operation on full-text queries
-            case ExpressionType.Not when sqlUnaryExpression.Operand.TypeMapping.ClrType == typeof(KdbndpTsQuery):
-                Sql.Append("!!");
-                Visit(sqlUnaryExpression.Operand);
-                return sqlUnaryExpression;
+        // Not operation on full-text queries
+        case ExpressionType.Not when sqlUnaryExpression.Operand.TypeMapping.ClrType == typeof(KdbndpTsQuery):
+            Sql.Append("!!");
+            Visit(sqlUnaryExpression.Operand);
+            return sqlUnaryExpression;
         }
 
         return base.VisitSqlUnary(sqlUnaryExpression);
@@ -648,8 +650,8 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
 
         // In PG, collation names are regular identifiers which need to be quoted for case-sensitivity.
         Sql
-            .Append(" COLLATE ")
-            .Append(_sqlGenerationHelper.DelimitIdentifier(collateExpression.Collation));
+        .Append(" COLLATE ")
+        .Append(_sqlGenerationHelper.DelimitIdentifier(collateExpression.Collation));
 
         return collateExpression;
     }
@@ -661,11 +663,11 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override bool TryGenerateWithoutWrappingSelect(SelectExpression selectExpression)
-        // KingbaseES supports VALUES as a top-level statement - and directly under set operations.
-        // However, when on the left side of a set operation, we need the column coming out of VALUES to be named, so we need the wrapping
-        // SELECT for that.
-        => selectExpression.Tables is not [ValuesExpression]
-            && base.TryGenerateWithoutWrappingSelect(selectExpression);
+    // KingbaseES supports VALUES as a top-level statement - and directly under set operations.
+    // However, when on the left side of a set operation, we need the column coming out of VALUES to be named, so we need the wrapping
+    // SELECT for that.
+    => selectExpression.Tables is not [ValuesExpression]
+    && base.TryGenerateWithoutWrappingSelect(selectExpression);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -678,35 +680,35 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
         GenerateSetOperationOperand(setOperation, setOperation.Source1);
 
         Sql
-            .AppendLine()
-            .Append(
-                setOperation switch
-                {
-                    ExceptExpression => "EXCEPT",
-                    IntersectExpression => "INTERSECT",
-                    UnionExpression => "UNION",
-                    _ => throw new InvalidOperationException(CoreStrings.UnknownEntity("SetOperationType"))
-                })
-            .AppendLine(setOperation.IsDistinct ? string.Empty : " ALL");
+        .AppendLine()
+        .Append(
+            setOperation switch
+    {
+        ExceptExpression => "EXCEPT",
+        IntersectExpression => "INTERSECT",
+        UnionExpression => "UNION",
+        _ => throw new InvalidOperationException(CoreStrings.UnknownEntity("SetOperationType"))
+        })
+        .AppendLine(setOperation.IsDistinct ? string.Empty : " ALL");
 
         // For ValuesExpression, we can remove its wrapping SelectExpression but only if on the right side of a set operation, since on
         // the left side we need the column name to be specified.
         if (setOperation.Source2 is
-            {
-                Tables: [ValuesExpression valuesExpression],
-                Offset: null,
-                Limit: null,
-                IsDistinct: false,
-                Predicate: null,
-                Having: null,
-                Orderings.Count: 0,
-                GroupBy.Count: 0,
-            } rightSelectExpression
-            && rightSelectExpression.Projection.Count == valuesExpression.ColumnNames.Count
-            && rightSelectExpression.Projection.Select(
-                    (pe, index) => pe.Expression is ColumnExpression column
-                        && column.Name == valuesExpression.ColumnNames[index])
-                .All(e => e))
+    {
+        Tables: [ValuesExpression valuesExpression],
+            Offset: null,
+            Limit: null,
+            IsDistinct: false,
+            Predicate: null,
+            Having: null,
+            Orderings.Count: 0,
+            GroupBy.Count: 0,
+        } rightSelectExpression
+        && rightSelectExpression.Projection.Count == valuesExpression.ColumnNames.Count
+        && rightSelectExpression.Projection.Select(
+            (pe, index) => pe.Expression is ColumnExpression column
+            && column.Name == valuesExpression.ColumnNames[index])
+        .All(e => e))
         {
             GenerateValues(valuesExpression);
         }
@@ -784,15 +786,15 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
         Visit(expression.Item);
 
         Sql
-            .Append(" ")
-            .Append(
-                expression.OperatorType switch
-                {
-                    PgAllOperatorType.Like => "LIKE",
-                    PgAllOperatorType.ILike => "ILIKE",
-                    _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {expression.OperatorType}")
-                })
-            .Append(" ALL (");
+        .Append(" ")
+        .Append(
+            expression.OperatorType switch
+    {
+        PgAllOperatorType.Like => "LIKE",
+        PgAllOperatorType.ILike => "ILIKE",
+        _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {expression.OperatorType}")
+        })
+        .Append(" ALL (");
 
         Visit(expression.Array);
 
@@ -812,16 +814,16 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
         Visit(expression.Item);
 
         Sql
-            .Append(" ")
-            .Append(
-                expression.OperatorType switch
-                {
-                    PgAnyOperatorType.Equal => "=",
-                    PgAnyOperatorType.Like => "LIKE",
-                    PgAnyOperatorType.ILike => "ILIKE",
-                    _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {expression.OperatorType}")
-                })
-            .Append(" ANY (");
+        .Append(" ")
+        .Append(
+            expression.OperatorType switch
+    {
+        PgAnyOperatorType.Equal => "=",
+        PgAnyOperatorType.Like => "LIKE",
+        PgAnyOperatorType.ILike => "ILIKE",
+        _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {expression.OperatorType}")
+        })
+        .Append(" ANY (");
 
         Visit(expression.Array);
 
@@ -1027,59 +1029,61 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
 
         switch (jsonScalarExpression.TypeMapping)
         {
-            // This case is for when a nested JSON entity is being accessed. We want the json/jsonb fragment in this case (not text),
-            // so we can perform further JSON operations on it.
-            case KdbndpOwnedJsonTypeMapping:
-                GenerateJsonPath(returnsText: false);
-                break;
+        // This case is for when a nested JSON entity is being accessed. We want the json/jsonb fragment in this case (not text),
+        // so we can perform further JSON operations on it.
+        case KdbndpOwnedJsonTypeMapping:
+            GenerateJsonPath(returnsText: false);
+            break;
 
-            // No need to cast the output when we expect a string anyway
-            case StringTypeMapping:
-                GenerateJsonPath(returnsText: true);
-                break;
+        // No need to cast the output when we expect a string anyway
+        case StringTypeMapping:
+            GenerateJsonPath(returnsText: true);
+            break;
 
-            // bytea requires special handling, since we encode the binary data as base64 inside the JSON, but that requires a special
-            // conversion function to be extracted out to a PG bytea.
-            case KdbndpByteArrayTypeMapping:
-                Sql.Append("decode(");
-                GenerateJsonPath(returnsText: true);
-                Sql.Append(", 'base64')");
-                break;
+        // bytea requires special handling, since we encode the binary data as base64 inside the JSON, but that requires a special
+        // conversion function to be extracted out to a PG bytea.
+        case KdbndpByteArrayTypeMapping:
+            Sql.Append("decode(");
+            GenerateJsonPath(returnsText: true);
+            Sql.Append(", 'base64')");
+            break;
 
-            // Arrays require special handling; we cannot simply cast a JSON array (as text) to a PG array ([1,2,3] isn't a valid PG array
-            // representation). We use jsonb_array_elements_text to extract the array elements as a set, cast them to their PG element type
-            // and then build an array from that.
-            case KdbndpArrayTypeMapping arrayMapping:
-                Sql.Append("(ARRAY(SELECT CAST(element AS ").Append(arrayMapping.ElementTypeMapping.StoreType)
-                    .Append(") FROM jsonb_array_elements_text(");
-                GenerateJsonPath(returnsText: false);
-                Sql.Append(") WITH ORDINALITY AS t(element) ORDER BY ordinality))");
-                break;
+        // Arrays require special handling; we cannot simply cast a JSON array (as text) to a PG array ([1,2,3] isn't a valid PG array
+        // representation). We use jsonb_array_elements_text to extract the array elements as a set, cast them to their PG element type
+        // and then build an array from that.
+        case KdbndpArrayTypeMapping arrayMapping:
+            Sql.Append("(ARRAY(SELECT CAST(element AS ").Append(arrayMapping.ElementTypeMapping.StoreType)
+            .Append(") FROM jsonb_array_elements_text(");
+            GenerateJsonPath(returnsText: false);
+            Sql.Append(") WITH ORDINALITY AS t(element) ORDER BY ordinality))");
+            break;
 
-            default:
-                Sql.Append("CAST(");
-                GenerateJsonPath(returnsText: true);
-                Sql.Append(" AS ");
-                Sql.Append(jsonScalarExpression.TypeMapping!.StoreType);
-                Sql.Append(")");
-                break;
+        default:
+            Sql.Append("CAST(");
+            GenerateJsonPath(returnsText: true);
+            Sql.Append(" AS ");
+            Sql.Append(jsonScalarExpression.TypeMapping!.StoreType);
+            Sql.Append(")");
+            break;
         }
 
         return jsonScalarExpression;
 
         void GenerateJsonPath(bool returnsText)
-            => this.GenerateJsonPath(
-                jsonScalarExpression.Json,
-                returnsText: returnsText,
-                jsonScalarExpression.Path.Select(
-                    s => s switch
-                    {
-                        { PropertyName: string propertyName }
-                            => new SqlConstantExpression(
-                                Expression.Constant(propertyName), _textTypeMapping ??= _typeMappingSource.FindMapping(typeof(string))),
-                        { ArrayIndex: SqlExpression arrayIndex } => arrayIndex,
-                        _ => throw new UnreachableException()
-                    }).ToList());
+        => this.GenerateJsonPath(
+            jsonScalarExpression.Json,
+            returnsText: returnsText,
+            jsonScalarExpression.Path.Select(
+                s => s switch
+    {
+        {
+            PropertyName: string propertyName
+        }
+        => new SqlConstantExpression(
+            Expression.Constant(propertyName), _textTypeMapping ??= _typeMappingSource.FindMapping(typeof(string))),
+            { ArrayIndex: SqlExpression arrayIndex } => arrayIndex,
+            _ => throw new UnreachableException()
+        }).ToList());
     }
 
     /// <summary>
@@ -1113,9 +1117,9 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
         if (path.All(p => p is SqlConstantExpression))
         {
             Sql
-                .Append("'{")
-                .Append(string.Join(",", path.Select(p => ((SqlConstantExpression)p).Value)))
-                .Append("}'");
+            .Append("'{")
+            .Append(string.Join(",", path.Select(p => ((SqlConstantExpression)p).Value)))
+            .Append("}'");
         }
         else
         {
@@ -1148,11 +1152,11 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
         // wrapping the function invocation and column definition inside ROWS FROM, and placing the table alias and WITH ORDINALITY outside.
         // We take care of that here.
         if (tableValuedFunctionExpression is
-            {
-                WithOrdinality: true,
-                ColumnInfos: { } columnInfos
-            }
-            && columnInfos.Any(ci => ci.TypeMapping is not null))
+    {
+        WithOrdinality: true,
+        ColumnInfos: { } columnInfos
+    }
+    && columnInfos.Any(ci => ci.TypeMapping is not null))
         {
             Sql.Append("ROWS FROM (");
 
@@ -1253,9 +1257,9 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
         }
 
         Sql
-            .Append(" ")
-            .Append(unknownBinaryExpression.Operator)
-            .Append(" ");
+        .Append(" ")
+        .Append(unknownBinaryExpression.Operator)
+        .Append(" ");
 
         requiresParentheses = RequiresParentheses(unknownBinaryExpression, unknownBinaryExpression.Right);
 
@@ -1294,8 +1298,8 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
             if (!string.IsNullOrEmpty(e.Schema))
             {
                 Sql
-                    .Append(_sqlGenerationHelper.DelimitIdentifier(e.Schema))
-                    .Append(".");
+                .Append(_sqlGenerationHelper.DelimitIdentifier(e.Schema))
+                .Append(".");
             }
 
             // TODO: Quote user-defined function names with upper-case (also for regular SqlFunctionExpression)
@@ -1315,8 +1319,8 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
             if (i < e.ArgumentNames.Count && e.ArgumentNames[i] is { } argumentName)
             {
                 Sql
-                    .Append(argumentName)
-                    .Append(" => ");
+                .Append(argumentName)
+                .Append(" => ");
             }
 
             Visit(e.Arguments[i]);
@@ -1325,8 +1329,8 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
             {
                 Sql.Append(
                     i < e.ArgumentSeparators.Count && e.ArgumentSeparators[i] is not null
-                        ? $" {e.ArgumentSeparators[i]} "
-                        : ", ");
+                    ? $" {e.ArgumentSeparators[i]} "
+                    : ", ");
             }
         }
 
@@ -1371,45 +1375,45 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
     {
         switch (innerExpression)
         {
-            // PG doesn't support ~-, -~, ~~, -- so we add parentheses
-            case SqlUnaryExpression innerUnary when outerExpression is SqlUnaryExpression outerUnary
+        // PG doesn't support ~-, -~, ~~, -- so we add parentheses
+        case SqlUnaryExpression innerUnary when outerExpression is SqlUnaryExpression outerUnary
                 && (innerUnary.OperatorType is ExpressionType.Negate
                     || innerUnary.OperatorType is ExpressionType.Not && innerUnary.Type != typeof(bool))
                 && (outerUnary.OperatorType is ExpressionType.Negate
                     || outerUnary.OperatorType is ExpressionType.Not && outerUnary.Type != typeof(bool)):
-                return true;
+            return true;
 
-            // Copy paste of QuerySqlGenerator.RequiresParentheses for SqlBinaryExpression
-            case PgBinaryExpression innerBinary:
-            {
-                // If the provider defined precedence for the two expression, use that
-                if (TryGetOperatorInfo(outerExpression, out var outerPrecedence, out var isOuterAssociative)
+        // Copy paste of QuerySqlGenerator.RequiresParentheses for SqlBinaryExpression
+        case PgBinaryExpression innerBinary:
+        {
+            // If the provider defined precedence for the two expression, use that
+            if (TryGetOperatorInfo(outerExpression, out var outerPrecedence, out var isOuterAssociative)
                     && TryGetOperatorInfo(innerExpression, out var innerPrecedence, out _))
-                {
-                    return outerPrecedence.CompareTo(innerPrecedence) switch
-                    {
-                        > 0 => true,
-                        < 0 => false,
+            {
+                return outerPrecedence.CompareTo(innerPrecedence) switch
+            {
+                > 0 => true,
+                < 0 => false,
 
-                        // If both operators have the same precedence, add parentheses unless they're the same operator, and
-                        // that operator is associative (e.g. a + b + c)
-                        0 => outerExpression is not PgBinaryExpression outerBinary
-                            || outerBinary.OperatorType != innerBinary.OperatorType
-                            || !isOuterAssociative
-                            // Arithmetic operators on floating points aren't associative, because of rounding errors.
-                            || outerExpression.Type == typeof(float)
-                            || outerExpression.Type == typeof(double)
-                            || innerExpression.Type == typeof(float)
-                            || innerExpression.Type == typeof(double)
-                    };
-                }
-
-                // Otherwise always parenthesize for safety
-                return true;
+                // If both operators have the same precedence, add parentheses unless they're the same operator, and
+                // that operator is associative (e.g. a + b + c)
+                0 => outerExpression is not PgBinaryExpression outerBinary
+                || outerBinary.OperatorType != innerBinary.OperatorType
+                || !isOuterAssociative
+                // Arithmetic operators on floating points aren't associative, because of rounding errors.
+                || outerExpression.Type == typeof(float)
+                    || outerExpression.Type == typeof(double)
+                    || innerExpression.Type == typeof(float)
+                    || innerExpression.Type == typeof(double)
+                };
             }
 
-            default:
-                return base.RequiresParentheses(outerExpression, innerExpression);
+            // Otherwise always parenthesize for safety
+            return true;
+        }
+
+        default:
+            return base.RequiresParentheses(outerExpression, innerExpression);
         }
     }
 
@@ -1423,13 +1427,13 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
     {
         // See https://www.KingbaseES.org/docs/current/sql-syntax-lexical.html#SQL-PRECEDENCE
         (precedence, isAssociative) = expression switch
-        {
-            // TODO: Exponent => 1300
+    {
+        // TODO: Exponent => 1300
 
-            SqlBinaryExpression sqlBinaryExpression => sqlBinaryExpression.OperatorType switch
-            {
-                // Multiplication, division, modulo
-                ExpressionType.Multiply => (1200, true),
+        SqlBinaryExpression sqlBinaryExpression => sqlBinaryExpression.OperatorType switch
+        {
+            // Multiplication, division, modulo
+            ExpressionType.Multiply => (1200, true),
                 ExpressionType.Divide => (1200, false),
                 ExpressionType.Modulo => (1200, false),
 
@@ -1461,8 +1465,8 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
             },
 
             SqlUnaryExpression sqlUnaryExpression => sqlUnaryExpression.OperatorType switch
-            {
-                ExpressionType.Convert => (1600, false),
+        {
+            ExpressionType.Convert => (1600, false),
                 ExpressionType.Negate => (1400, false),
                 ExpressionType.Not when sqlUnaryExpression.Type != typeof(bool) => (1000, false),
                 ExpressionType.Equal => (700, false), // IS NULL
@@ -1536,7 +1540,7 @@ public class KdbndpQuerySqlGenerator : QuerySqlGenerator
             }
 
             if (expression is ColumnExpression columnExpression
-                && columnExpression.Table == _mainTable)
+                    && columnExpression.Table == _mainTable)
             {
                 _containsReference = true;
 

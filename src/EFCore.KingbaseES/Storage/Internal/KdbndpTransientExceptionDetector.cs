@@ -15,5 +15,5 @@ public class KdbndpTransientExceptionDetector
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static bool ShouldRetryOn(Exception? ex)
-        => (ex as KdbndpException)?.IsTransient == true || ex is TimeoutException;
+    => (ex as KdbndpException)?.IsTransient == true || ex is TimeoutException;
 }

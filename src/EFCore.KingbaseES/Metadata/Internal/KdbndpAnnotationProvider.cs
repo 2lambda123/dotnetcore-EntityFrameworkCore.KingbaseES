@@ -45,11 +45,11 @@ public class KdbndpAnnotationProvider : RelationalAnnotationProvider
         if (entityType[CockroachDbAnnotationNames.InterleaveInParent] is not null)
         {
             yield return new Annotation(
-                CockroachDbAnnotationNames.InterleaveInParent, entityType[CockroachDbAnnotationNames.InterleaveInParent]);
+                             CockroachDbAnnotationNames.InterleaveInParent, entityType[CockroachDbAnnotationNames.InterleaveInParent]);
         }
 
         foreach (var storageParamAnnotation in entityType.GetAnnotations()
-                     .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.StorageParameterPrefix, StringComparison.Ordinal)))
+                 .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.StorageParameterPrefix, StringComparison.Ordinal)))
         {
             yield return storageParamAnnotation;
         }
@@ -70,17 +70,17 @@ public class KdbndpAnnotationProvider : RelationalAnnotationProvider
 
         var table = StoreObjectIdentifier.Table(column.Table.Name, column.Table.Schema);
         var valueGeneratedProperty = column.PropertyMappings.Where(
-                m => (m.TableMapping.IsSharedTablePrincipal ?? true)
-                    && m.TableMapping.TypeBase == m.Property.DeclaringType)
-            .Select(m => m.Property)
-            .FirstOrDefault(
-                p => p.GetValueGenerationStrategy(table) switch
-                {
-                    KdbndpValueGenerationStrategy.IdentityByDefaultColumn => true,
-                    KdbndpValueGenerationStrategy.IdentityAlwaysColumn => true,
-                    KdbndpValueGenerationStrategy.SerialColumn => true,
-                    _ => false
-                });
+                                         m => (m.TableMapping.IsSharedTablePrincipal ?? true)
+                                         && m.TableMapping.TypeBase == m.Property.DeclaringType)
+                                     .Select(m => m.Property)
+                                     .FirstOrDefault(
+                                         p => p.GetValueGenerationStrategy(table) switch
+    {
+        KdbndpValueGenerationStrategy.IdentityByDefaultColumn => true,
+        KdbndpValueGenerationStrategy.IdentityAlwaysColumn => true,
+        KdbndpValueGenerationStrategy.SerialColumn => true,
+        _ => false
+    });
 
         if (valueGeneratedProperty is not null)
         {
@@ -88,7 +88,7 @@ public class KdbndpAnnotationProvider : RelationalAnnotationProvider
             yield return new Annotation(KdbndpAnnotationNames.ValueGenerationStrategy, valueGenerationStrategy);
 
             if (valueGenerationStrategy is KdbndpValueGenerationStrategy.IdentityByDefaultColumn
-                or KdbndpValueGenerationStrategy.IdentityAlwaysColumn)
+                    or KdbndpValueGenerationStrategy.IdentityAlwaysColumn)
             {
                 if (valueGeneratedProperty[KdbndpAnnotationNames.IdentityOptions] is string identityOptions)
                 {
@@ -104,7 +104,7 @@ public class KdbndpAnnotationProvider : RelationalAnnotationProvider
         // it for backwards compat.
 #pragma warning disable CS0618
         if (column.PropertyMappings.All(m => m.Property.GetCollation() is null)
-            && column.PropertyMappings.Select(m => m.Property.GetDefaultCollation())
+                && column.PropertyMappings.Select(m => m.Property.GetDefaultCollation())
                 .FirstOrDefault(c => c is not null) is { } defaultColumnCollation)
         {
             yield return new Annotation(KdbndpAnnotationNames.DefaultColumnCollation, defaultColumnCollation);
@@ -118,21 +118,21 @@ public class KdbndpAnnotationProvider : RelationalAnnotationProvider
         }
 
         valueGeneratedProperty = column.PropertyMappings.Select(m => m.Property)
-            .FirstOrDefault(p => p.GetTsVectorProperties() is not null);
+                                 .FirstOrDefault(p => p.GetTsVectorProperties() is not null);
         if (valueGeneratedProperty is not null)
         {
             var tableIdentifier = StoreObjectIdentifier.Table(column.Table.Name, column.Table.Schema);
 
             yield return new Annotation(
-                KdbndpAnnotationNames.TsVectorProperties,
-                valueGeneratedProperty.GetTsVectorProperties()!
-                    .Select(p2 => valueGeneratedProperty.DeclaringType.FindProperty(p2)!.GetColumnName(tableIdentifier))
-                    .ToArray());
+                             KdbndpAnnotationNames.TsVectorProperties,
+                             valueGeneratedProperty.GetTsVectorProperties()!
+                             .Select(p2 => valueGeneratedProperty.DeclaringType.FindProperty(p2)!.GetColumnName(tableIdentifier))
+                             .ToArray());
         }
 
         // JSON columns have no property mappings so all annotations that rely on property mappings should be skipped for them
         if (column is not JsonColumn
-            && column.PropertyMappings.FirstOrDefault()?.Property.GetCompressionMethod() is { } compressionMethod)
+                && column.PropertyMappings.FirstOrDefault()?.Property.GetCompressionMethod() is { } compressionMethod)
         {
             // Model validation ensures that these facets are the same on all mapped properties
             yield return new Annotation(KdbndpAnnotationNames.CompressionMethod, compressionMethod);
@@ -185,10 +185,10 @@ public class KdbndpAnnotationProvider : RelationalAnnotationProvider
             var tableIdentifier = StoreObjectIdentifier.Table(index.Table.Name, index.Table.Schema);
 
             yield return new Annotation(
-                KdbndpAnnotationNames.IndexInclude,
-                includeProperties
-                    .Select(p => modelIndex.DeclaringEntityType.FindProperty(p)!.GetColumnName(tableIdentifier))
-                    .ToArray());
+                             KdbndpAnnotationNames.IndexInclude,
+                             includeProperties
+                             .Select(p => modelIndex.DeclaringEntityType.FindProperty(p)!.GetColumnName(tableIdentifier))
+                             .ToArray());
         }
 
         if (modelIndex.IsCreatedConcurrently() is { } isCreatedConcurrently)
@@ -202,7 +202,7 @@ public class KdbndpAnnotationProvider : RelationalAnnotationProvider
         }
 
         foreach (var storageParamAnnotation in modelIndex.GetAnnotations()
-                     .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.StorageParameterPrefix, StringComparison.Ordinal)))
+                 .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.StorageParameterPrefix, StringComparison.Ordinal)))
         {
             yield return storageParamAnnotation;
         }
@@ -228,10 +228,10 @@ public class KdbndpAnnotationProvider : RelationalAnnotationProvider
         }
 
         return model.Model.GetAnnotations().Where(
-            a =>
-                a.Name.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal)
-                || a.Name.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal)
-                || a.Name.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal)
-                || a.Name.StartsWith(KdbndpAnnotationNames.CollationDefinitionPrefix, StringComparison.Ordinal));
+                   a =>
+                   a.Name.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal)
+                   || a.Name.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal)
+                   || a.Name.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal)
+                   || a.Name.StartsWith(KdbndpAnnotationNames.CollationDefinitionPrefix, StringComparison.Ordinal));
     }
 }

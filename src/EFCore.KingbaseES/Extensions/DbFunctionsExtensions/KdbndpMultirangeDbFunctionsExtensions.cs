@@ -24,7 +24,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     <see cref="Contains{T}(KdbndpRange{T}[], T)" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool Contains<T>(this KdbndpRange<T>[] multirange, T value)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
 
     /// <summary>
     ///     Determines whether a multirange contains a specified value.
@@ -41,7 +41,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     <see cref="Contains{T}(List{KdbndpRange{T}}, T)" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool Contains<T>(this List<KdbndpRange<T>> multirange, T value)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
 
     /// <summary>
     ///     Determines whether a multirange contains a specified multirange.
@@ -59,7 +59,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static bool Contains<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
 
     /// <summary>
     ///     Determines whether a multirange contains a specified multirange.
@@ -77,7 +77,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static bool Contains<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
 
     /// <summary>
     ///     Determines whether a multirange contains a specified range.
@@ -95,7 +95,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     query.
     /// </exception>
     public static bool Contains<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
 
     /// <summary>
     ///     Determines whether a multirange contains a specified range.
@@ -113,7 +113,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static bool Contains<T>(this List<KdbndpRange<T>> multirange1, KdbndpRange<T> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
 
     #endregion Contains
 
@@ -135,7 +135,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static bool ContainedBy<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
 
     /// <summary>
     ///     Determines whether a multirange is contained by a specified multirange.
@@ -153,7 +153,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static bool ContainedBy<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
 
     /// <summary>
     ///     Determines whether a range is contained by a specified multirange.
@@ -171,7 +171,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static bool ContainedBy<T>(this KdbndpRange<T> range, KdbndpRange<T>[] multirange)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
 
     /// <summary>
     ///     Determines whether a range is contained by a specified multirange.
@@ -189,7 +189,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static bool ContainedBy<T>(this KdbndpRange<T> range, List<KdbndpRange<T>> multirange)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
 
     #endregion ContainedBy
 
@@ -211,7 +211,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static bool Overlaps<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
 
     /// <summary>
     ///     Determines whether a multirange overlaps another multirange.
@@ -229,7 +229,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static bool Overlaps<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
 
     /// <summary>
     ///     Determines whether a multirange overlaps another range.
@@ -247,7 +247,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     query.
     /// </exception>
     public static bool Overlaps<T>(this KdbndpRange<T>[] multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
 
     /// <summary>
     ///     Determines whether a multirange overlaps another range.
@@ -265,7 +265,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static bool Overlaps<T>(this List<KdbndpRange<T>> multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
 
     #endregion Overlaps
 
@@ -287,7 +287,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static bool IsStrictlyLeftOf<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
 
     /// <summary>
     ///     Determines whether a multirange is strictly to the left of another multirange.
@@ -305,7 +305,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     of an EF Core LINQ query.
     /// </exception>
     public static bool IsStrictlyLeftOf<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
 
     /// <summary>
     ///     Determines whether a multirange is strictly to the left of a range.
@@ -323,7 +323,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static bool IsStrictlyLeftOf<T>(this KdbndpRange<T>[] multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
 
     /// <summary>
     ///     Determines whether a multirange is strictly to the left of a range.
@@ -341,7 +341,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static bool IsStrictlyLeftOf<T>(this List<KdbndpRange<T>> multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
 
     #endregion IsStrictlyLeftOf
 
@@ -363,7 +363,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static bool IsStrictlyRightOf<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
 
     /// <summary>
     ///     Determines whether a multirange is strictly to the right of another multirange.
@@ -381,7 +381,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     of an EF Core LINQ query.
     /// </exception>
     public static bool IsStrictlyRightOf<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
 
     /// <summary>
     ///     Determines whether a multirange is strictly to the right of a range.
@@ -399,7 +399,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static bool IsStrictlyRightOf<T>(this KdbndpRange<T>[] multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
 
     /// <summary>
     ///     Determines whether a multirange is strictly to the right of a range.
@@ -417,7 +417,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static bool IsStrictlyRightOf<T>(this List<KdbndpRange<T>> multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
 
     #endregion IsStrictlyRightOf
 
@@ -439,7 +439,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendLeftOf<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
 
     /// <summary>
     ///     Determines whether a multirange does not extend to the left of another multirange.
@@ -457,7 +457,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     part of an EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendLeftOf<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
 
     /// <summary>
     ///     Determines whether a multirange does not extend to the left of a range.
@@ -475,7 +475,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendLeftOf<T>(this KdbndpRange<T>[] multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
 
     /// <summary>
     ///     Determines whether a multirange does not extend to the left of a range.
@@ -493,7 +493,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     an EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendLeftOf<T>(this List<KdbndpRange<T>> multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
 
     #endregion DoesNotExtendLeftOf
 
@@ -515,7 +515,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     an EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendRightOf<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
 
     /// <summary>
     ///     Determines whether a multirange does not extend to the right of another multirange.
@@ -533,7 +533,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     part of an EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendRightOf<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
 
     /// <summary>
     ///     Determines whether a multirange does not extend to the right of a range.
@@ -551,7 +551,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendRightOf<T>(this KdbndpRange<T>[] multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
 
     /// <summary>
     ///     Determines whether a multirange does not extend to the right of a range.
@@ -569,7 +569,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     an EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendRightOf<T>(this List<KdbndpRange<T>> multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
 
     #endregion DoesNotExtendRightOf
 
@@ -591,7 +591,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static bool IsAdjacentTo<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
 
     /// <summary>
     ///     Determines whether a multirange is adjacent to another multirange.
@@ -609,7 +609,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     an EF Core LINQ query.
     /// </exception>
     public static bool IsAdjacentTo<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
 
     /// <summary>
     ///     Determines whether a multirange is adjacent to a range.
@@ -627,7 +627,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static bool IsAdjacentTo<T>(this KdbndpRange<T>[] multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
 
     /// <summary>
     ///     Determines whether a multirange is adjacent to a range.
@@ -645,7 +645,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static bool IsAdjacentTo<T>(this List<KdbndpRange<T>> multirange, KdbndpRange<T> range)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
 
     #endregion IsAdjacentTo
 
@@ -662,7 +662,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     query.
     /// </exception>
     public static KdbndpRange<T>[] Union<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Union)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Union)));
 
     /// <summary>
     ///     Returns the set union, which means unique elements that appear in either of two multiranges.
@@ -675,7 +675,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static List<KdbndpRange<T>> Union<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Union)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Union)));
 
     #endregion Union
 
@@ -692,7 +692,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static KdbndpRange<T>[] Intersect<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Intersect)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Intersect)));
 
     /// <summary>
     ///     Returns the set intersection, which means elements that appear in each of two multiranges.
@@ -705,7 +705,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     EF Core LINQ query.
     /// </exception>
     public static List<KdbndpRange<T>> Intersect<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Intersect)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Intersect)));
 
     #endregion Intersect
 
@@ -722,7 +722,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     query.
     /// </exception>
     public static KdbndpRange<T>[] Except<T>(this KdbndpRange<T>[] multirange1, KdbndpRange<T>[] multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Except)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Except)));
 
     /// <summary>
     ///     Returns the set difference, which means the elements of one multirange that do not appear in a second multirange.
@@ -735,7 +735,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static List<KdbndpRange<T>> Except<T>(this List<KdbndpRange<T>> multirange1, List<KdbndpRange<T>> multirange2)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Except)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Except)));
 
     #endregion Except
 
@@ -750,7 +750,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     <see cref="Merge{T}(KdbndpRange{T}[])" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static KdbndpRange<T> Merge<T>(this KdbndpRange<T>[] multirange)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Merge)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Merge)));
 
     /// <summary>
     ///     Computes the smallest range that includes the entire multirange.
@@ -762,7 +762,7 @@ public static class KdbndpMultirangeDbFunctionsExtensions
     ///     Core LINQ query.
     /// </exception>
     public static KdbndpRange<T> Merge<T>(this List<KdbndpRange<T>> multirange)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Merge)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Merge)));
 
     #endregion Merge
 }

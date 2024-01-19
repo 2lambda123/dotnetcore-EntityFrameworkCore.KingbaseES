@@ -82,7 +82,7 @@ public static class KdbndpDbContextOptionsBuilderExtensions
         this DbContextOptionsBuilder optionsBuilder,
         DbConnection connection,
         Action<KdbndpDbContextOptionsBuilder>? KdbndpOptionsAction = null)
-        => UseKdbndp(optionsBuilder, connection, contextOwnsConnection: false, KdbndpOptionsAction);
+    => UseKdbndp(optionsBuilder, connection, contextOwnsConnection: false, KdbndpOptionsAction);
 
     /// <summary>
     ///     Configures the context to connect to a KingbaseES database with Kdbndp.
@@ -167,9 +167,9 @@ public static class KdbndpDbContextOptionsBuilderExtensions
     public static DbContextOptionsBuilder<TContext> UseKdbndp<TContext>(
         this DbContextOptionsBuilder<TContext> optionsBuilder,
         Action<KdbndpDbContextOptionsBuilder>? KdbndpOptionsAction = null)
-        where TContext : DbContext
-        => (DbContextOptionsBuilder<TContext>)UseKdbndp(
-            (DbContextOptionsBuilder)optionsBuilder, KdbndpOptionsAction);
+    where TContext : DbContext
+    => (DbContextOptionsBuilder<TContext>)UseKdbndp(
+        (DbContextOptionsBuilder)optionsBuilder, KdbndpOptionsAction);
 
     /// <summary>
     ///     Configures the context to connect to a KingbaseES database with Kdbndp.
@@ -184,9 +184,9 @@ public static class KdbndpDbContextOptionsBuilderExtensions
         this DbContextOptionsBuilder<TContext> optionsBuilder,
         string? connectionString,
         Action<KdbndpDbContextOptionsBuilder>? KdbndpOptionsAction = null)
-        where TContext : DbContext
-        => (DbContextOptionsBuilder<TContext>)UseKdbndp(
-            (DbContextOptionsBuilder)optionsBuilder, connectionString, KdbndpOptionsAction);
+    where TContext : DbContext
+    => (DbContextOptionsBuilder<TContext>)UseKdbndp(
+        (DbContextOptionsBuilder)optionsBuilder, connectionString, KdbndpOptionsAction);
 
     /// <summary>
     ///     Configures the context to connect to a KingbaseES database with Kdbndp.
@@ -206,9 +206,9 @@ public static class KdbndpDbContextOptionsBuilderExtensions
         this DbContextOptionsBuilder<TContext> optionsBuilder,
         DbConnection connection,
         Action<KdbndpDbContextOptionsBuilder>? KdbndpOptionsAction = null)
-        where TContext : DbContext
-        => (DbContextOptionsBuilder<TContext>)UseKdbndp(
-            (DbContextOptionsBuilder)optionsBuilder, connection, KdbndpOptionsAction);
+    where TContext : DbContext
+    => (DbContextOptionsBuilder<TContext>)UseKdbndp(
+        (DbContextOptionsBuilder)optionsBuilder, connection, KdbndpOptionsAction);
 
     /// <summary>
     ///     Configures the context to connect to a KingbaseES database with Kdbndp.
@@ -232,9 +232,9 @@ public static class KdbndpDbContextOptionsBuilderExtensions
         DbConnection connection,
         bool contextOwnsConnection,
         Action<KdbndpDbContextOptionsBuilder>? KdbndpOptionsAction = null)
-        where TContext : DbContext
-        => (DbContextOptionsBuilder<TContext>)UseKdbndp(
-            (DbContextOptionsBuilder)optionsBuilder, connection, contextOwnsConnection, KdbndpOptionsAction);
+    where TContext : DbContext
+    => (DbContextOptionsBuilder<TContext>)UseKdbndp(
+        (DbContextOptionsBuilder)optionsBuilder, connection, contextOwnsConnection, KdbndpOptionsAction);
 
     /// <summary>
     ///     Configures the context to connect to a KingbaseES database with Kdbndp.
@@ -249,9 +249,9 @@ public static class KdbndpDbContextOptionsBuilderExtensions
         this DbContextOptionsBuilder<TContext> optionsBuilder,
         DbDataSource dataSource,
         Action<KdbndpDbContextOptionsBuilder>? KdbndpOptionsAction = null)
-        where TContext : DbContext
-        => (DbContextOptionsBuilder<TContext>)UseKdbndp(
-            (DbContextOptionsBuilder)optionsBuilder, dataSource, KdbndpOptionsAction);
+    where TContext : DbContext
+    => (DbContextOptionsBuilder<TContext>)UseKdbndp(
+        (DbContextOptionsBuilder)optionsBuilder, dataSource, KdbndpOptionsAction);
 
     /// <summary>
     ///     Returns an existing instance of <see cref="KdbndpOptionsExtension" />, or a new instance if one does not exist.
@@ -261,14 +261,14 @@ public static class KdbndpDbContextOptionsBuilderExtensions
     ///     An existing instance of <see cref="KdbndpOptionsExtension" />, or a new instance if one does not exist.
     /// </returns>
     private static KdbndpOptionsExtension GetOrCreateExtension(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.Options.FindExtension<KdbndpOptionsExtension>() is { } existing
-            ? new KdbndpOptionsExtension(existing)
-            : new KdbndpOptionsExtension();
+    => optionsBuilder.Options.FindExtension<KdbndpOptionsExtension>() is { } existing
+    ? new KdbndpOptionsExtension(existing)
+    : new KdbndpOptionsExtension();
 
     private static void ConfigureWarnings(DbContextOptionsBuilder optionsBuilder)
     {
         var coreOptionsExtension = optionsBuilder.Options.FindExtension<CoreOptionsExtension>()
-            ?? new CoreOptionsExtension();
+                                   ?? new CoreOptionsExtension();
 
         coreOptionsExtension = RelationalOptionsExtension.WithDefaultWarningConfiguration(coreOptionsExtension);
 

@@ -75,7 +75,7 @@ public class KdbndpRetryingExecutionStrategy : ExecutionStrategy
     public KdbndpRetryingExecutionStrategy(
         ExecutionStrategyDependencies dependencies,
         ICollection<string>? errorCodesToAdd)
-        : this(dependencies, DefaultMaxRetryCount, DefaultMaxDelay, errorCodesToAdd)
+    : this(dependencies, DefaultMaxRetryCount, DefaultMaxDelay, errorCodesToAdd)
     {
     }
 
@@ -91,10 +91,10 @@ public class KdbndpRetryingExecutionStrategy : ExecutionStrategy
         int maxRetryCount,
         TimeSpan maxRetryDelay,
         ICollection<string>? errorCodesToAdd)
-        : base(
-            context,
-            maxRetryCount,
-            maxRetryDelay)
+    : base(
+        context,
+        maxRetryCount,
+        maxRetryDelay)
     {
         _additionalErrorCodes = errorCodesToAdd;
     }
@@ -111,7 +111,7 @@ public class KdbndpRetryingExecutionStrategy : ExecutionStrategy
         int maxRetryCount,
         TimeSpan maxRetryDelay,
         ICollection<string>? errorCodesToAdd)
-        : base(dependencies, maxRetryCount, maxRetryDelay)
+    : base(dependencies, maxRetryCount, maxRetryDelay)
     {
         _additionalErrorCodes = errorCodesToAdd;
     }
@@ -121,6 +121,6 @@ public class KdbndpRetryingExecutionStrategy : ExecutionStrategy
     // Would be good to provide a way to add these into the additional list.
     /// <inheritdoc />
     protected override bool ShouldRetryOn(Exception? exception)
-        => exception is KdbndpException KdbndpException && _additionalErrorCodes?.Contains(KdbndpException.SqlState!) == true
-            || KdbndpTransientExceptionDetector.ShouldRetryOn(exception);
+    => exception is KdbndpException KdbndpException && _additionalErrorCodes?.Contains(KdbndpException.SqlState!) == true
+    || KdbndpTransientExceptionDetector.ShouldRetryOn(exception);
 }

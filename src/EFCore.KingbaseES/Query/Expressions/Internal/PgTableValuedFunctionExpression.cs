@@ -32,7 +32,9 @@ public class PgTableValuedFunctionExpression : TableValuedFunctionExpression, IE
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </remarks>
-    public virtual IReadOnlyList<ColumnInfo>? ColumnInfos { get; }
+    public virtual IReadOnlyList<ColumnInfo>? ColumnInfos {
+        get;
+    }
 
     /// <summary>
     ///     Whether to project an additional ordinality column containing the index of each element in the array.
@@ -43,7 +45,9 @@ public class PgTableValuedFunctionExpression : TableValuedFunctionExpression, IE
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </remarks>
-    public virtual bool WithOrdinality { get; }
+    public virtual bool WithOrdinality {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -57,7 +61,7 @@ public class PgTableValuedFunctionExpression : TableValuedFunctionExpression, IE
         IReadOnlyList<SqlExpression> arguments,
         IReadOnlyList<ColumnInfo>? columnInfos,
         bool withOrdinality = true)
-        : base(alias, name, schema: null, builtIn: true, arguments)
+    : base(alias, name, schema: null, builtIn: true, arguments)
     {
         ColumnInfos = columnInfos;
         WithOrdinality = withOrdinality;
@@ -65,9 +69,9 @@ public class PgTableValuedFunctionExpression : TableValuedFunctionExpression, IE
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => visitor.VisitAndConvert(Arguments) is var visitedArguments && visitedArguments == Arguments
-            ? this
-            : new PgTableValuedFunctionExpression(Alias, Name, visitedArguments, ColumnInfos, WithOrdinality);
+    => visitor.VisitAndConvert(Arguments) is var visitedArguments && visitedArguments == Arguments
+    ? this
+    : new PgTableValuedFunctionExpression(Alias, Name, visitedArguments, ColumnInfos, WithOrdinality);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -76,9 +80,9 @@ public class PgTableValuedFunctionExpression : TableValuedFunctionExpression, IE
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override PgTableValuedFunctionExpression Update(IReadOnlyList<SqlExpression> arguments)
-        => !arguments.SequenceEqual(Arguments)
-            ? new PgTableValuedFunctionExpression(Alias, Name, arguments, ColumnInfos, WithOrdinality)
-            : this;
+    => !arguments.SequenceEqual(Arguments)
+    ? new PgTableValuedFunctionExpression(Alias, Name, arguments, ColumnInfos, WithOrdinality)
+    : this;
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
@@ -128,19 +132,19 @@ public class PgTableValuedFunctionExpression : TableValuedFunctionExpression, IE
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => ReferenceEquals(obj, this) || obj is PgTableValuedFunctionExpression e && Equals(e);
+    => ReferenceEquals(obj, this) || obj is PgTableValuedFunctionExpression e && Equals(e);
 
     /// <inheritdoc />
     public bool Equals(PgTableValuedFunctionExpression? expression)
-        => base.Equals(expression)
-            && (
-                expression.ColumnInfos is null && ColumnInfos is null
-                || expression.ColumnInfos is not null && ColumnInfos is not null && expression.ColumnInfos.SequenceEqual(ColumnInfos))
-            && WithOrdinality == expression.WithOrdinality;
+    => base.Equals(expression)
+    && (
+        expression.ColumnInfos is null && ColumnInfos is null
+        || expression.ColumnInfos is not null && ColumnInfos is not null && expression.ColumnInfos.SequenceEqual(ColumnInfos))
+    && WithOrdinality == expression.WithOrdinality;
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => base.GetHashCode();
+    => base.GetHashCode();
 
     /// <summary>
     ///     Defines the name of a column coming out of a <see cref="PgTableValuedFunctionExpression" /> and optionally its type.

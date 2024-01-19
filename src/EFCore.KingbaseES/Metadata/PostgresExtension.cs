@@ -63,7 +63,9 @@ public class PostgresExtension
 
         var annotationName = BuildAnnotationName(schema, name);
 
-        return new PostgresExtension(annotatable, annotationName) { Version = version };
+        return new PostgresExtension(annotatable, annotationName) {
+            Version = version
+        };
     }
 
     /// <summary>
@@ -102,7 +104,9 @@ public class PostgresExtension
 
         var annotationName = BuildAnnotationName(schema, name);
 
-        return new PostgresExtension(annotatable, annotationName) { Version = version };
+        return new PostgresExtension(annotatable, annotationName) {
+            Version = version
+        };
     }
 
     /// <summary>
@@ -124,7 +128,7 @@ public class PostgresExtension
         IMutableAnnotatable annotatable,
         string name,
         string? version)
-        => GetOrAddPostgresExtension(annotatable, null, name, version);
+    => GetOrAddPostgresExtension(annotatable, null, name, version);
 
     /// <summary>
     ///     Finds a <see cref="PostgresExtension" /> in the <see cref="IAnnotatable" />, or returns null if not found.
@@ -159,9 +163,9 @@ public class PostgresExtension
     }
 
     internal static string BuildAnnotationName(string? schema, string name)
-        => schema is not null
-            ? $"{KdbndpAnnotationNames.PostgresExtensionPrefix}{schema}.{name}"
-            : $"{KdbndpAnnotationNames.PostgresExtensionPrefix}{name}";
+    => schema is not null
+    ? $"{KdbndpAnnotationNames.PostgresExtensionPrefix}{schema}.{name}"
+    : $"{KdbndpAnnotationNames.PostgresExtensionPrefix}{name}";
 
     /// <summary>
     ///     Gets the collection of <see cref="PostgresExtension" /> stored in the <see cref="IAnnotatable" />.
@@ -174,28 +178,28 @@ public class PostgresExtension
     ///     <paramref name="annotatable" />
     /// </exception>
     public static IEnumerable<PostgresExtension> GetPostgresExtensions(IReadOnlyAnnotatable annotatable)
-        => Check.NotNull(annotatable, nameof(annotatable))
-            .GetAnnotations()
-            .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal))
-            .Select(a => new PostgresExtension(annotatable, a.Name));
+    => Check.NotNull(annotatable, nameof(annotatable))
+    .GetAnnotations()
+    .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal))
+    .Select(a => new PostgresExtension(annotatable, a.Name));
 
     /// <summary>
     ///     The <see cref="Annotatable" /> that stores the extension.
     /// </summary>
     public virtual Annotatable Annotatable
-        => (Annotatable)_annotatable;
+    => (Annotatable)_annotatable;
 
     /// <summary>
     ///     The extension schema or null to represent the default schema.
     /// </summary>
     public virtual string? Schema
-        => GetData().Schema;
+    => GetData().Schema;
 
     /// <summary>
     ///     The extension name.
     /// </summary>
     public virtual string Name
-        => GetData().Name!;
+    => GetData().Name!;
 
     /// <summary>
     ///     The extension version.
@@ -207,7 +211,7 @@ public class PostgresExtension
     }
 
     private (string? Schema, string? Name, string? Version) GetData()
-        => Deserialize(Annotatable.FindAnnotation(_annotationName)!);
+    => Deserialize(Annotatable.FindAnnotation(_annotationName)!);
 
     private void SetData(string? version)
     {
@@ -227,12 +231,12 @@ public class PostgresExtension
         var schemaAndName = annotation.Name.Substring(KdbndpAnnotationNames.PostgresExtensionPrefix.Length).Split('.');
         switch (schemaAndName.Length)
         {
-            case 1:
-                return (null, schemaAndName[0], schemaNameValue[2]);
-            case 2:
-                return (schemaAndName[0], schemaAndName[1], schemaNameValue[2]);
-            default:
-                throw new ArgumentException($"Cannot parse extension name from annotation: {annotation.Name}");
+        case 1:
+            return (null, schemaAndName[0], schemaNameValue[2]);
+        case 2:
+            return (schemaAndName[0], schemaAndName[1], schemaNameValue[2]);
+        default:
+            throw new ArgumentException($"Cannot parse extension name from annotation: {annotation.Name}");
         }
     }
 }

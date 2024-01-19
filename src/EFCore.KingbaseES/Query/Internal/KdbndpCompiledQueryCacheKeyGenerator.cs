@@ -30,9 +30,9 @@ public class KdbndpCompiledQueryCacheKeyGenerator : RelationalCompiledQueryCache
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override object GenerateCacheKey(Expression query, bool async)
-        => new KdbndpCompiledQueryCacheKey(
-            GenerateCacheKeyCore(query, async),
-            RelationalDependencies.ContextOptions.FindExtension<KdbndpOptionsExtension>()?.ReverseNullOrdering ?? false);
+    => new KdbndpCompiledQueryCacheKey(
+        GenerateCacheKeyCore(query, async),
+        RelationalDependencies.ContextOptions.FindExtension<KdbndpOptionsExtension>()?.ReverseNullOrdering ?? false);
 
     private struct KdbndpCompiledQueryCacheKey
     {
@@ -48,15 +48,15 @@ public class KdbndpCompiledQueryCacheKeyGenerator : RelationalCompiledQueryCache
         }
 
         public override bool Equals(object? obj)
-            => !(obj is null)
-                && obj is KdbndpCompiledQueryCacheKey key
-                && Equals(key);
+        => !(obj is null)
+        && obj is KdbndpCompiledQueryCacheKey key
+        && Equals(key);
 
         private bool Equals(KdbndpCompiledQueryCacheKey other)
-            => _relationalCompiledQueryCacheKey.Equals(other._relationalCompiledQueryCacheKey)
-                && _reverseNullOrdering == other._reverseNullOrdering;
+        => _relationalCompiledQueryCacheKey.Equals(other._relationalCompiledQueryCacheKey)
+        && _reverseNullOrdering == other._reverseNullOrdering;
 
         public override int GetHashCode()
-            => HashCode.Combine(_relationalCompiledQueryCacheKey, _reverseNullOrdering);
+        => HashCode.Combine(_relationalCompiledQueryCacheKey, _reverseNullOrdering);
     }
 }

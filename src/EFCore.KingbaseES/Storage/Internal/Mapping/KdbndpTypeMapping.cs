@@ -11,7 +11,9 @@ namespace Kdbndp.EntityFrameworkCore.KingbaseES.Storage.Internal.Mapping;
 public abstract class KdbndpTypeMapping : RelationalTypeMapping, IKdbndpTypeMapping
 {
     /// <inheritdoc />
-    public virtual KdbndpDbType KdbndpDbType { get; }
+    public virtual KdbndpDbType KdbndpDbType {
+        get;
+    }
 
     // ReSharper disable once PublicConstructorInAbstractClass
     /// <summary>
@@ -22,7 +24,7 @@ public abstract class KdbndpTypeMapping : RelationalTypeMapping, IKdbndpTypeMapp
     /// <param name="kdbndpDbType">The database type used by Kdbndp.</param>
     /// <param name="jsonValueReaderWriter">Handles reading and writing JSON values for instances of the mapped type.</param>
     public KdbndpTypeMapping(string storeType, Type clrType, KdbndpDbType kdbndpDbType, JsonValueReaderWriter? jsonValueReaderWriter = null)
-        : base(storeType, clrType, jsonValueReaderWriter: jsonValueReaderWriter)
+    : base(storeType, clrType, jsonValueReaderWriter: jsonValueReaderWriter)
     {
         KdbndpDbType = kdbndpDbType;
     }
@@ -84,9 +86,9 @@ public abstract class KdbndpTypeMapping : RelationalTypeMapping, IKdbndpTypeMapp
     ///     The generated string.
     /// </returns>
     public virtual string GenerateEmbeddedProviderValueSqlLiteral(object? value)
-        => value == null
-            ? "NULL"
-            : GenerateEmbeddedNonNullSqlLiteral(value);
+    => value == null
+    ? "NULL"
+    : GenerateEmbeddedNonNullSqlLiteral(value);
 
     /// <summary>
     ///     Generates the SQL representation of a non-null literal value, meant to be embedded in another literal value, e.g. in a range.
@@ -96,11 +98,11 @@ public abstract class KdbndpTypeMapping : RelationalTypeMapping, IKdbndpTypeMapp
     ///     The generated string.
     /// </returns>
     protected virtual string GenerateEmbeddedNonNullSqlLiteral(object value)
-        => GenerateNonNullSqlLiteral(value);
+    => GenerateNonNullSqlLiteral(value);
 
     // Copied from RelationalTypeMapping
     private object? ConvertUnderlyingEnumValueToEnum(object? value)
-        => value?.GetType().IsInteger() == true && ClrType.UnwrapNullableType().IsEnum
-            ? Enum.ToObject(ClrType.UnwrapNullableType(), value)
-            : value;
+    => value?.GetType().IsInteger() == true && ClrType.UnwrapNullableType().IsEnum
+    ? Enum.ToObject(ClrType.UnwrapNullableType(), value)
+    : value;
 }

@@ -23,7 +23,7 @@ public class KdbndpRelationalConnection : RelationalConnection, IKdbndpRelationa
     ///     Indicates whether the store connection supports ambient transactions
     /// </summary>
     protected override bool SupportsAmbientTransactions
-        => true;
+    => true;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -43,7 +43,7 @@ public class KdbndpRelationalConnection : RelationalConnection, IKdbndpRelationa
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected KdbndpRelationalConnection(RelationalConnectionDependencies dependencies, DbDataSource? dataSource)
-        : base(dependencies)
+    : base(dependencies)
     {
         if (dataSource is not null)
         {
@@ -168,13 +168,13 @@ public class KdbndpRelationalConnection : RelationalConnection, IKdbndpRelationa
             Database = KdbndpOptions.AdminDatabase ?? "postgres",
             Pooling = false,
             Multiplexing = false
-        }.ToString();
+        } .ToString();
 
         var adminKdbndpOptions = _dataSource is not null
-            ? KdbndpOptions.WithConnection(((KdbndpConnection)CreateDbConnection()).CloneWith(adminConnectionString))
-            : KdbndpOptions.Connection is not null
-                ? KdbndpOptions.WithConnection(DbConnection.CloneWith(adminConnectionString))
-                : KdbndpOptions.WithConnectionString(adminConnectionString);
+                                 ? KdbndpOptions.WithConnection(((KdbndpConnection)CreateDbConnection()).CloneWith(adminConnectionString))
+                                 : KdbndpOptions.Connection is not null
+                                 ? KdbndpOptions.WithConnection(DbConnection.CloneWith(adminConnectionString))
+                                 : KdbndpOptions.WithConnectionString(adminConnectionString);
 
         var optionsBuilder = new DbContextOptionsBuilder();
         ((IDbContextOptionsBuilderInfrastructure)optionsBuilder).AddOrUpdateExtension(adminKdbndpOptions);
@@ -190,9 +190,9 @@ public class KdbndpRelationalConnection : RelationalConnection, IKdbndpRelationa
     /// </summary>
     // Accessing Transaction.Current is expensive, so don't do it if Enlist is false in the connection string
     public override Transaction? CurrentAmbientTransaction
-        => ConnectionString is null || !ConnectionString.Contains("Enlist=false", StringComparison.InvariantCultureIgnoreCase)
-            ? Transaction.Current
-            : null;
+    => ConnectionString is null || !ConnectionString.Contains("Enlist=false", StringComparison.InvariantCultureIgnoreCase)
+    ? Transaction.Current
+    : null;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -205,8 +205,8 @@ public class KdbndpRelationalConnection : RelationalConnection, IKdbndpRelationa
         var clonedDbConnection = DbConnection.CloneWith(connectionString);
 
         var relationalOptions = RelationalOptionsExtension.Extract(Dependencies.ContextOptions)
-            .WithConnectionString(null)
-            .WithConnection(clonedDbConnection);
+                                .WithConnectionString(null)
+                                .WithConnection(clonedDbConnection);
 
         var optionsBuilder = new DbContextOptionsBuilder();
         ((IDbContextOptionsBuilderInfrastructure)optionsBuilder).AddOrUpdateExtension(relationalOptions);

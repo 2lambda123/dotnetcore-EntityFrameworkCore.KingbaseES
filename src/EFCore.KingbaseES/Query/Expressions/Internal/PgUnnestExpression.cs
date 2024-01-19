@@ -33,7 +33,7 @@ public class PgUnnestExpression : PgTableValuedFunctionExpression
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </remarks>
     public virtual SqlExpression Array
-        => Arguments[0];
+    => Arguments[0];
 
     /// <summary>
     ///     The name of the column to be projected out from the <c>unnest</c> call.
@@ -45,7 +45,7 @@ public class PgUnnestExpression : PgTableValuedFunctionExpression
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </remarks>
     public virtual string ColumnName
-        => ColumnInfos![0].Name;
+    => ColumnInfos![0].Name;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -60,9 +60,9 @@ public class PgUnnestExpression : PgTableValuedFunctionExpression
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => visitor.Visit(Array) is var visitedArray && visitedArray == Array
-            ? this
-            : new PgUnnestExpression(Alias, (SqlExpression)visitedArray, ColumnName, WithOrdinality);
+    => visitor.Visit(Array) is var visitedArray && visitedArray == Array
+    ? this
+    : new PgUnnestExpression(Alias, (SqlExpression)visitedArray, ColumnName, WithOrdinality);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -71,9 +71,9 @@ public class PgUnnestExpression : PgTableValuedFunctionExpression
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override PgUnnestExpression Update(IReadOnlyList<SqlExpression> arguments)
-        => arguments is [var singleArgument]
-            ? Update(singleArgument)
-            : throw new ArgumentException();
+    => arguments is [var singleArgument]
+    ? Update(singleArgument)
+    : throw new ArgumentException();
 
     /// <summary>
     ///     Creates a new expression that is like this one, but using the supplied children. If all of the children are the same, it will
@@ -82,7 +82,7 @@ public class PgUnnestExpression : PgTableValuedFunctionExpression
     /// <param name="array">The <see cref="Array" /> property of the result.</param>
     /// <returns>This expression if no children changed, or an expression with the updated children.</returns>
     public virtual PgUnnestExpression Update(SqlExpression array)
-        => array == Array
-            ? this
-            : new PgUnnestExpression(Alias, array, ColumnName, WithOrdinality);
+    => array == Array
+    ? this
+    : new PgUnnestExpression(Alias, array, ColumnName, WithOrdinality);
 }

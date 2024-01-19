@@ -8,17 +8,23 @@ public class PgJsonTraversalExpression : SqlExpression, IEquatable<PgJsonTravers
     /// <summary>
     ///     The match expression.
     /// </summary>
-    public virtual SqlExpression Expression { get; }
+    public virtual SqlExpression Expression {
+        get;
+    }
 
     /// <summary>
     ///     The pattern to match.
     /// </summary>
-    public virtual IReadOnlyList<SqlExpression> Path { get; }
+    public virtual IReadOnlyList<SqlExpression> Path {
+        get;
+    }
 
     /// <summary>
     ///     Whether the text-returning operator (x#>>y) or the object-returning operator (x#>y) is used.
     /// </summary>
-    public virtual bool ReturnsText { get; }
+    public virtual bool ReturnsText {
+        get;
+    }
 
     /// <summary>
     ///     Constructs a <see cref="PgJsonTraversalExpression" />.
@@ -29,7 +35,7 @@ public class PgJsonTraversalExpression : SqlExpression, IEquatable<PgJsonTravers
         bool returnsText,
         Type type,
         RelationalTypeMapping? typeMapping)
-        : base(type, typeMapping)
+    : base(type, typeMapping)
     {
         if (returnsText && type != typeof(string))
         {
@@ -43,18 +49,18 @@ public class PgJsonTraversalExpression : SqlExpression, IEquatable<PgJsonTravers
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Update(
-            (SqlExpression)visitor.Visit(Expression),
-            Path.Select(p => (SqlExpression)visitor.Visit(p)).ToArray());
+    => Update(
+        (SqlExpression)visitor.Visit(Expression),
+        Path.Select(p => (SqlExpression)visitor.Visit(p)).ToArray());
 
     /// <summary>
     ///     Creates a new expression that is like this one, but using the supplied children. If all of the children are the same, it will
     ///     return this expression.
     /// </summary>
     public virtual PgJsonTraversalExpression Update(SqlExpression expression, IReadOnlyList<SqlExpression> path)
-        => expression == Expression && path.Count == Path.Count && path.Zip(Path, (x, y) => (x, y)).All(tup => tup.x == tup.y)
-            ? this
-            : new PgJsonTraversalExpression(expression, path, ReturnsText, Type, TypeMapping);
+    => expression == Expression && path.Count == Path.Count && path.Zip(Path, (x, y) => (x, y)).All(tup => tup.x == tup.y)
+    ? this
+    : new PgJsonTraversalExpression(expression, path, ReturnsText, Type, TypeMapping);
 
     /// <summary>
     ///     Appends an additional path component to this <see cref="PgJsonTraversalExpression" /> and returns the result.
@@ -73,20 +79,20 @@ public class PgJsonTraversalExpression : SqlExpression, IEquatable<PgJsonTravers
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => Equals(obj as PgJsonTraversalExpression);
+    => Equals(obj as PgJsonTraversalExpression);
 
     /// <inheritdoc />
     public virtual bool Equals(PgJsonTraversalExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && Equals(Expression, other.Expression)
-            && Path.Count == other.Path.Count
-            && Path.Zip(other.Path, (x, y) => (x, y)).All(tup => tup.x == tup.y);
+    => ReferenceEquals(this, other)
+    || other is not null
+    && base.Equals(other)
+    && Equals(Expression, other.Expression)
+    && Path.Count == other.Path.Count
+    && Path.Zip(other.Path, (x, y) => (x, y)).All(tup => tup.x == tup.y);
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), Expression, Path);
+    => HashCode.Combine(base.GetHashCode(), Expression, Path);
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
@@ -108,5 +114,5 @@ public class PgJsonTraversalExpression : SqlExpression, IEquatable<PgJsonTravers
 
     /// <inheritdoc />
     public override string ToString()
-        => $"{Expression}{(ReturnsText ? "#>>" : "#>")}{Path}";
+    => $"{Expression}{(ReturnsText ? "#>>" : "#>")}{Path}";
 }

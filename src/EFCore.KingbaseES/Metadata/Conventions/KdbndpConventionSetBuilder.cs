@@ -121,12 +121,12 @@ public class KdbndpConventionSetBuilder : RelationalConventionSetBuilder
     private static IServiceScope CreateServiceScope()
     {
         var serviceProvider = new ServiceCollection()
-            .AddEntityFrameworkKdbndp()
-            .AddDbContext<DbContext>(
-                (p, o) =>
-                    o.UseKdbndp("Server=.")
-                        .UseInternalServiceProvider(p))
-            .BuildServiceProvider();
+        .AddEntityFrameworkKdbndp()
+        .AddDbContext<DbContext>(
+            (p, o) =>
+            o.UseKdbndp("Server=.")
+            .UseInternalServiceProvider(p))
+        .BuildServiceProvider();
 
         return serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
     }

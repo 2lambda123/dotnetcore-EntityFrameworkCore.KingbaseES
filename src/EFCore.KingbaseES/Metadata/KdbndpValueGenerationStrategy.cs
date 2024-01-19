@@ -62,12 +62,12 @@ public static class KdbndpValueGenerationStrategyExtensions
     ///     <see cref="KdbndpValueGenerationStrategy.IdentityAlwaysColumn" />.
     /// </summary>
     public static bool IsIdentity(this KdbndpValueGenerationStrategy strategy)
-        => strategy is KdbndpValueGenerationStrategy.IdentityByDefaultColumn or KdbndpValueGenerationStrategy.IdentityAlwaysColumn;
+    => strategy is KdbndpValueGenerationStrategy.IdentityByDefaultColumn or KdbndpValueGenerationStrategy.IdentityAlwaysColumn;
 
     /// <summary>
     ///     Whether the given strategy is either <see cref="KdbndpValueGenerationStrategy.IdentityByDefaultColumn" /> or
     ///     <see cref="KdbndpValueGenerationStrategy.IdentityAlwaysColumn" />.
     /// </summary>
     public static bool IsIdentity(this KdbndpValueGenerationStrategy? strategy)
-        => strategy is KdbndpValueGenerationStrategy.IdentityByDefaultColumn or KdbndpValueGenerationStrategy.IdentityAlwaysColumn;
+    => strategy is KdbndpValueGenerationStrategy.IdentityByDefaultColumn or KdbndpValueGenerationStrategy.IdentityAlwaysColumn;
 }

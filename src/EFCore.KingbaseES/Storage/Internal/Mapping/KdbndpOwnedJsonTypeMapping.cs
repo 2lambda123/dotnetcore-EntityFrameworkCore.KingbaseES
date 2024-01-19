@@ -14,7 +14,9 @@ public class KdbndpOwnedJsonTypeMapping : JsonTypeMapping
     /// <summary>
     ///     The database type used by Kdbndp (<see cref="KdbndpDbType.Json" /> or <see cref="KdbndpDbType.Jsonb" />.
     /// </summary>
-    public virtual KdbndpDbType KdbndpDbType { get; }
+    public virtual KdbndpDbType KdbndpDbType {
+        get;
+    }
 
     private static readonly MethodInfo GetStringMethod
         = typeof(DbDataReader).GetRuntimeMethod(nameof(DbDataReader.GetString), new[] { typeof(int) })!;
@@ -38,10 +40,10 @@ public class KdbndpOwnedJsonTypeMapping : JsonTypeMapping
         : base(storeType, typeof(JsonElement), dbType: null)
     {
         KdbndpDbType = storeType switch
-        {
-            "json" => KdbndpDbType.Json,
-            "jsonb" => KdbndpDbType.Jsonb,
-            _ => throw new ArgumentException("Only the json and jsonb types are supported", nameof(storeType))
+    {
+        "json" => KdbndpDbType.Json,
+        "jsonb" => KdbndpDbType.Jsonb,
+        _ => throw new ArgumentException("Only the json and jsonb types are supported", nameof(storeType))
         };
     }
 
@@ -52,7 +54,7 @@ public class KdbndpOwnedJsonTypeMapping : JsonTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override MethodInfo GetDataReaderMethod()
-        => GetStringMethod;
+    => GetStringMethod;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -61,12 +63,12 @@ public class KdbndpOwnedJsonTypeMapping : JsonTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override Expression CustomizeDataReaderExpression(Expression expression)
-        => Expression.New(
-            MemoryStreamConstructor,
-            Expression.Call(
-                Expression.Property(null, UTF8Property),
-                EncodingGetBytesMethod,
-                expression));
+    => Expression.New(
+        MemoryStreamConstructor,
+        Expression.Call(
+            Expression.Property(null, UTF8Property),
+            EncodingGetBytesMethod,
+            expression));
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -105,7 +107,7 @@ public class KdbndpOwnedJsonTypeMapping : JsonTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected virtual string EscapeSqlLiteral(string literal)
-        => literal.Replace("'", "''");
+    => literal.Replace("'", "''");
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -114,7 +116,7 @@ public class KdbndpOwnedJsonTypeMapping : JsonTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override string GenerateNonNullSqlLiteral(object value)
-        => $"'{EscapeSqlLiteral(JsonSerializer.Serialize(value))}'";
+    => $"'{EscapeSqlLiteral(JsonSerializer.Serialize(value))}'";
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -123,5 +125,5 @@ public class KdbndpOwnedJsonTypeMapping : JsonTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpOwnedJsonTypeMapping(parameters, KdbndpDbType);
+    => new KdbndpOwnedJsonTypeMapping(parameters, KdbndpDbType);
 }

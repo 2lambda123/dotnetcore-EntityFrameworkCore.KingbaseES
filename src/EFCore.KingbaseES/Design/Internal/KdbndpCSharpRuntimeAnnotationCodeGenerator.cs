@@ -47,10 +47,10 @@ public class KdbndpCSharpRuntimeAnnotationCodeGenerator : RelationalCSharpRuntim
         var mainBuilder = parameters.MainBuilder;
 
         var KdbndpDbTypeBasedDefaultInstance = typeMapping switch
-        {
-            KdbndpStringTypeMapping => KdbndpStringTypeMapping.Default,
-            // KdbndpMultirangeTypeMapping => KdbndpMultirangeTypeMapping.Default,
-            _ => (IKdbndpTypeMapping?)null
+    {
+        KdbndpStringTypeMapping => KdbndpStringTypeMapping.Default,
+        // KdbndpMultirangeTypeMapping => KdbndpMultirangeTypeMapping.Default,
+        _ => (IKdbndpTypeMapping?)null
         };
 
         if (KdbndpDbTypeBasedDefaultInstance is not null)
@@ -65,15 +65,15 @@ public class KdbndpCSharpRuntimeAnnotationCodeGenerator : RelationalCSharpRuntim
                     $"{parameters.TargetName}.TypeMapping = (({typeMapping.GetType().Name}){parameters.TargetName}.TypeMapping).Clone(KdbndpDbType: ");
 
                 mainBuilder
-                    .Append(nameof(KdbndpTypes))
-                    .Append(".")
-                    .Append(nameof(KdbndpDbType))
-                    .Append(".")
-                    .Append(KdbndpDbType.ToString());
+                .Append(nameof(KdbndpTypes))
+                .Append(".")
+                .Append(nameof(KdbndpDbType))
+                .Append(".")
+                .Append(KdbndpDbType.ToString());
 
                 mainBuilder
-                    .Append(")")
-                    .DecrementIndent();
+                .Append(")")
+                .DecrementIndent();
             }
 
         }
@@ -81,13 +81,13 @@ public class KdbndpCSharpRuntimeAnnotationCodeGenerator : RelationalCSharpRuntim
         switch (typeMapping)
         {
 #pragma warning disable CS0618 // KdbndpConnection.GlobalTypeMapper is obsolete
-            case KdbndpEnumTypeMapping enumTypeMapping:
-                if (enumTypeMapping.NameTranslator != KdbndpConnection.GlobalTypeMapper.DefaultNameTranslator)
-                {
-                    throw new NotSupportedException(
-                        "Mapped enums are only supported in the compiled model if they use the default name translator");
-                }
-                break;
+        case KdbndpEnumTypeMapping enumTypeMapping:
+            if (enumTypeMapping.NameTranslator != KdbndpConnection.GlobalTypeMapper.DefaultNameTranslator)
+            {
+                throw new NotSupportedException(
+                    "Mapped enums are only supported in the compiled model if they use the default name translator");
+            }
+            break;
 #pragma warning restore CS0618
         }
 
@@ -110,9 +110,9 @@ public class KdbndpCSharpRuntimeAnnotationCodeGenerator : RelationalCSharpRuntim
 
             foreach (var annotationName in annotations.Keys.Where(
                          k =>
-                             k.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal)
-                             || k.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal)
-                             || k.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal)))
+                         k.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal)
+                         || k.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal)
+                         || k.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal)))
             {
                 annotations.Remove(annotationName);
             }
@@ -137,9 +137,9 @@ public class KdbndpCSharpRuntimeAnnotationCodeGenerator : RelationalCSharpRuntim
 
             foreach (var annotationName in annotations.Keys.Where(
                          k =>
-                             k.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal)
-                             || k.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal)
-                             || k.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal)))
+                         k.StartsWith(KdbndpAnnotationNames.PostgresExtensionPrefix, StringComparison.Ordinal)
+                         || k.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal)
+                         || k.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal)))
             {
                 annotations.Remove(annotationName);
             }

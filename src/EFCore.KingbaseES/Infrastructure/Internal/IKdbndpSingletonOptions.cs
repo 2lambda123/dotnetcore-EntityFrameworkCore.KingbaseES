@@ -10,35 +10,49 @@ public interface IKdbndpSingletonOptions : ISingletonOptions
     /// <summary>
     ///     The backend version to target.
     /// </summary>
-    Version PostgresVersion { get; }
+    Version PostgresVersion {
+        get;
+    }
 
     /// <summary>
     ///     Whether the user has explicitly set the backend version to target.
     /// </summary>
-    bool IsPostgresVersionSet { get; }
+    bool IsPostgresVersionSet {
+        get;
+    }
 
     /// <summary>
     ///     Whether to target Redshift.
     /// </summary>
-    bool UseRedshift { get; }
+    bool UseRedshift {
+        get;
+    }
 
     /// <summary>
     ///     Whether reverse null ordering is enabled.
     /// </summary>
-    bool ReverseNullOrderingEnabled { get; }
+    bool ReverseNullOrderingEnabled {
+        get;
+    }
 
     /// <summary>
     ///     The data source being used, or <see langword="null" /> if a connection string or connection was provided directly.
     /// </summary>
-    DbDataSource? DataSource { get; }
+    DbDataSource? DataSource {
+        get;
+    }
 
     /// <summary>
     ///     The collection of range mappings.
     /// </summary>
-    IReadOnlyList<UserRangeDefinition> UserRangeDefinitions { get; }
+    IReadOnlyList<UserRangeDefinition> UserRangeDefinitions {
+        get;
+    }
 
     /// <summary>
     ///     The root service provider for the application, if available. />.
     /// </summary>
-    IServiceProvider? ApplicationServiceProvider { get; }
+    IServiceProvider? ApplicationServiceProvider {
+        get;
+    }
 }

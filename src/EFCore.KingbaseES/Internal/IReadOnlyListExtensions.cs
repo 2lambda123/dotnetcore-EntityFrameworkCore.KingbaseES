@@ -5,7 +5,7 @@ namespace Kdbndp.EntityFrameworkCore.KingbaseES.Internal;
 internal static class IReadOnlyListExtensions
 {
     public static IReadOnlyList<T> Slice<T>(this IReadOnlyList<T> list, int start)
-        => new IReadOnlyListSlice<T>(list, start);
+    => new IReadOnlyListSlice<T>(list, start);
 
     private sealed class IReadOnlyListSlice<T> : IReadOnlyList<T>
     {
@@ -19,15 +19,15 @@ internal static class IReadOnlyListExtensions
         }
 
         public IEnumerator<T> GetEnumerator()
-            => _underlying.Skip(_start).GetEnumerator();
+        => _underlying.Skip(_start).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
+        => GetEnumerator();
 
         public int Count
-            => _underlying.Count - _start;
+        => _underlying.Count - _start;
 
         public T this[int index]
-            => _underlying[_start + index];
+        => _underlying[_start + index];
     }
 }

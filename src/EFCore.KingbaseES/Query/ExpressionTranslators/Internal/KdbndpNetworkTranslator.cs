@@ -64,31 +64,31 @@ public class KdbndpNetworkTranslator : IMethodCallTranslator
         }
 
         return method.Name switch
-        {
-            nameof(KdbndpNetworkDbFunctionsExtensions.LessThan)
-                => _sqlExpressionFactory.LessThan(arguments[1], arguments[2]),
+    {
+        nameof(KdbndpNetworkDbFunctionsExtensions.LessThan)
+            => _sqlExpressionFactory.LessThan(arguments[1], arguments[2]),
             nameof(KdbndpNetworkDbFunctionsExtensions.LessThanOrEqual)
-                => _sqlExpressionFactory.LessThanOrEqual(arguments[1], arguments[2]),
+            => _sqlExpressionFactory.LessThanOrEqual(arguments[1], arguments[2]),
             nameof(KdbndpNetworkDbFunctionsExtensions.GreaterThanOrEqual)
-                => _sqlExpressionFactory.GreaterThanOrEqual(arguments[1], arguments[2]),
+            => _sqlExpressionFactory.GreaterThanOrEqual(arguments[1], arguments[2]),
             nameof(KdbndpNetworkDbFunctionsExtensions.GreaterThan)
-                => _sqlExpressionFactory.GreaterThan(arguments[1], arguments[2]),
+            => _sqlExpressionFactory.GreaterThan(arguments[1], arguments[2]),
 
             nameof(KdbndpNetworkDbFunctionsExtensions.ContainedBy)
-                => _sqlExpressionFactory.ContainedBy(arguments[1], arguments[2]),
+            => _sqlExpressionFactory.ContainedBy(arguments[1], arguments[2]),
             nameof(KdbndpNetworkDbFunctionsExtensions.ContainedByOrEqual)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.NetworkContainedByOrEqual, arguments[1], arguments[2]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.NetworkContainedByOrEqual, arguments[1], arguments[2]),
             nameof(KdbndpNetworkDbFunctionsExtensions.Contains)
-                => _sqlExpressionFactory.Contains(arguments[1], arguments[2]),
+            => _sqlExpressionFactory.Contains(arguments[1], arguments[2]),
             nameof(KdbndpNetworkDbFunctionsExtensions.ContainsOrEqual)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.NetworkContainsOrEqual, arguments[1], arguments[2]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.NetworkContainsOrEqual, arguments[1], arguments[2]),
             nameof(KdbndpNetworkDbFunctionsExtensions.ContainsOrContainedBy)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.NetworkContainsOrContainedBy, arguments[1], arguments[2]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.NetworkContainsOrContainedBy, arguments[1], arguments[2]),
 
             nameof(KdbndpNetworkDbFunctionsExtensions.BitwiseNot)            => new SqlUnaryExpression(ExpressionType.Not,
-                arguments[1],
-                arguments[1].Type,
-                arguments[1].TypeMapping),
+                    arguments[1],
+                    arguments[1].Type,
+                    arguments[1].TypeMapping),
 
             nameof(KdbndpNetworkDbFunctionsExtensions.BitwiseAnd) => _sqlExpressionFactory.And(arguments[1], arguments[2]),
             nameof(KdbndpNetworkDbFunctionsExtensions.BitwiseOr)  => _sqlExpressionFactory.Or(arguments[1], arguments[2]),
@@ -96,29 +96,29 @@ public class KdbndpNetworkTranslator : IMethodCallTranslator
             // Add/Subtract accept inet + int, so we can't use the default type mapping inference logic which assumes
             // same-typed operands
             nameof(KdbndpNetworkDbFunctionsExtensions.Add)
-                => new SqlBinaryExpression(
-                    ExpressionType.Add,
-                    _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]),
-                    _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]),
-                    arguments[1].Type,
-                    arguments[1].TypeMapping),
+            => new SqlBinaryExpression(
+                ExpressionType.Add,
+                _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]),
+                _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]),
+                arguments[1].Type,
+                arguments[1].TypeMapping),
 
             nameof(KdbndpNetworkDbFunctionsExtensions.Subtract) when arguments[2].Type == typeof(int)
-                => new SqlBinaryExpression(
-                    ExpressionType.Subtract,
-                    _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]),
-                    _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]),
-                    arguments[1].Type,
-                    arguments[1].TypeMapping),
+            => new SqlBinaryExpression(
+                ExpressionType.Subtract,
+                _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]),
+                _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]),
+                arguments[1].Type,
+                arguments[1].TypeMapping),
 
             nameof(KdbndpNetworkDbFunctionsExtensions.Subtract)
-                when arguments[2].Type == typeof(IPAddress) || arguments[2].Type == typeof((IPAddress, int))
-                => new SqlBinaryExpression(
-                    ExpressionType.Subtract,
-                    _sqlExpressionFactory.ApplyTypeMapping(arguments[1], ExpressionExtensions.InferTypeMapping(arguments[1], arguments[2])),
-                    _sqlExpressionFactory.ApplyTypeMapping(arguments[2], ExpressionExtensions.InferTypeMapping(arguments[1], arguments[2])),
-                    arguments[1].Type,
-                    _longAddressMapping),
+            when arguments[2].Type == typeof(IPAddress) || arguments[2].Type == typeof((IPAddress, int))
+            => new SqlBinaryExpression(
+                ExpressionType.Subtract,
+                _sqlExpressionFactory.ApplyTypeMapping(arguments[1], ExpressionExtensions.InferTypeMapping(arguments[1], arguments[2])),
+                _sqlExpressionFactory.ApplyTypeMapping(arguments[2], ExpressionExtensions.InferTypeMapping(arguments[1], arguments[2])),
+                arguments[1].Type,
+                _longAddressMapping),
 
             nameof(KdbndpNetworkDbFunctionsExtensions.Abbreviate)    => NullPropagatingFunction("abbrev",           new[] { arguments[1] }, typeof(string)),
             nameof(KdbndpNetworkDbFunctionsExtensions.Broadcast)     => NullPropagatingFunction("broadcast",        new[] { arguments[1] }, typeof(IPAddress), _inetMapping),
@@ -143,12 +143,12 @@ public class KdbndpNetworkTranslator : IMethodCallTranslator
             SqlExpression[] arguments,
             Type returnType,
             RelationalTypeMapping? typeMapping = null)
-            => _sqlExpressionFactory.Function(
-                name,
-                arguments,
-                nullable: true,
-                argumentsPropagateNullability: TrueArrays[arguments.Length],
-                returnType,
-                typeMapping);
+        => _sqlExpressionFactory.Function(
+            name,
+            arguments,
+            nullable: true,
+            argumentsPropagateNullability: TrueArrays[arguments.Length],
+            returnType,
+            typeMapping);
     }
 }

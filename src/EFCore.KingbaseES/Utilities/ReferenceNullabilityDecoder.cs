@@ -24,11 +24,11 @@ internal class ReferenceNullabilityDecoder
         // First check for [MaybeNull] on the return value. If it exists, the member is nullable.
         // Note: avoid using GetCustomAttribute<> below because of https://github.com/mono/mono/issues/17477
         var isMaybeNull = memberInfo switch
-        {
-            FieldInfo f
-                => f.CustomAttributes.Any(a => a.AttributeType == typeof(MaybeNullAttribute)),
+    {
+        FieldInfo f
+        => f.CustomAttributes.Any(a => a.AttributeType == typeof(MaybeNullAttribute)),
             PropertyInfo p
-                => p.GetMethod?.ReturnParameter?.CustomAttributes?.Any(a => a.AttributeType == typeof(MaybeNullAttribute)) == true,
+            => p.GetMethod?.ReturnParameter?.CustomAttributes?.Any(a => a.AttributeType == typeof(MaybeNullAttribute)) == true,
             _ => false
         };
 
@@ -70,8 +70,8 @@ internal class ReferenceNullabilityDecoder
         if (TryGetNullableFlags(memberInfo, out var flags))
         {
             return flags.Length switch
-            {
-                1 => flags[0] == 1,
+        {
+            1 => flags[0] == 1,
                 2 => flags[1] == 1,
                 _ => throw new ArgumentOutOfRangeException()
             };
@@ -84,7 +84,7 @@ internal class ReferenceNullabilityDecoder
     private bool TryGetNullableFlags(MemberInfo memberInfo, [NotNullWhen(true)] out byte[]? flags)
     {
         if (memberInfo.GetCustomAttributes().FirstOrDefault(a => a.GetType().FullName == NullableAttributeFullName) is Attribute
-            attribute)
+                attribute)
         {
             var attributeType = attribute.GetType();
 
@@ -135,6 +135,8 @@ internal class ReferenceNullabilityDecoder
         public Type? NullableContextAttrType;
         public FieldInfo? NullableFlagsFieldInfo;
         public FieldInfo? NullableContextFlagFieldInfo;
-        public Dictionary<Type, bool> TypeCache { get; } = new();
+        public Dictionary<Type, bool> TypeCache {
+            get;
+        } = new();
     }
 }

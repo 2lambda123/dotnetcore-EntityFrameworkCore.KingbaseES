@@ -33,8 +33,8 @@ public class KdbndpValueGeneratorCache : ValueGeneratorCache, IKdbndpValueGenera
         Debug.Assert(sequence is not null);
 
         return _sequenceGeneratorCache.GetOrAdd(
-            GetSequenceName(sequence, connection),
-            _ => new KdbndpSequenceValueGeneratorState(sequence));
+                   GetSequenceName(sequence, connection),
+                   _ => new KdbndpSequenceValueGeneratorState(sequence));
     }
 
     private static string GetSequenceName(ISequence sequence, IRelationalConnection connection)
@@ -42,10 +42,10 @@ public class KdbndpValueGeneratorCache : ValueGeneratorCache, IKdbndpValueGenera
         var dbConnection = connection.DbConnection;
 
         return dbConnection.Database.ToUpperInvariant()
-            + "::"
-            + dbConnection.DataSource.ToUpperInvariant()
-            + "::"
-            + (sequence.Schema is null ? "" : sequence.Schema + ".")
-            + sequence.Name;
+               + "::"
+               + dbConnection.DataSource.ToUpperInvariant()
+               + "::"
+               + (sequence.Schema is null ? "" : sequence.Schema + ".")
+               + sequence.Name;
     }
 }

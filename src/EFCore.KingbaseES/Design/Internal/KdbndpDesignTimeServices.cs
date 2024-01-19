@@ -24,11 +24,11 @@ public class KdbndpDesignTimeServices : IDesignTimeServices
         serviceCollection.AddEntityFrameworkKdbndp();
 #pragma warning disable EF1001 // Internal EF Core API usage.
         new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection)
-            .TryAdd<ICSharpRuntimeAnnotationCodeGenerator, KdbndpCSharpRuntimeAnnotationCodeGenerator>()
+        .TryAdd<ICSharpRuntimeAnnotationCodeGenerator, KdbndpCSharpRuntimeAnnotationCodeGenerator>()
 #pragma warning restore EF1001 // Internal EF Core API usage.
-            .TryAdd<IAnnotationCodeGenerator, KdbndpAnnotationCodeGenerator>()
-            .TryAdd<IDatabaseModelFactory, KdbndpDatabaseModelFactory>()
-            .TryAdd<IProviderConfigurationCodeGenerator, KdbndpCodeGenerator>()
-            .TryAddCoreServices();
+        .TryAdd<IAnnotationCodeGenerator, KdbndpAnnotationCodeGenerator>()
+        .TryAdd<IDatabaseModelFactory, KdbndpDatabaseModelFactory>()
+        .TryAdd<IProviderConfigurationCodeGenerator, KdbndpCodeGenerator>()
+        .TryAddCoreServices();
     }
 }

@@ -16,7 +16,7 @@ public class KdbndpModificationCommandFactory : IModificationCommandFactory
     /// </summary>
     public virtual IModificationCommand CreateModificationCommand(
         in ModificationCommandParameters modificationCommandParameters)
-        => new KdbndpModificationCommand(modificationCommandParameters);
+    => new KdbndpModificationCommand(modificationCommandParameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -26,5 +26,5 @@ public class KdbndpModificationCommandFactory : IModificationCommandFactory
     /// </summary>
     public virtual INonTrackedModificationCommand CreateNonTrackedModificationCommand(
         in NonTrackedModificationCommandParameters modificationCommandParameters)
-        => new KdbndpModificationCommand(modificationCommandParameters);
+    => new KdbndpModificationCommand(modificationCommandParameters);
 }

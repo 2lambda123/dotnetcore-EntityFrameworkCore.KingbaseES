@@ -67,7 +67,9 @@ public class PostgresEnum
 
         var annotationName = BuildAnnotationName(schema, name);
 
-        return new PostgresEnum(annotatable, annotationName) { Labels = labels };
+        return new PostgresEnum(annotatable, annotationName) {
+            Labels = labels
+        };
     }
 
     /// <summary>
@@ -92,7 +94,7 @@ public class PostgresEnum
         IMutableAnnotatable annotatable,
         string name,
         string[] labels)
-        => GetOrAddPostgresEnum(annotatable, null, name, labels);
+    => GetOrAddPostgresEnum(annotatable, null, name, labels);
 
     /// <summary>
     ///     Finds a <see cref="PostgresEnum" /> in the <see cref="IAnnotatable" />, or returns null if not found.
@@ -127,9 +129,9 @@ public class PostgresEnum
     }
 
     private static string BuildAnnotationName(string? schema, string name)
-        => schema is not null
-            ? $"{KdbndpAnnotationNames.EnumPrefix}{schema}.{name}"
-            : $"{KdbndpAnnotationNames.EnumPrefix}{name}";
+    => schema is not null
+    ? $"{KdbndpAnnotationNames.EnumPrefix}{schema}.{name}"
+    : $"{KdbndpAnnotationNames.EnumPrefix}{name}";
 
     /// <summary>
     ///     Gets the collection of <see cref="PostgresEnum" /> stored in the <see cref="IAnnotatable" />.
@@ -142,28 +144,28 @@ public class PostgresEnum
     ///     <paramref name="annotatable" />
     /// </exception>
     public static IEnumerable<PostgresEnum> GetPostgresEnums(IReadOnlyAnnotatable annotatable)
-        => Check.NotNull(annotatable, nameof(annotatable))
-            .GetAnnotations()
-            .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal))
-            .Select(a => new PostgresEnum(annotatable, a.Name));
+    => Check.NotNull(annotatable, nameof(annotatable))
+    .GetAnnotations()
+    .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.EnumPrefix, StringComparison.Ordinal))
+    .Select(a => new PostgresEnum(annotatable, a.Name));
 
     /// <summary>
     ///     The <see cref="Annotatable" /> that stores the enum.
     /// </summary>
     public virtual Annotatable Annotatable
-        => (Annotatable)_annotatable;
+    => (Annotatable)_annotatable;
 
     /// <summary>
     ///     The enum schema or null to represent the default schema.
     /// </summary>
     public virtual string? Schema
-        => GetData().Schema;
+    => GetData().Schema;
 
     /// <summary>
     ///     The enum name.
     /// </summary>
     public virtual string Name
-        => GetData().Name!;
+    => GetData().Name!;
 
     /// <summary>
     ///     The enum labels.
@@ -175,10 +177,10 @@ public class PostgresEnum
     }
 
     private (string? Schema, string? Name, string[]? Labels) GetData()
-        => Deserialize(Annotatable.FindAnnotation(_annotationName));
+    => Deserialize(Annotatable.FindAnnotation(_annotationName));
 
     private void SetData(IEnumerable<string> labels)
-        => Annotatable[_annotationName] = string.Join(",", labels);
+    => Annotatable[_annotationName] = string.Join(",", labels);
 
     private static (string? Schema, string? Name, string[]? Labels) Deserialize(IAnnotation? annotation)
     {
@@ -194,12 +196,12 @@ public class PostgresEnum
         var schemaAndName = annotation.Name.Substring(KdbndpAnnotationNames.EnumPrefix.Length).Split('.');
         switch (schemaAndName.Length)
         {
-            case 1:
-                return (null, schemaAndName[0], labels);
-            case 2:
-                return (schemaAndName[0], schemaAndName[1], labels);
-            default:
-                throw new ArgumentException($"Cannot parse enum name from annotation: {annotation.Name}");
+        case 1:
+            return (null, schemaAndName[0], labels);
+        case 2:
+            return (schemaAndName[0], schemaAndName[1], labels);
+        default:
+            throw new ArgumentException($"Cannot parse enum name from annotation: {annotation.Name}");
         }
     }
 }

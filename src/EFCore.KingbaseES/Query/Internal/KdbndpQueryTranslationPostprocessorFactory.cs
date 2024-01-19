@@ -25,14 +25,18 @@ public class KdbndpQueryTranslationPostprocessorFactory : IQueryTranslationPostp
     /// <summary>
     ///     Dependencies for this service.
     /// </summary>
-    protected virtual QueryTranslationPostprocessorDependencies Dependencies { get; }
+    protected virtual QueryTranslationPostprocessorDependencies Dependencies {
+        get;
+    }
 
     /// <summary>
     ///     Relational provider-specific dependencies for this service.
     /// </summary>
-    protected virtual RelationalQueryTranslationPostprocessorDependencies RelationalDependencies { get; }
+    protected virtual RelationalQueryTranslationPostprocessorDependencies RelationalDependencies {
+        get;
+    }
 
     /// <inheritdoc />
     public virtual QueryTranslationPostprocessor Create(QueryCompilationContext queryCompilationContext)
-        => new KdbndpQueryTranslationPostprocessor(Dependencies, RelationalDependencies, queryCompilationContext);
+    => new KdbndpQueryTranslationPostprocessor(Dependencies, RelationalDependencies, queryCompilationContext);
 }

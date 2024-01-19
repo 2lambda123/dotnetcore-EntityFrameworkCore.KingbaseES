@@ -46,77 +46,77 @@ public class KdbndpLTreeTranslator : IMethodCallTranslator, IMemberTranslator
         if (method.DeclaringType == typeof(LTree))
         {
             return method.Name switch
-            {
-                nameof(LTree.IsAncestorOf)
-                    => new PgBinaryExpression(
-                        PgExpressionType.Contains,
-                        ApplyTypeMappingOrConvert(instance!, _ltreeTypeMapping),
-                        ApplyTypeMappingOrConvert(arguments[0], _ltreeTypeMapping),
-                        typeof(bool),
-                        _boolTypeMapping),
+        {
+            nameof(LTree.IsAncestorOf)
+                => new PgBinaryExpression(
+                    PgExpressionType.Contains,
+                    ApplyTypeMappingOrConvert(instance!, _ltreeTypeMapping),
+                    ApplyTypeMappingOrConvert(arguments[0], _ltreeTypeMapping),
+                    typeof(bool),
+                    _boolTypeMapping),
 
                 nameof(LTree.IsDescendantOf)
-                    => new PgBinaryExpression(
-                        PgExpressionType.ContainedBy,
-                        ApplyTypeMappingOrConvert(instance!, _ltreeTypeMapping),
-                        ApplyTypeMappingOrConvert(arguments[0], _ltreeTypeMapping),
-                        typeof(bool),
-                        _boolTypeMapping),
+                => new PgBinaryExpression(
+                    PgExpressionType.ContainedBy,
+                    ApplyTypeMappingOrConvert(instance!, _ltreeTypeMapping),
+                    ApplyTypeMappingOrConvert(arguments[0], _ltreeTypeMapping),
+                    typeof(bool),
+                    _boolTypeMapping),
 
                 nameof(LTree.MatchesLQuery)
-                    => new PgBinaryExpression(
-                        PgExpressionType.LTreeMatches,
-                        ApplyTypeMappingOrConvert(instance!, _ltreeTypeMapping),
-                        ApplyTypeMappingOrConvert(arguments[0], _lqueryTypeMapping),
-                        typeof(bool),
-                        _boolTypeMapping),
+                => new PgBinaryExpression(
+                    PgExpressionType.LTreeMatches,
+                    ApplyTypeMappingOrConvert(instance!, _ltreeTypeMapping),
+                    ApplyTypeMappingOrConvert(arguments[0], _lqueryTypeMapping),
+                    typeof(bool),
+                    _boolTypeMapping),
 
                 nameof(LTree.MatchesLTxtQuery)
-                    => new PgBinaryExpression(
-                        PgExpressionType.LTreeMatches,
-                        ApplyTypeMappingOrConvert(instance!, _ltreeTypeMapping),
-                        ApplyTypeMappingOrConvert(arguments[0], _ltxtqueryTypeMapping),
-                        typeof(bool),
-                        _boolTypeMapping),
+                => new PgBinaryExpression(
+                    PgExpressionType.LTreeMatches,
+                    ApplyTypeMappingOrConvert(instance!, _ltreeTypeMapping),
+                    ApplyTypeMappingOrConvert(arguments[0], _ltxtqueryTypeMapping),
+                    typeof(bool),
+                    _boolTypeMapping),
 
                 nameof(LTree.Subtree)
-                    => _sqlExpressionFactory.Function(
-                        "subltree",
-                        new[] { instance!, arguments[0], arguments[1] },
-                        nullable: true,
-                        TrueArrays[3],
-                        typeof(LTree),
-                        _ltreeTypeMapping),
+                => _sqlExpressionFactory.Function(
+                    "subltree",
+                new[] { instance!, arguments[0], arguments[1] },
+                nullable: true,
+                TrueArrays[3],
+                typeof(LTree),
+                _ltreeTypeMapping),
 
                 nameof(LTree.Subpath)
-                    => _sqlExpressionFactory.Function(
-                        "subpath",
-                        arguments.Count == 2
-                            ? new[] { instance!, arguments[0], arguments[1] }
-                            : new[] { instance!, arguments[0] },
-                        nullable: true,
-                        arguments.Count == 2 ? TrueArrays[3] : TrueArrays[2],
-                        typeof(LTree),
-                        _ltreeTypeMapping),
+                => _sqlExpressionFactory.Function(
+                    "subpath",
+                    arguments.Count == 2
+                ? new[] { instance!, arguments[0], arguments[1] }
+                : new[] { instance!, arguments[0] },
+                nullable: true,
+                arguments.Count == 2 ? TrueArrays[3] : TrueArrays[2],
+                typeof(LTree),
+                _ltreeTypeMapping),
 
                 nameof(LTree.Index)
-                    => _sqlExpressionFactory.Function(
-                        "index",
-                        arguments.Count == 2
-                            ? new[] { instance!, arguments[0], arguments[1] }
-                            : new[] { instance!, arguments[0] },
-                        nullable: true,
-                        arguments.Count == 2 ? TrueArrays[3] : TrueArrays[2],
-                        typeof(int)),
+                => _sqlExpressionFactory.Function(
+                    "index",
+                    arguments.Count == 2
+                ? new[] { instance!, arguments[0], arguments[1] }
+                : new[] { instance!, arguments[0] },
+                nullable: true,
+                arguments.Count == 2 ? TrueArrays[3] : TrueArrays[2],
+                typeof(int)),
 
                 nameof(LTree.LongestCommonAncestor)
-                    => _sqlExpressionFactory.Function(
-                        "lca",
-                        new[] { arguments[0] },
-                        nullable: true,
-                        TrueArrays[1],
-                        typeof(LTree),
-                        _ltreeTypeMapping),
+                => _sqlExpressionFactory.Function(
+                    "lca",
+                new[] { arguments[0] },
+                nullable: true,
+                TrueArrays[1],
+                typeof(LTree),
+                _ltreeTypeMapping),
 
                 _ => null
             };
@@ -136,14 +136,14 @@ public class KdbndpLTreeTranslator : IMethodCallTranslator, IMemberTranslator
         MemberInfo member,
         Type returnType,
         IDiagnosticsLogger<DbLoggerCategory.Query> logger)
-        => member.DeclaringType == typeof(LTree) && member.Name == nameof(LTree.NLevel)
-            ? _sqlExpressionFactory.Function(
-                "nlevel",
-                new[] { instance! },
-                nullable: true,
-                TrueArrays[1],
-                typeof(int))
-            : null;
+    => member.DeclaringType == typeof(LTree) && member.Name == nameof(LTree.NLevel)
+    ? _sqlExpressionFactory.Function(
+        "nlevel",
+        new[] { instance! },
+        nullable: true,
+        TrueArrays[1],
+        typeof(int))
+    : null;
 
     // Applying e.g. the LQuery type mapping on a function operator is a bit tricky.
     // If it's a constant, we can just apply the mapping: the constant will get rendered as an untyped string literal, and PG will
@@ -152,10 +152,10 @@ public class KdbndpLTreeTranslator : IMethodCallTranslator, IMemberTranslator
     // For anything else, we may need an explicit cast to LQuery, e.g. a plain text column or a concatenation between strings;
     // apply the default type mapping and then apply an additional Convert node if the resulting mapping isn't what we need.
     private SqlExpression ApplyTypeMappingOrConvert(SqlExpression sqlExpression, RelationalTypeMapping typeMapping)
-        => sqlExpression is SqlConstantExpression or SqlParameterExpression
-            ? _sqlExpressionFactory.ApplyTypeMapping(sqlExpression, typeMapping)
-            : _sqlExpressionFactory.ApplyDefaultTypeMapping(sqlExpression) is var expressionWithDefaultTypeMapping
-            && expressionWithDefaultTypeMapping.TypeMapping!.StoreType == typeMapping.StoreType
-                ? expressionWithDefaultTypeMapping
-                : _sqlExpressionFactory.Convert(expressionWithDefaultTypeMapping, typeMapping.ClrType, typeMapping);
+    => sqlExpression is SqlConstantExpression or SqlParameterExpression
+    ? _sqlExpressionFactory.ApplyTypeMapping(sqlExpression, typeMapping)
+    : _sqlExpressionFactory.ApplyDefaultTypeMapping(sqlExpression) is var expressionWithDefaultTypeMapping
+    && expressionWithDefaultTypeMapping.TypeMapping!.StoreType == typeMapping.StoreType
+    ? expressionWithDefaultTypeMapping
+    : _sqlExpressionFactory.Convert(expressionWithDefaultTypeMapping, typeMapping.ClrType, typeMapping);
 }

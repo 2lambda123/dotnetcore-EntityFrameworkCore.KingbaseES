@@ -26,64 +26,66 @@ public class KdbndpUnnestPostprocessor : ExpressionVisitor
     {
         switch (expression)
         {
-            case ShapedQueryExpression shapedQueryExpression:
-                return shapedQueryExpression.UpdateQueryExpression(Visit(shapedQueryExpression.QueryExpression));
+        case ShapedQueryExpression shapedQueryExpression:
+            return shapedQueryExpression.UpdateQueryExpression(Visit(shapedQueryExpression.QueryExpression));
 
-            case SelectExpression selectExpression:
+        case SelectExpression selectExpression:
+        {
+            TableExpressionBase[]? newTables = null;
+
+            for (var i = 0; i < selectExpression.Tables.Count; i++)
             {
-                TableExpressionBase[]? newTables = null;
+                var table = selectExpression.Tables[i];
 
-                for (var i = 0; i < selectExpression.Tables.Count; i++)
-                {
-                    var table = selectExpression.Tables[i];
-
-                    // Find any unnest table which does not have any references to its ordinality column in the projection or orderings
-                    // (this is where they may appear when a column is an identifier).
-                    var unnest = table as PgUnnestExpression ?? (table as JoinExpressionBase)?.Table as PgUnnestExpression;
-                    if (unnest is not null
+                // Find any unnest table which does not have any references to its ordinality column in the projection or orderings
+                // (this is where they may appear when a column is an identifier).
+                var unnest = table as PgUnnestExpression ?? (table as JoinExpressionBase)?.Table as PgUnnestExpression;
+                if (unnest is not null
                         && !selectExpression.Orderings.Select(o => o.Expression)
-                            .Concat(selectExpression.Projection.Select(p => p.Expression))
-                            .Any(
-                                p => p is ColumnExpression { Name: "ordinality", Table: var ordinalityTable }
-                                    && ordinalityTable == table))
+                        .Concat(selectExpression.Projection.Select(p => p.Expression))
+                        .Any(
+                p => p is ColumnExpression {
+                Name: "ordinality", Table: var ordinalityTable
+            }
+            && ordinalityTable == table))
+                {
+                    if (newTables is null)
                     {
-                        if (newTables is null)
-                        {
-                            newTables = new TableExpressionBase[selectExpression.Tables.Count];
+                        newTables = new TableExpressionBase[selectExpression.Tables.Count];
 
-                            for (var j = 0; j < i; j++)
-                            {
-                                newTables[j] = selectExpression.Tables[j];
-                            }
+                        for (var j = 0; j < i; j++)
+                        {
+                            newTables[j] = selectExpression.Tables[j];
                         }
-
-                        var newUnnest = new PgUnnestExpression(unnest.Alias, unnest.Array, unnest.ColumnName, withOrdinality: false);
-
-                        newTables[i] = table switch
-                        {
-                            JoinExpressionBase j => j.Update(newUnnest),
-                            PgUnnestExpression => newUnnest,
-                            _ => throw new UnreachableException()
-                        };
                     }
-                }
 
-                return base.Visit(
-                    newTables is null
-                        ? selectExpression
-                        : selectExpression.Update(
-                            selectExpression.Projection,
-                            newTables,
-                            selectExpression.Predicate,
-                            selectExpression.GroupBy,
-                            selectExpression.Having,
-                            selectExpression.Orderings,
-                            selectExpression.Limit,
-                            selectExpression.Offset));
+                    var newUnnest = new PgUnnestExpression(unnest.Alias, unnest.Array, unnest.ColumnName, withOrdinality: false);
+
+                    newTables[i] = table switch
+                {
+                    JoinExpressionBase j => j.Update(newUnnest),
+                        PgUnnestExpression => newUnnest,
+                        _ => throw new UnreachableException()
+                    };
+                }
             }
 
-            default:
-                return base.Visit(expression);
+            return base.Visit(
+                       newTables is null
+                       ? selectExpression
+                       : selectExpression.Update(
+                           selectExpression.Projection,
+                           newTables,
+                           selectExpression.Predicate,
+                           selectExpression.GroupBy,
+                           selectExpression.Having,
+                           selectExpression.Orderings,
+                           selectExpression.Limit,
+                           selectExpression.Offset));
+        }
+
+        default:
+            return base.Visit(expression);
         }
     }
 }

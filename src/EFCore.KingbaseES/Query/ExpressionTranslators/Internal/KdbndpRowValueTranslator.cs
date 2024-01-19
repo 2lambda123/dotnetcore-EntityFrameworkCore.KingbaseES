@@ -22,15 +22,15 @@ public class KdbndpRowValueTranslator : IMethodCallTranslator
 
     private static readonly MethodInfo LessThan =
         typeof(KdbndpDbFunctionsExtensions).GetMethods()
-            .Single(m => m.Name == nameof(KdbndpDbFunctionsExtensions.LessThan));
+        .Single(m => m.Name == nameof(KdbndpDbFunctionsExtensions.LessThan));
 
     private static readonly MethodInfo GreaterThanOrEqual =
         typeof(KdbndpDbFunctionsExtensions).GetMethods()
-            .Single(m => m.Name == nameof(KdbndpDbFunctionsExtensions.GreaterThanOrEqual));
+        .Single(m => m.Name == nameof(KdbndpDbFunctionsExtensions.GreaterThanOrEqual));
 
     private static readonly MethodInfo LessThanOrEqual =
         typeof(KdbndpDbFunctionsExtensions).GetMethods()
-            .Single(m => m.Name == nameof(KdbndpDbFunctionsExtensions.LessThanOrEqual));
+        .Single(m => m.Name == nameof(KdbndpDbFunctionsExtensions.LessThanOrEqual));
 
     private static readonly Dictionary<MethodInfo, ExpressionType> ComparisonMethods = new()
     {
@@ -69,16 +69,16 @@ public class KdbndpRowValueTranslator : IMethodCallTranslator
         }
 
         var leftCount = arguments[1] is PgRowValueExpression leftRowValue
-            ? leftRowValue.Values.Count
-            : arguments[1] is SqlConstantExpression { Value : ITuple leftTuple }
-                ? (int?)leftTuple.Length
-                : null;
+                        ? leftRowValue.Values.Count
+                        : arguments[1] is SqlConstantExpression { Value : ITuple leftTuple }
+                        ? (int?)leftTuple.Length
+                        : null;
 
         var rightCount = arguments[2] is PgRowValueExpression rightRowValue
-            ? rightRowValue.Values.Count
-            : arguments[2] is SqlConstantExpression { Value : ITuple rightTuple }
-                ? (int?)rightTuple.Length
-                : null;
+                         ? rightRowValue.Values.Count
+                         : arguments[2] is SqlConstantExpression { Value : ITuple rightTuple }
+                         ? (int?)rightTuple.Length
+                         : null;
 
         if (leftCount is null || rightCount is null)
         {

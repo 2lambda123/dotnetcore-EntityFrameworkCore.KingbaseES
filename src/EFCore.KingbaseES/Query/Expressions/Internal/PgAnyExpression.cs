@@ -13,22 +13,28 @@ public class PgAnyExpression : SqlExpression, IEquatable<PgAnyExpression>
 {
     /// <inheritdoc />
     public override Type Type
-        => typeof(bool);
+    => typeof(bool);
 
     /// <summary>
     ///     The value to test against the <see cref="Array" />.
     /// </summary>
-    public virtual SqlExpression Item { get; }
+    public virtual SqlExpression Item {
+        get;
+    }
 
     /// <summary>
     ///     The array of values or patterns to test for the <see cref="Item" />.
     /// </summary>
-    public virtual SqlExpression Array { get; }
+    public virtual SqlExpression Array {
+        get;
+    }
 
     /// <summary>
     ///     The operator.
     /// </summary>
-    public virtual PgAnyOperatorType OperatorType { get; }
+    public virtual PgAnyOperatorType OperatorType {
+        get;
+    }
 
     /// <summary>
     ///     Constructs a <see cref="PgAnyExpression" />.
@@ -42,7 +48,7 @@ public class PgAnyExpression : SqlExpression, IEquatable<PgAnyExpression>
         SqlExpression array,
         PgAnyOperatorType operatorType,
         RelationalTypeMapping? typeMapping)
-        : base(typeof(bool), typeMapping)
+    : base(typeof(bool), typeMapping)
     {
         if (array is not SqlConstantExpression { Value: null })
         {
@@ -70,54 +76,54 @@ public class PgAnyExpression : SqlExpression, IEquatable<PgAnyExpression>
     /// <param name="array">The <see cref="Array" /> property of the result.</param>
     /// <returns>This expression if no children changed, or an expression with the updated children.</returns>
     public virtual PgAnyExpression Update(SqlExpression item, SqlExpression array)
-        => item != Item || array != Array
-            ? new PgAnyExpression(item, array, OperatorType, TypeMapping)
-            : this;
+    => item != Item || array != Array
+    ? new PgAnyExpression(item, array, OperatorType, TypeMapping)
+    : this;
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Update((SqlExpression)visitor.Visit(Item), (SqlExpression)visitor.Visit(Array));
+    => Update((SqlExpression)visitor.Visit(Item), (SqlExpression)visitor.Visit(Array));
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is PgAnyExpression e && Equals(e);
+    => obj is PgAnyExpression e && Equals(e);
 
     /// <inheritdoc />
     public virtual bool Equals(PgAnyExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && Item.Equals(other.Item)
-            && Array.Equals(other.Array)
-            && OperatorType.Equals(other.OperatorType);
+    => ReferenceEquals(this, other)
+    || other is not null
+    && base.Equals(other)
+    && Item.Equals(other.Item)
+    && Array.Equals(other.Array)
+    && OperatorType.Equals(other.OperatorType);
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), Item, Array, OperatorType);
+    => HashCode.Combine(base.GetHashCode(), Item, Array, OperatorType);
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
     {
         expressionPrinter.Visit(Item);
         expressionPrinter
-            .Append(" ")
-            .Append(
-                OperatorType switch
-                {
-                    PgAnyOperatorType.Equal => "=",
-                    PgAnyOperatorType.Like => "LIKE",
-                    PgAnyOperatorType.ILike => "ILIKE",
+        .Append(" ")
+        .Append(
+            OperatorType switch
+    {
+        PgAnyOperatorType.Equal => "=",
+        PgAnyOperatorType.Like => "LIKE",
+        PgAnyOperatorType.ILike => "ILIKE",
 
-                    _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {OperatorType}")
-                })
-            .Append(" ANY(");
+        _ => throw new ArgumentOutOfRangeException($"Unhandled operator type: {OperatorType}")
+        })
+        .Append(" ANY(");
         expressionPrinter.Visit(Array);
         expressionPrinter.Append(")");
     }
 
     /// <inheritdoc />
     public override string ToString()
-        => $"{Item} {OperatorType} ANY({Array})";
+    => $"{Item} {OperatorType} ANY({Array})";
 }
 
 /// <summary>

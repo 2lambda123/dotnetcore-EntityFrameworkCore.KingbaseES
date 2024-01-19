@@ -17,11 +17,13 @@ public class KdbndpCharacterCharTypeMapping : CharTypeMapping, IKdbndpTypeMappin
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static new KdbndpCharacterCharTypeMapping Default { get; } = new("text");
+    public static new KdbndpCharacterCharTypeMapping Default {
+        get;
+    } = new("text");
 
     /// <inheritdoc />
     public virtual KdbndpDbType KdbndpDbType
-        => KdbndpDbType.Char;
+    => KdbndpDbType.Char;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -31,13 +33,13 @@ public class KdbndpCharacterCharTypeMapping : CharTypeMapping, IKdbndpTypeMappin
     /// </summary>
     public KdbndpCharacterCharTypeMapping(string storeType)
         : this(
-            new RelationalTypeMappingParameters(
-                new CoreTypeMappingParameters(typeof(char), jsonValueReaderWriter: JsonCharReaderWriter.Instance),
-                storeType,
-                StoreTypePostfix.Size,
-                System.Data.DbType.StringFixedLength,
-                unicode: false,
-                fixedLength: true))
+              new RelationalTypeMappingParameters(
+                  new CoreTypeMappingParameters(typeof(char), jsonValueReaderWriter: JsonCharReaderWriter.Instance),
+                  storeType,
+                  StoreTypePostfix.Size,
+                  System.Data.DbType.StringFixedLength,
+                  unicode: false,
+                  fixedLength: true))
     {
     }
 
@@ -59,7 +61,7 @@ public class KdbndpCharacterCharTypeMapping : CharTypeMapping, IKdbndpTypeMappin
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpCharacterCharTypeMapping(parameters);
+    => new KdbndpCharacterCharTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to

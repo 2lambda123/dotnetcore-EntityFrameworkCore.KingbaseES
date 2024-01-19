@@ -41,12 +41,12 @@ public class KdbndpRandomTranslator : IMethodCallTranslator
         Check.NotNull(logger, nameof(logger));
 
         return _methodInfo.Equals(method)
-            ? _sqlExpressionFactory.Function(
-                "random",
-                Array.Empty<SqlExpression>(),
-                nullable: false,
-                argumentsPropagateNullability: Array.Empty<bool>(),
-                method.ReturnType)
-            : null;
+               ? _sqlExpressionFactory.Function(
+                   "random",
+                   Array.Empty<SqlExpression>(),
+                   nullable: false,
+                   argumentsPropagateNullability: Array.Empty<bool>(),
+                   method.ReturnType)
+               : null;
     }
 }

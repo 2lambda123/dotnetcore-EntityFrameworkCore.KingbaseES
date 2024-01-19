@@ -23,7 +23,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="Contains{T}(KdbndpRange{T}, T)" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool Contains<T>(this KdbndpRange<T> range, T value)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
 
     /// <summary>
     ///     Determines whether a range contains a specified range.
@@ -42,7 +42,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     query.
     /// </exception>
     public static bool Contains<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Contains)));
 
     /// <summary>
     ///     Determines whether a range is contained by a specified range.
@@ -60,7 +60,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="ContainedBy{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool ContainedBy<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ContainedBy)));
 
     /// <summary>
     ///     Determines whether a range overlaps another range.
@@ -78,7 +78,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="Overlaps{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool Overlaps<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Overlaps)));
 
     /// <summary>
     ///     Determines whether a range is strictly to the left of another range.
@@ -96,7 +96,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="IsStrictlyLeftOf{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool IsStrictlyLeftOf<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyLeftOf)));
 
     /// <summary>
     ///     Determines whether a range is strictly to the right of another range.
@@ -114,7 +114,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="IsStrictlyRightOf{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool IsStrictlyRightOf<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsStrictlyRightOf)));
 
     /// <summary>
     ///     Determines whether a range does not extend to the left of another range.
@@ -132,7 +132,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="DoesNotExtendLeftOf{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendLeftOf<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendLeftOf)));
 
     /// <summary>
     ///     Determines whether a range does not extend to the right of another range.
@@ -150,7 +150,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="DoesNotExtendRightOf{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool DoesNotExtendRightOf<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(DoesNotExtendRightOf)));
 
     /// <summary>
     ///     Determines whether a range is adjacent to another range.
@@ -168,7 +168,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="IsAdjacentTo{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static bool IsAdjacentTo<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(IsAdjacentTo)));
 
     /// <summary>
     ///     Returns the set union, which means unique elements that appear in either of two ranges.
@@ -181,7 +181,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="Union{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static KdbndpRange<T> Union<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Union)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Union)));
 
     /// <summary>
     ///     Returns the set intersection, which means elements that appear in each of two ranges.
@@ -194,7 +194,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="Intersect{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static KdbndpRange<T> Intersect<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Intersect)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Intersect)));
 
     /// <summary>
     ///     Returns the set difference, which means the elements of one range that do not appear in a second range.
@@ -209,7 +209,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="Except{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static KdbndpRange<T> Except<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Except)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Except)));
 
     /// <summary>
     ///     Returns the smallest range which includes both of the given ranges.
@@ -224,7 +224,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="Merge{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static KdbndpRange<T> Merge<T>(this KdbndpRange<T> a, KdbndpRange<T> b)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Merge)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Merge)));
 
     /// <summary>
     ///     Computes the union of the non-null input ranges. Corresponds to the KingbaseES <c>range_agg</c> aggregate function.
@@ -235,7 +235,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     <see cref="RangeAgg{T}" /> is only intended for use via SQL translation as part of an EF Core LINQ query.
     /// </exception>
     public static KdbndpRange<T>[] RangeAgg<T>(this IEnumerable<KdbndpRange<T>> input)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RangeAgg)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RangeAgg)));
 
     /// <summary>
     ///     Computes the intersection of the non-null input ranges. Corresponds to the KingbaseES <c>range_intersect_agg</c> aggregate function.
@@ -247,7 +247,7 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static KdbndpRange<T> RangeIntersectAgg<T>(this IEnumerable<KdbndpRange<T>> input)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RangeIntersectAgg)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RangeIntersectAgg)));
 
     /// <summary>
     ///     Computes the intersection of the non-null input multiranges.
@@ -260,5 +260,5 @@ public static class KdbndpRangeDbFunctionsExtensions
     ///     LINQ query.
     /// </exception>
     public static KdbndpRange<T>[] RangeIntersectAgg<T>(this IEnumerable<KdbndpRange<T>[]> input)
-        => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RangeIntersectAgg)));
+    => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RangeIntersectAgg)));
 }

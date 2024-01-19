@@ -12,17 +12,23 @@ public class PgArrayIndexExpression : SqlExpression, IEquatable<PgArrayIndexExpr
     /// <summary>
     ///     The array being indexed.
     /// </summary>
-    public virtual SqlExpression Array { get; }
+    public virtual SqlExpression Array {
+        get;
+    }
 
     /// <summary>
     ///     The index in the array.
     /// </summary>
-    public virtual SqlExpression Index { get; }
+    public virtual SqlExpression Index {
+        get;
+    }
 
     /// <summary>
     ///     Whether the expression is nullable.
     /// </summary>
-    public virtual bool IsNullable { get; }
+    public virtual bool IsNullable {
+        get;
+    }
 
     /// <summary>
     ///     Creates a new instance of the <see cref="PgArrayIndexExpression" /> class.
@@ -38,7 +44,7 @@ public class PgArrayIndexExpression : SqlExpression, IEquatable<PgArrayIndexExpr
         bool nullable,
         Type type,
         RelationalTypeMapping? typeMapping)
-        : base(type.UnwrapNullableType(), typeMapping)
+    : base(type.UnwrapNullableType(), typeMapping)
     {
         Check.NotNull(array, nameof(array));
         Check.NotNull(index, nameof(index));
@@ -71,30 +77,30 @@ public class PgArrayIndexExpression : SqlExpression, IEquatable<PgArrayIndexExpr
     /// <param name="index">The <see cref="Index" /> property of the result.</param>
     /// <returns>This expression if no children changed, or an expression with the updated children.</returns>
     public virtual PgArrayIndexExpression Update(SqlExpression array, SqlExpression index)
-        => array == Array && index == Index
-            ? this
-            : new PgArrayIndexExpression(array, index, IsNullable, Type, TypeMapping);
+    => array == Array && index == Index
+    ? this
+    : new PgArrayIndexExpression(array, index, IsNullable, Type, TypeMapping);
 
     /// <inheritdoc />
     protected override Expression VisitChildren(ExpressionVisitor visitor)
-        => Update((SqlExpression)visitor.Visit(Array), (SqlExpression)visitor.Visit(Index));
+    => Update((SqlExpression)visitor.Visit(Array), (SqlExpression)visitor.Visit(Index));
 
     /// <inheritdoc />
     public virtual bool Equals(PgArrayIndexExpression? other)
-        => ReferenceEquals(this, other)
-            || other is not null
-            && base.Equals(other)
-            && Array.Equals(other.Array)
-            && Index.Equals(other.Index)
-            && IsNullable == other.IsNullable;
+    => ReferenceEquals(this, other)
+    || other is not null
+    && base.Equals(other)
+    && Array.Equals(other.Array)
+    && Index.Equals(other.Index)
+    && IsNullable == other.IsNullable;
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
-        => obj is PgArrayIndexExpression e && Equals(e);
+    => obj is PgArrayIndexExpression e && Equals(e);
 
     /// <inheritdoc />
     public override int GetHashCode()
-        => HashCode.Combine(base.GetHashCode(), Array, Index, IsNullable);
+    => HashCode.Combine(base.GetHashCode(), Array, Index, IsNullable);
 
     /// <inheritdoc />
     protected override void Print(ExpressionPrinter expressionPrinter)
@@ -107,5 +113,5 @@ public class PgArrayIndexExpression : SqlExpression, IEquatable<PgArrayIndexExpr
 
     /// <inheritdoc />
     public override string ToString()
-        => $"{Array}[{Index}]";
+    => $"{Array}[{Index}]";
 }

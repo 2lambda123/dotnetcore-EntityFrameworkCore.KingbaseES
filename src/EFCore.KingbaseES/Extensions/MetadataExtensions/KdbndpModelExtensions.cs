@@ -30,8 +30,8 @@ public static class KdbndpModelExtensions
     /// <param name="model"> The model. </param>
     /// <returns> The name to use for the default hi-lo sequence. </returns>
     public static string GetHiLoSequenceName(this IReadOnlyModel model)
-        => (string?)model[KdbndpAnnotationNames.HiLoSequenceName]
-            ?? DefaultHiLoSequenceName;
+    => (string?)model[KdbndpAnnotationNames.HiLoSequenceName]
+    ?? DefaultHiLoSequenceName;
 
     /// <summary>
     ///     Sets the name to use for the default hi-lo sequence.
@@ -69,7 +69,7 @@ public static class KdbndpModelExtensions
     /// <param name="model"> The model. </param>
     /// <returns> The <see cref="ConfigurationSource" /> for the default hi-lo sequence name. </returns>
     public static ConfigurationSource? GetHiLoSequenceNameConfigurationSource(this IConventionModel model)
-        => model.FindAnnotation(KdbndpAnnotationNames.HiLoSequenceName)?.GetConfigurationSource();
+    => model.FindAnnotation(KdbndpAnnotationNames.HiLoSequenceName)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the schema to use for the default hi-lo sequence.
@@ -78,7 +78,7 @@ public static class KdbndpModelExtensions
     /// <param name="model"> The model. </param>
     /// <returns> The schema to use for the default hi-lo sequence. </returns>
     public static string? GetHiLoSequenceSchema(this IReadOnlyModel model)
-        => (string?)model[KdbndpAnnotationNames.HiLoSequenceSchema];
+    => (string?)model[KdbndpAnnotationNames.HiLoSequenceSchema];
 
     /// <summary>
     ///     Sets the schema to use for the default hi-lo sequence.
@@ -116,7 +116,7 @@ public static class KdbndpModelExtensions
     /// <param name="model"> The model. </param>
     /// <returns> The <see cref="ConfigurationSource" /> for the default hi-lo sequence schema. </returns>
     public static ConfigurationSource? GetHiLoSequenceSchemaConfigurationSource(this IConventionModel model)
-        => model.FindAnnotation(KdbndpAnnotationNames.HiLoSequenceSchema)?.GetConfigurationSource();
+    => model.FindAnnotation(KdbndpAnnotationNames.HiLoSequenceSchema)?.GetConfigurationSource();
 
     #endregion
 
@@ -128,8 +128,8 @@ public static class KdbndpModelExtensions
     /// <param name="model">The model.</param>
     /// <returns>The name to use for the default key value generation sequence.</returns>
     public static string GetSequenceNameSuffix(this IReadOnlyModel model)
-        => (string?)model[KdbndpAnnotationNames.SequenceNameSuffix]
-            ?? DefaultSequenceNameSuffix;
+    => (string?)model[KdbndpAnnotationNames.SequenceNameSuffix]
+    ?? DefaultSequenceNameSuffix;
 
     /// <summary>
     ///     Sets the suffix to append to the name of automatically created sequences.
@@ -168,7 +168,7 @@ public static class KdbndpModelExtensions
     /// <param name="model">The model.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the default key value generation sequence name.</returns>
     public static ConfigurationSource? GetSequenceNameSuffixConfigurationSource(this IConventionModel model)
-        => model.FindAnnotation(KdbndpAnnotationNames.SequenceNameSuffix)?.GetConfigurationSource();
+    => model.FindAnnotation(KdbndpAnnotationNames.SequenceNameSuffix)?.GetConfigurationSource();
 
     /// <summary>
     ///     Returns the schema to use for the default value generation sequence.
@@ -177,7 +177,7 @@ public static class KdbndpModelExtensions
     /// <param name="model">The model.</param>
     /// <returns>The schema to use for the default key value generation sequence.</returns>
     public static string? GetSequenceSchema(this IReadOnlyModel model)
-        => (string?)model[KdbndpAnnotationNames.SequenceSchema];
+    => (string?)model[KdbndpAnnotationNames.SequenceSchema];
 
     /// <summary>
     ///     Sets the schema to use for the default key value generation sequence.
@@ -216,7 +216,7 @@ public static class KdbndpModelExtensions
     /// <param name="model">The model.</param>
     /// <returns>The <see cref="ConfigurationSource" /> for the default key value generation sequence schema.</returns>
     public static ConfigurationSource? GetSequenceSchemaConfigurationSource(this IConventionModel model)
-        => model.FindAnnotation(KdbndpAnnotationNames.SequenceSchema)?.GetConfigurationSource();
+    => model.FindAnnotation(KdbndpAnnotationNames.SequenceSchema)?.GetConfigurationSource();
 
     #endregion Sequence
 
@@ -229,7 +229,7 @@ public static class KdbndpModelExtensions
     /// <param name="model"> The model. </param>
     /// <returns> The default <see cref="KdbndpValueGenerationStrategy" />. </returns>
     public static KdbndpValueGenerationStrategy? GetValueGenerationStrategy(this IReadOnlyModel model)
-        => (KdbndpValueGenerationStrategy?)model[KdbndpAnnotationNames.ValueGenerationStrategy];
+    => (KdbndpValueGenerationStrategy?)model[KdbndpAnnotationNames.ValueGenerationStrategy];
 
     /// <summary>
     ///     Attempts to set the <see cref="KdbndpValueGenerationStrategy" /> to use for properties
@@ -238,7 +238,7 @@ public static class KdbndpModelExtensions
     /// <param name="model"> The model. </param>
     /// <param name="value"> The value to set. </param>
     public static void SetValueGenerationStrategy(this IMutableModel model, KdbndpValueGenerationStrategy? value)
-        => model.SetOrRemoveAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy, value);
+    => model.SetOrRemoveAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy, value);
 
     /// <summary>
     ///     Attempts to set the <see cref="KdbndpValueGenerationStrategy" /> to use for properties
@@ -263,7 +263,7 @@ public static class KdbndpModelExtensions
     /// <param name="model"> The model. </param>
     /// <returns> The <see cref="ConfigurationSource" /> for the default <see cref="KdbndpValueGenerationStrategy" />. </returns>
     public static ConfigurationSource? GetValueGenerationStrategyConfigurationSource(this IConventionModel model)
-        => model.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy)?.GetConfigurationSource();
+    => model.FindAnnotation(KdbndpAnnotationNames.ValueGenerationStrategy)?.GetConfigurationSource();
 
     #endregion
 
@@ -280,7 +280,7 @@ public static class KdbndpModelExtensions
         string? schema,
         string name,
         string? version)
-        => PostgresExtension.GetOrAddPostgresExtension(model, schema, name, version);
+    => PostgresExtension.GetOrAddPostgresExtension(model, schema, name, version);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -289,7 +289,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static IReadOnlyList<PostgresExtension> GetPostgresExtensions(this IReadOnlyModel model)
-        => PostgresExtension.GetPostgresExtensions(model).ToArray();
+    => PostgresExtension.GetPostgresExtensions(model).ToArray();
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -302,7 +302,7 @@ public static class KdbndpModelExtensions
         string? schema,
         string name,
         string? version)
-        => PostgresExtension.GetOrAddPostgresExtension(model, schema, name, version);
+    => PostgresExtension.GetOrAddPostgresExtension(model, schema, name, version);
 
     #endregion
 
@@ -319,7 +319,7 @@ public static class KdbndpModelExtensions
         string? schema,
         string name,
         string[] labels)
-        => PostgresEnum.GetOrAddPostgresEnum(model, schema, name, labels);
+    => PostgresEnum.GetOrAddPostgresEnum(model, schema, name, labels);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -328,7 +328,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static IReadOnlyList<PostgresEnum> GetPostgresEnums(this IReadOnlyModel model)
-        => PostgresEnum.GetPostgresEnums(model).ToArray();
+    => PostgresEnum.GetPostgresEnums(model).ToArray();
 
     #endregion Enum types
 
@@ -349,15 +349,15 @@ public static class KdbndpModelExtensions
         string? subtypeOpClass = null,
         string? collation = null,
         string? subtypeDiff = null)
-        => PostgresRange.GetOrAddPostgresRange(
-            model,
-            schema,
-            name,
-            subtype,
-            canonicalFunction,
-            subtypeOpClass,
-            collation,
-            subtypeDiff);
+    => PostgresRange.GetOrAddPostgresRange(
+        model,
+        schema,
+        name,
+        subtype,
+        canonicalFunction,
+        subtypeOpClass,
+        collation,
+        subtypeDiff);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -366,7 +366,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static IReadOnlyList<PostgresRange> PostgresRanges(this IReadOnlyModel model)
-        => PostgresRange.GetPostgresRanges(model).ToArray();
+    => PostgresRange.GetPostgresRanges(model).ToArray();
 
     #endregion Range types
 
@@ -379,7 +379,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static string? GetDatabaseTemplate(this IReadOnlyModel model)
-        => (string?)model[KdbndpAnnotationNames.DatabaseTemplate];
+    => (string?)model[KdbndpAnnotationNames.DatabaseTemplate];
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -388,7 +388,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static void SetDatabaseTemplate(this IMutableModel model, string? template)
-        => model.SetOrRemoveAnnotation(KdbndpAnnotationNames.DatabaseTemplate, template);
+    => model.SetOrRemoveAnnotation(KdbndpAnnotationNames.DatabaseTemplate, template);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -415,7 +415,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static ConfigurationSource? GetDatabaseTemplateConfigurationSource(this IConventionModel model)
-        => model.FindAnnotation(KdbndpAnnotationNames.DatabaseTemplate)?.GetConfigurationSource();
+    => model.FindAnnotation(KdbndpAnnotationNames.DatabaseTemplate)?.GetConfigurationSource();
 
     #endregion
 
@@ -428,7 +428,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static string? GetTablespace(this IReadOnlyModel model)
-        => (string?)model[KdbndpAnnotationNames.Tablespace];
+    => (string?)model[KdbndpAnnotationNames.Tablespace];
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -437,7 +437,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static void SetTablespace(this IMutableModel model, string? tablespace)
-        => model.SetOrRemoveAnnotation(KdbndpAnnotationNames.Tablespace, tablespace);
+    => model.SetOrRemoveAnnotation(KdbndpAnnotationNames.Tablespace, tablespace);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -464,7 +464,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static ConfigurationSource? GetTablespaceConfigurationSource(this IConventionModel model)
-        => model.FindAnnotation(KdbndpAnnotationNames.Tablespace)?.GetConfigurationSource();
+    => model.FindAnnotation(KdbndpAnnotationNames.Tablespace)?.GetConfigurationSource();
 
     #endregion
 
@@ -484,14 +484,14 @@ public static class KdbndpModelExtensions
         string lcCtype,
         string? provider = null,
         bool? deterministic = null)
-        => PostgresCollation.GetOrAddCollation(
-            model,
-            schema,
-            name,
-            lcCollate,
-            lcCtype,
-            provider,
-            deterministic);
+    => PostgresCollation.GetOrAddCollation(
+        model,
+        schema,
+        name,
+        lcCollate,
+        lcCtype,
+        provider,
+        deterministic);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -500,7 +500,7 @@ public static class KdbndpModelExtensions
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public static IReadOnlyList<PostgresCollation> GetCollations(this IReadOnlyModel model)
-        => PostgresCollation.GetCollations(model).ToArray();
+    => PostgresCollation.GetCollations(model).ToArray();
 
     #endregion Collation management
 
@@ -522,7 +522,7 @@ public static class KdbndpModelExtensions
     /// </remarks>
     [Obsolete("Use EF Core's standard model bulk configuration API")]
     public static string? GetDefaultColumnCollation(this IReadOnlyModel model)
-        => (string?)model[KdbndpAnnotationNames.DefaultColumnCollation];
+    => (string?)model[KdbndpAnnotationNames.DefaultColumnCollation];
 
     /// <summary>
     ///     Sets the default collation for all columns in the database, or <c>null</c> if none is defined.
@@ -540,7 +540,7 @@ public static class KdbndpModelExtensions
     /// </remarks>
     [Obsolete("Use EF Core's standard model bulk configuration API")]
     public static void SetDefaultColumnCollation(this IMutableModel model, string? collation)
-        => model.SetOrRemoveAnnotation(KdbndpAnnotationNames.DefaultColumnCollation, collation);
+    => model.SetOrRemoveAnnotation(KdbndpAnnotationNames.DefaultColumnCollation, collation);
 
     /// <summary>
     ///     Sets the default collation for all columns in the database, or <c>null</c> if none is defined.
@@ -570,7 +570,7 @@ public static class KdbndpModelExtensions
     /// <returns>The <see cref="ConfigurationSource" /> for the default column collation.</returns>
     [Obsolete("Use EF Core's standard model bulk configuration API")]
     public static ConfigurationSource? GetDefaultColumnCollationConfigurationSource(this IConventionModel model)
-        => model.FindAnnotation(KdbndpAnnotationNames.DefaultColumnCollation)?.GetConfigurationSource();
+    => model.FindAnnotation(KdbndpAnnotationNames.DefaultColumnCollation)?.GetConfigurationSource();
 
     #endregion Default column collation
 }

@@ -20,7 +20,9 @@ public class KdbndpHstoreTypeMapping : KdbndpTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static KdbndpHstoreTypeMapping Default { get; } = new(typeof(Dictionary<string, string>));
+    public static KdbndpHstoreTypeMapping Default {
+        get;
+    } = new(typeof(Dictionary<string, string>));
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -30,10 +32,10 @@ public class KdbndpHstoreTypeMapping : KdbndpTypeMapping
     /// </summary>
     public KdbndpHstoreTypeMapping(Type clrType)
         : base(
-            new RelationalTypeMappingParameters(
-                new CoreTypeMappingParameters(clrType, comparer: GetComparer(clrType)),
-                "hstore"),
-            KdbndpDbType.Hstore)
+              new RelationalTypeMappingParameters(
+                  new CoreTypeMappingParameters(clrType, comparer: GetComparer(clrType)),
+                  "hstore"),
+              KdbndpDbType.Hstore)
     {
     }
 
@@ -55,7 +57,7 @@ public class KdbndpHstoreTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpHstoreTypeMapping(parameters);
+    => new KdbndpHstoreTypeMapping(parameters);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -113,9 +115,9 @@ public class KdbndpHstoreTypeMapping : KdbndpTypeMapping
     {
         public HstoreMutableComparer()
             : base(
-                (a, b) => Compare(a, b),
-                o => o.GetHashCode(),
-                o => new Dictionary<string, string>(o))
+                  (a, b) => Compare(a, b),
+                  o => o.GetHashCode(),
+                  o => new Dictionary<string, string>(o))
         {
         }
 

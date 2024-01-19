@@ -51,17 +51,17 @@ public class KdbndpJsonDbFunctionsTranslator : IMethodCallTranslator
         }
 
         var args = arguments
-            // Skip useless DbFunctions instance
-            .Skip(1)
-            // JSON extensions accept object parameters for JSON, since they must be able to handle POCOs, strings or DOM types.
-            // This means they come wrapped in a convert node, which we need to remove.
-            // Convert nodes may also come from wrapping JsonTraversalExpressions generated through POCO traversal.
-            .Select(RemoveConvert)
-            // If a function is invoked over a JSON traversal expression, that expression may come with
-            // returnText: true (i.e. operator ->> and not ->). Since the functions below require a json object and
-            // not text, we transform it.
-            .Select(a => a is PgJsonTraversalExpression traversal ? WithReturnsText(traversal, false) : a)
-            .ToArray();
+                   // Skip useless DbFunctions instance
+                   .Skip(1)
+                   // JSON extensions accept object parameters for JSON, since they must be able to handle POCOs, strings or DOM types.
+                   // This means they come wrapped in a convert node, which we need to remove.
+                   // Convert nodes may also come from wrapping JsonTraversalExpressions generated through POCO traversal.
+                   .Select(RemoveConvert)
+                   // If a function is invoked over a JSON traversal expression, that expression may come with
+                   // returnText: true (i.e. operator ->> and not ->). Since the functions below require a json object and
+                   // not text, we transform it.
+                   .Select(a => a is PgJsonTraversalExpression traversal ? WithReturnsText(traversal, false) : a)
+                   .ToArray();
 
         if (!args.Any(a => a.TypeMapping is KdbndpJsonTypeMapping || a is PgJsonTraversalExpression))
         {
@@ -71,41 +71,43 @@ public class KdbndpJsonDbFunctionsTranslator : IMethodCallTranslator
         if (method.Name == nameof(KdbndpJsonDbFunctionsExtensions.JsonTypeof))
         {
             return _sqlExpressionFactory.Function(
-                ((KdbndpJsonTypeMapping)args[0].TypeMapping!).IsJsonb ? "jsonb_typeof" : "json_typeof",
-                new[] { args[0] },
-                nullable: true,
-                argumentsPropagateNullability: TrueArrays[1],
-                typeof(string));
+                       ((KdbndpJsonTypeMapping)args[0].TypeMapping!).IsJsonb ? "jsonb_typeof" : "json_typeof",
+                       new[] { args[0] },
+                       nullable: true,
+                       argumentsPropagateNullability: TrueArrays[1],
+                       typeof(string));
         }
 
         // The following are jsonb-only, not support on json
-        if (args.Any(a => a.TypeMapping is KdbndpJsonTypeMapping { IsJsonb: false }))
+        if (args.Any(a => a.TypeMapping is KdbndpJsonTypeMapping {
+        IsJsonb: false
+    }))
         {
             throw new InvalidOperationException("JSON methods on EF.Functions only support the jsonb type, not json.");
         }
 
         return method.Name switch
-        {
-            nameof(KdbndpJsonDbFunctionsExtensions.JsonContains)
-                => _sqlExpressionFactory.Contains(Jsonb(args[0]), Jsonb(args[1])),
+    {
+        nameof(KdbndpJsonDbFunctionsExtensions.JsonContains)
+            => _sqlExpressionFactory.Contains(Jsonb(args[0]), Jsonb(args[1])),
             nameof(KdbndpJsonDbFunctionsExtensions.JsonContained)
-                => _sqlExpressionFactory.ContainedBy(Jsonb(args[0]), Jsonb(args[1])),
+            => _sqlExpressionFactory.ContainedBy(Jsonb(args[0]), Jsonb(args[1])),
             nameof(KdbndpJsonDbFunctionsExtensions.JsonExists)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.JsonExists, Jsonb(args[0]), args[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.JsonExists, Jsonb(args[0]), args[1]),
             nameof(KdbndpJsonDbFunctionsExtensions.JsonExistAny)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.JsonExistsAny, Jsonb(args[0]), args[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.JsonExistsAny, Jsonb(args[0]), args[1]),
             nameof(KdbndpJsonDbFunctionsExtensions.JsonExistAll)
-                => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.JsonExistsAll, Jsonb(args[0]), args[1]),
+            => _sqlExpressionFactory.MakePostgresBinary(PgExpressionType.JsonExistsAll, Jsonb(args[0]), args[1]),
 
             _ => null
         };
 
         SqlExpression Jsonb(SqlExpression e)
-            => e.TypeMapping?.StoreType == "jsonb"
-                ? e
-                : e is SqlConstantExpression or SqlParameterExpression
-                    ? _sqlExpressionFactory.ApplyTypeMapping(e, _jsonbTypeMapping)
-                    : _sqlExpressionFactory.Convert(e, typeof(string), _jsonbTypeMapping);
+        => e.TypeMapping?.StoreType == "jsonb"
+        ? e
+        : e is SqlConstantExpression or SqlParameterExpression
+        ? _sqlExpressionFactory.ApplyTypeMapping(e, _jsonbTypeMapping)
+        : _sqlExpressionFactory.Convert(e, typeof(string), _jsonbTypeMapping);
 
         static SqlExpression RemoveConvert(SqlExpression e)
         {
@@ -118,11 +120,11 @@ public class KdbndpJsonDbFunctionsTranslator : IMethodCallTranslator
         }
 
         PgJsonTraversalExpression WithReturnsText(PgJsonTraversalExpression traversal, bool returnsText)
-            => traversal.ReturnsText == returnsText
-                ? traversal
-                : returnsText
-                    ? new PgJsonTraversalExpression(traversal.Expression, traversal.Path, true, typeof(string), _stringTypeMapping)
-                    : new PgJsonTraversalExpression(
-                        traversal.Expression, traversal.Path, false, traversal.Type, traversal.Expression.TypeMapping);
+        => traversal.ReturnsText == returnsText
+        ? traversal
+        : returnsText
+        ? new PgJsonTraversalExpression(traversal.Expression, traversal.Path, true, typeof(string), _stringTypeMapping)
+        : new PgJsonTraversalExpression(
+            traversal.Expression, traversal.Path, false, traversal.Type, traversal.Expression.TypeMapping);
     }
 }

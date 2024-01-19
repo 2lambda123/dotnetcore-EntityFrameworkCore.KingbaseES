@@ -118,9 +118,9 @@ public class PostgresRange
     }
 
     private static string BuildAnnotationName(string? schema, string name)
-        => schema is not null
-            ? $"{KdbndpAnnotationNames.RangePrefix}{schema}.{name}"
-            : $"{KdbndpAnnotationNames.RangePrefix}{name}";
+    => schema is not null
+    ? $"{KdbndpAnnotationNames.RangePrefix}{schema}.{name}"
+    : $"{KdbndpAnnotationNames.RangePrefix}{name}";
 
     /// <summary>
     ///     Gets the collection of <see cref="PostgresRange" /> stored in the <see cref="IAnnotatable" />.
@@ -133,28 +133,28 @@ public class PostgresRange
     ///     <paramref name="annotatable" />
     /// </exception>
     public static IEnumerable<PostgresRange> GetPostgresRanges(IReadOnlyAnnotatable annotatable)
-        => Check.NotNull(annotatable, nameof(annotatable))
-            .GetAnnotations()
-            .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal))
-            .Select(a => new PostgresRange(annotatable, a.Name));
+    => Check.NotNull(annotatable, nameof(annotatable))
+    .GetAnnotations()
+    .Where(a => a.Name.StartsWith(KdbndpAnnotationNames.RangePrefix, StringComparison.Ordinal))
+    .Select(a => new PostgresRange(annotatable, a.Name));
 
     /// <summary>
     ///     The <see cref="Annotatable" /> that stores the range.
     /// </summary>
     public virtual Annotatable Annotatable
-        => (Annotatable)_annotatable;
+    => (Annotatable)_annotatable;
 
     /// <summary>
     ///     The range schema or null to represent the default schema.
     /// </summary>
     public virtual string? Schema
-        => GetData().Schema;
+    => GetData().Schema;
 
     /// <summary>
     ///     The range name.
     /// </summary>
     public virtual string Name
-        => GetData().Name!;
+    => GetData().Name!;
 
     /// <summary>
     ///     The subtype of the range.
@@ -202,8 +202,8 @@ public class PostgresRange
     }
 
     private (string? Schema, string? Name, string? Subtype, string? CanonicalFunction, string? SubtypeOpClass, string? Collation, string?
-        SubtypeDiff) GetData()
-        => Deserialize(Annotatable.FindAnnotation(_annotationName)!);
+             SubtypeDiff) GetData()
+    => Deserialize(Annotatable.FindAnnotation(_annotationName)!);
 
     private void SetData(
         string? subtype = null,
@@ -211,12 +211,12 @@ public class PostgresRange
         string? subtypeOpClass = null,
         string? collation = null,
         string? subtypeDiff = null)
-        => Annotatable[_annotationName] =
-            $"{subtype ?? Subtype},{canonicalFunction ?? CanonicalFunction},{subtypeOpClass ?? SubtypeOpClass},{collation ?? Collation},{subtypeDiff ?? SubtypeDiff}";
+    => Annotatable[_annotationName] =
+        $"{subtype ?? Subtype},{canonicalFunction ?? CanonicalFunction},{subtypeOpClass ?? SubtypeOpClass},{collation ?? Collation},{subtypeDiff ?? SubtypeDiff}";
 
     private static (string? Schema, string? Name, string? Subtype, string? CanonicalFunction, string? SubtypeOpClass, string? Collation,
-        string? SubtypeDiff)
-        Deserialize(IAnnotation? annotation)
+                    string? SubtypeDiff)
+    Deserialize(IAnnotation? annotation)
     {
         if (annotation is null || !(annotation.Value is string value) || string.IsNullOrEmpty(value))
         {
@@ -242,12 +242,12 @@ public class PostgresRange
         var schemaAndName = annotation.Name.Substring(KdbndpAnnotationNames.RangePrefix.Length).Split('.');
         switch (schemaAndName.Length)
         {
-            case 1:
-                return (null, schemaAndName[0], elements[0], elements[1], elements[2], elements[3], elements[4]);
-            case 2:
-                return (schemaAndName[0], schemaAndName[1], elements[0], elements[1], elements[2], elements[3], elements[4]);
-            default:
-                throw new ArgumentException($"Cannot parse range name from annotation: {annotation.Name}");
+        case 1:
+            return (null, schemaAndName[0], elements[0], elements[1], elements[2], elements[3], elements[4]);
+        case 2:
+            return (schemaAndName[0], schemaAndName[1], elements[0], elements[1], elements[2], elements[3], elements[4]);
+        default:
+            throw new ArgumentException($"Cannot parse range name from annotation: {annotation.Name}");
         }
     }
 }

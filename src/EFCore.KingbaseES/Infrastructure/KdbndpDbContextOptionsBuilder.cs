@@ -23,14 +23,14 @@ public class KdbndpDbContextOptionsBuilder
     /// </summary>
     /// <param name="dbName">The name of the database for administrative operations.</param>
     public virtual KdbndpDbContextOptionsBuilder UseAdminDatabase(string? dbName)
-        => WithOption(e => e.WithAdminDatabase(dbName));
+    => WithOption(e => e.WithAdminDatabase(dbName));
 
     /// <summary>
     ///     Configures the backend version to target.
     /// </summary>
     /// <param name="postgresVersion">The backend version to target.</param>
     public virtual KdbndpDbContextOptionsBuilder SetPostgresVersion(Version? postgresVersion)
-        => WithOption(e => e.WithPostgresVersion(postgresVersion));
+    => WithOption(e => e.WithPostgresVersion(postgresVersion));
 
     /// <summary>
     ///     Configures the backend version to target.
@@ -38,7 +38,7 @@ public class KdbndpDbContextOptionsBuilder
     /// <param name="major">The KingbaseES major version to target.</param>
     /// <param name="minor">The KingbaseES minor version to target.</param>
     public virtual KdbndpDbContextOptionsBuilder SetPostgresVersion(int major, int minor)
-        => SetPostgresVersion(new Version(major, minor));
+    => SetPostgresVersion(new Version(major, minor));
 
     /// <summary>
     ///     Configures the provider to work in Redshift compatibility mode, which avoids certain unsupported features from modern
@@ -46,7 +46,7 @@ public class KdbndpDbContextOptionsBuilder
     /// </summary>
     /// <param name="useRedshift">Whether to target Redshift.</param>
     public virtual KdbndpDbContextOptionsBuilder UseRedshift(bool useRedshift = true)
-        => WithOption(e => e.WithRedshift(useRedshift));
+    => WithOption(e => e.WithRedshift(useRedshift));
 
     /// <summary>
     ///     Maps a user-defined KingbaseES range type for use.
@@ -69,7 +69,7 @@ public class KdbndpDbContextOptionsBuilder
         string rangeName,
         string? schemaName = null,
         string? subtypeName = null)
-        => MapRange(rangeName, typeof(TSubtype), schemaName, subtypeName);
+    => MapRange(rangeName, typeof(TSubtype), schemaName, subtypeName);
 
     /// <summary>
     ///     Maps a user-defined KingbaseES range type for use.
@@ -93,7 +93,7 @@ public class KdbndpDbContextOptionsBuilder
         Type subtypeClrType,
         string? schemaName = null,
         string? subtypeName = null)
-        => WithOption(e => e.WithUserRangeDefinition(rangeName, schemaName, subtypeClrType, subtypeName));
+    => WithOption(e => e.WithUserRangeDefinition(rangeName, schemaName, subtypeClrType, subtypeName));
 
     /// <summary>
     ///     Appends NULLS FIRST to all ORDER BY clauses. This is important for the tests which were written
@@ -102,7 +102,7 @@ public class KdbndpDbContextOptionsBuilder
     /// </summary>
     /// <param name="reverseNullOrdering">True to enable reverse null ordering; otherwise, false.</param>
     internal virtual KdbndpDbContextOptionsBuilder ReverseNullOrdering(bool reverseNullOrdering = true)
-        => WithOption(e => e.WithReverseNullOrdering(reverseNullOrdering));
+    => WithOption(e => e.WithReverseNullOrdering(reverseNullOrdering));
 
     #region Authentication
 
@@ -111,14 +111,14 @@ public class KdbndpDbContextOptionsBuilder
     /// </summary>
     /// <param name="callback">The callback to use.</param>
     public virtual KdbndpDbContextOptionsBuilder ProvideClientCertificatesCallback(ProvideClientCertificatesCallback? callback)
-        => WithOption(e => e.WithProvideClientCertificatesCallback(callback));
+    => WithOption(e => e.WithProvideClientCertificatesCallback(callback));
 
     /// <summary>
     ///     Configures the <see cref="DbContext" /> to use the specified <see cref="RemoteCertificateValidationCallback" />.
     /// </summary>
     /// <param name="callback">The callback to use.</param>
     public virtual KdbndpDbContextOptionsBuilder RemoteCertificateValidationCallback(RemoteCertificateValidationCallback? callback)
-        => WithOption(e => e.WithRemoteCertificateValidationCallback(callback));
+    => WithOption(e => e.WithRemoteCertificateValidationCallback(callback));
 
     #endregion Authentication
 
@@ -132,7 +132,7 @@ public class KdbndpDbContextOptionsBuilder
     ///     the default retrying <see cref="IExecutionStrategy" />.
     /// </returns>
     public virtual KdbndpDbContextOptionsBuilder EnableRetryOnFailure()
-        => ExecutionStrategy(c => new KdbndpRetryingExecutionStrategy(c));
+    => ExecutionStrategy(c => new KdbndpRetryingExecutionStrategy(c));
 
     /// <summary>
     ///     Configures the context to use the default retrying <see cref="IExecutionStrategy" />.
@@ -141,7 +141,7 @@ public class KdbndpDbContextOptionsBuilder
     ///     An instance of <see cref="KdbndpDbContextOptionsBuilder" /> with the specified parameters.
     /// </returns>
     public virtual KdbndpDbContextOptionsBuilder EnableRetryOnFailure(int maxRetryCount)
-        => ExecutionStrategy(c => new KdbndpRetryingExecutionStrategy(c, maxRetryCount));
+    => ExecutionStrategy(c => new KdbndpRetryingExecutionStrategy(c, maxRetryCount));
 
     /// <summary>
     ///     Configures the context to use the default retrying <see cref="IExecutionStrategy" />.
@@ -151,7 +151,7 @@ public class KdbndpDbContextOptionsBuilder
     ///     An instance of <see cref="KdbndpDbContextOptionsBuilder" /> with the specified parameters.
     /// </returns>
     public virtual KdbndpDbContextOptionsBuilder EnableRetryOnFailure(ICollection<string>? errorCodesToAdd)
-        => ExecutionStrategy(c => new KdbndpRetryingExecutionStrategy(c, errorCodesToAdd));
+    => ExecutionStrategy(c => new KdbndpRetryingExecutionStrategy(c, errorCodesToAdd));
 
     /// <summary>
     ///     Configures the context to use the default retrying <see cref="IExecutionStrategy" />.
@@ -166,7 +166,7 @@ public class KdbndpDbContextOptionsBuilder
         int maxRetryCount,
         TimeSpan maxRetryDelay,
         ICollection<string>? errorCodesToAdd)
-        => ExecutionStrategy(c => new KdbndpRetryingExecutionStrategy(c, maxRetryCount, maxRetryDelay, errorCodesToAdd));
+    => ExecutionStrategy(c => new KdbndpRetryingExecutionStrategy(c, maxRetryCount, maxRetryDelay, errorCodesToAdd));
 
     #endregion Retrying execution strategy
 }

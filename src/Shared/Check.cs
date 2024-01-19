@@ -78,7 +78,7 @@ internal static class Check
         [InvokerParameterName] string parameterName)
     {
         if (!ReferenceEquals(value, null)
-            && (value.Count == 0))
+                && (value.Count == 0))
         {
             NotEmpty(parameterName, nameof(parameterName));
 
@@ -90,7 +90,7 @@ internal static class Check
 
     public static IReadOnlyList<T> HasNoNulls<T>(
         [NotNull] IReadOnlyList<T>? value, [InvokerParameterName] string parameterName)
-        where T : class
+    where T : class
     {
         NotNull(value, parameterName);
 
@@ -132,5 +132,5 @@ internal static class Check
     [Conditional("DEBUG")]
     [DoesNotReturn]
     public static void DebugFail(string message)
-       => throw new Exception($"Check.DebugFail failed: {message}");
+    => throw new Exception($"Check.DebugFail failed: {message}");
 }

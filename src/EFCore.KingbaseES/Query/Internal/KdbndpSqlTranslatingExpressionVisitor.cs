@@ -86,41 +86,41 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
     {
         switch (unaryExpression.NodeType)
         {
-            case ExpressionType.ArrayLength:
-                if (TranslationFailed(unaryExpression.Operand, Visit(unaryExpression.Operand), out var sqlOperand))
-                {
-                    return QueryCompilationContext.NotTranslatedExpression;
-                }
+        case ExpressionType.ArrayLength:
+            if (TranslationFailed(unaryExpression.Operand, Visit(unaryExpression.Operand), out var sqlOperand))
+            {
+                return QueryCompilationContext.NotTranslatedExpression;
+            }
 
-                // Translate Length on byte[], but only if the type mapping is for bytea.
-                // For byte[] mapped to an actual PG array (smallint[]), that's a primitive collection, and ArrayLength gets transformed to
-                // Count() which gets translated to cardinality() as usual in KdbndpQueryableMethodTranslatingExpressionVisitor.
-                if (sqlOperand!.Type == typeof(byte[]) && sqlOperand.TypeMapping is KdbndpByteArrayTypeMapping or null)
-                {
-                    return _sqlExpressionFactory.Function(
-                        "length",
-                        new[] { sqlOperand },
-                        nullable: true,
-                        argumentsPropagateNullability: TrueArrays[1],
-                        typeof(int));
-                }
+            // Translate Length on byte[], but only if the type mapping is for bytea.
+            // For byte[] mapped to an actual PG array (smallint[]), that's a primitive collection, and ArrayLength gets transformed to
+            // Count() which gets translated to cardinality() as usual in KdbndpQueryableMethodTranslatingExpressionVisitor.
+            if (sqlOperand!.Type == typeof(byte[]) && sqlOperand.TypeMapping is KdbndpByteArrayTypeMapping or null)
+            {
+                return _sqlExpressionFactory.Function(
+                           "length",
+                           new[] { sqlOperand },
+                           nullable: true,
+                           argumentsPropagateNullability: TrueArrays[1],
+                           typeof(int));
+            }
 
-                // Attempt to translate Length on a JSON POCO array
-                if (_jsonPocoTranslator.TranslateArrayLength(sqlOperand) is SqlExpression translation)
-                {
-                    return translation;
-                }
+            // Attempt to translate Length on a JSON POCO array
+            if (_jsonPocoTranslator.TranslateArrayLength(sqlOperand) is SqlExpression translation)
+            {
+                return translation;
+            }
 
-                // Note that Length over PG arrays (not within JSON) gets translated by QueryableMethodTranslatingEV, since arrays are
-                // primitive collections
-                break;
+            // Note that Length over PG arrays (not within JSON) gets translated by QueryableMethodTranslatingEV, since arrays are
+            // primitive collections
+            break;
 
-            // We have row value comparison methods such as EF.Functions.GreaterThan, which accept two ValueTuples/Tuples.
-            // Since they accept ITuple parameters, the arguments have a Convert node casting up from the concrete argument to ITuple;
-            // this node causes translation failure in RelationalSqlTranslatingExpressionVisitor, so unwrap here.
-            case ExpressionType.Convert
+        // We have row value comparison methods such as EF.Functions.GreaterThan, which accept two ValueTuples/Tuples.
+        // Since they accept ITuple parameters, the arguments have a Convert node casting up from the concrete argument to ITuple;
+        // this node causes translation failure in RelationalSqlTranslatingExpressionVisitor, so unwrap here.
+        case ExpressionType.Convert
                 when unaryExpression.Type == typeof(ITuple) && unaryExpression.Operand.Type.IsAssignableTo(typeof(ITuple)):
-                return Visit(unaryExpression.Operand);
+            return Visit(unaryExpression.Operand);
         }
 
         return base.VisitUnary(unaryExpression);
@@ -170,40 +170,40 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
     {
         switch (binaryExpression.NodeType)
         {
-            case ExpressionType.Subtract
+        case ExpressionType.Subtract
                 when binaryExpression.Left.Type.UnwrapNullableType().FullName == "NodaTime.LocalDate"
                 && binaryExpression.Right.Type.UnwrapNullableType().FullName == "NodaTime.LocalDate":
             {
                 if (TranslationFailed(binaryExpression.Left, Visit(TryRemoveImplicitConvert(binaryExpression.Left)), out var sqlLeft)
-                    || TranslationFailed(binaryExpression.Right, Visit(TryRemoveImplicitConvert(binaryExpression.Right)), out var sqlRight))
+                        || TranslationFailed(binaryExpression.Right, Visit(TryRemoveImplicitConvert(binaryExpression.Right)), out var sqlRight))
                 {
                     return QueryCompilationContext.NotTranslatedExpression;
                 }
 
                 var subtraction = _sqlExpressionFactory.MakeBinary(
-                    ExpressionType.Subtract, sqlLeft!, sqlRight!, _typeMappingSource.FindMapping(typeof(int)))!;
+                                      ExpressionType.Subtract, sqlLeft!, sqlRight!, _typeMappingSource.FindMapping(typeof(int)))!;
 
                 return PgFunctionExpression.CreateWithNamedArguments(
-                    "make_interval",
-                    new[] { subtraction },
-                    new[] { "days" },
-                    nullable: true,
-                    argumentsPropagateNullability: TrueArrays[1],
-                    builtIn: true,
-                    _nodaTimePeriodType ??= binaryExpression.Left.Type.Assembly.GetType("NodaTime.Period")!,
-                    typeMapping: null);
+                           "make_interval",
+                           new[] { subtraction },
+                           new[] { "days" },
+                           nullable: true,
+                           argumentsPropagateNullability: TrueArrays[1],
+                           builtIn: true,
+                           _nodaTimePeriodType ??= binaryExpression.Left.Type.Assembly.GetType("NodaTime.Period")!,
+                           typeMapping: null);
 
                 // Note: many other date/time arithmetic operators are fully supported as-is by KingbaseES - see KdbndpSqlExpressionFactory
             }
 
-            case ExpressionType.ArrayIndex:
-            {
-                // During preprocessing, ArrayIndex and List[] get normalized to ElementAt; see KdbndpArrayTranslator
-                Check.DebugFail(
-                    "During preprocessing, ArrayIndex and List[] get normalized to ElementAt; see KdbndpArrayTranslator. "
-                    + "Should never see ArrayIndex.");
-                break;
-            }
+        case ExpressionType.ArrayIndex:
+        {
+            // During preprocessing, ArrayIndex and List[] get normalized to ElementAt; see KdbndpArrayTranslator
+            Check.DebugFail(
+                "During preprocessing, ArrayIndex and List[] get normalized to ElementAt; see KdbndpArrayTranslator. "
+                + "Should never see ArrayIndex.");
+            break;
+        }
         }
 
         var translation = base.VisitBinary(binaryExpression);
@@ -215,10 +215,10 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
         // and comparing that to relational NULL returns false.
         // Pattern-match this and force the use of ->> by changing the mapping to be a scalar rather than an entity type.
         if (translation is SqlUnaryExpression
-            {
-                OperatorType: ExpressionType.Equal or ExpressionType.NotEqual,
-                Operand: JsonScalarExpression { TypeMapping: KdbndpOwnedJsonTypeMapping } operand
-            } unary)
+    {
+        OperatorType: ExpressionType.Equal or ExpressionType.NotEqual,
+        Operand: JsonScalarExpression { TypeMapping: KdbndpOwnedJsonTypeMapping } operand
+    } unary)
         {
             return unary.Update(
                 new JsonScalarExpression(
@@ -239,22 +239,22 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
         var method = methodCallExpression.Method;
 
         if (method == StringStartsWithMethod
-            && TryTranslateStartsEndsWithContains(
-                methodCallExpression.Object!, methodCallExpression.Arguments[0], StartsEndsWithContains.StartsWith, out var translation1))
+                && TryTranslateStartsEndsWithContains(
+                    methodCallExpression.Object!, methodCallExpression.Arguments[0], StartsEndsWithContains.StartsWith, out var translation1))
         {
             return translation1;
         }
 
         if (method == StringEndsWithMethod
-            && TryTranslateStartsEndsWithContains(
-                methodCallExpression.Object!, methodCallExpression.Arguments[0], StartsEndsWithContains.EndsWith, out var translation2))
+                && TryTranslateStartsEndsWithContains(
+                    methodCallExpression.Object!, methodCallExpression.Arguments[0], StartsEndsWithContains.EndsWith, out var translation2))
         {
             return translation2;
         }
 
         if (method == StringContainsMethod
-            && TryTranslateStartsEndsWithContains(
-                methodCallExpression.Object!, methodCallExpression.Arguments[0], StartsEndsWithContains.Contains, out var translation3))
+                && TryTranslateStartsEndsWithContains(
+                    methodCallExpression.Object!, methodCallExpression.Arguments[0], StartsEndsWithContains.Contains, out var translation3))
         {
             return translation3;
         }
@@ -282,8 +282,8 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
         if (newExpression.Type.IsAssignableTo(typeof(ITuple)))
         {
             return TryTranslateArguments(out var sqlArguments)
-                ? new PgRowValueExpression(sqlArguments, newExpression.Type)
-                : QueryCompilationContext.NotTranslatedExpression;
+                   ? new PgRowValueExpression(sqlArguments, newExpression.Type)
+                   : QueryCompilationContext.NotTranslatedExpression;
         }
 
         // Translate new DateTime(...) -> make_timestamp/make_date
@@ -292,9 +292,9 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
             if (newExpression.Constructor == DateTimeCtor1)
             {
                 return TryTranslateArguments(out var sqlArguments)
-                    ? _sqlExpressionFactory.Function(
-                        "make_date", sqlArguments, nullable: true, TrueArrays[3], typeof(DateTime), _timestampMapping)
-                    : QueryCompilationContext.NotTranslatedExpression;
+                       ? _sqlExpressionFactory.Function(
+                           "make_date", sqlArguments, nullable: true, TrueArrays[3], typeof(DateTime), _timestampMapping)
+                       : QueryCompilationContext.NotTranslatedExpression;
             }
 
             if (newExpression.Constructor == DateTimeCtor2)
@@ -308,11 +308,11 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
                 sqlArguments[5] = _sqlExpressionFactory.Convert(sqlArguments[5], typeof(double));
 
                 return _sqlExpressionFactory.Function(
-                    "make_timestamp", sqlArguments, nullable: true, TrueArrays[6], typeof(DateTime), _timestampMapping);
+                           "make_timestamp", sqlArguments, nullable: true, TrueArrays[6], typeof(DateTime), _timestampMapping);
             }
 
             if (newExpression.Constructor == DateTimeCtor3
-                && newExpression.Arguments[6] is ConstantExpression { Value : DateTimeKind kind })
+                    && newExpression.Arguments[6] is ConstantExpression { Value : DateTimeKind kind })
             {
                 if (!TryTranslateArguments(out var sqlArguments))
                 {
@@ -337,10 +337,10 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
                 }
 
                 return kind == DateTimeKind.Utc
-                    ? _sqlExpressionFactory.Function(
-                        "make_timestamptz", rewrittenArguments, nullable: true, TrueArrays[8], typeof(DateTime), _timestampTzMapping)
-                    : _sqlExpressionFactory.Function(
-                        "make_timestamp", rewrittenArguments, nullable: true, TrueArrays[7], typeof(DateTime), _timestampMapping);
+                       ? _sqlExpressionFactory.Function(
+                           "make_timestamptz", rewrittenArguments, nullable: true, TrueArrays[8], typeof(DateTime), _timestampTzMapping)
+                       : _sqlExpressionFactory.Function(
+                           "make_timestamp", rewrittenArguments, nullable: true, TrueArrays[7], typeof(DateTime), _timestampMapping);
             }
         }
 
@@ -348,9 +348,9 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
         if (newExpression.Constructor == DateOnlyCtor)
         {
             return TryTranslateArguments(out var sqlArguments)
-                ? _sqlExpressionFactory.Function(
-                    "make_date", sqlArguments, nullable: true, TrueArrays[3], typeof(DateOnly))
-                : QueryCompilationContext.NotTranslatedExpression;
+                   ? _sqlExpressionFactory.Function(
+                       "make_date", sqlArguments, nullable: true, TrueArrays[3], typeof(DateOnly))
+                   : QueryCompilationContext.NotTranslatedExpression;
         }
 
         return QueryCompilationContext.NotTranslatedExpression;
@@ -382,7 +382,7 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
         [NotNullWhen(true)] out SqlExpression? translation)
     {
         if (Visit(instance) is not SqlExpression translatedInstance
-            || Visit(pattern) is not SqlExpression translatedPattern)
+                || Visit(pattern) is not SqlExpression translatedPattern)
         {
             translation = null;
             return false;
@@ -395,120 +395,120 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
 
         switch (translatedPattern)
         {
-            case SqlConstantExpression patternConstant:
+        case SqlConstantExpression patternConstant:
+        {
+            // The pattern is constant. Aside from null and empty string, we escape all special characters (%, _, \) and send a
+            // simple LIKE
+            translation = patternConstant.Value switch
+        {
+            null => _sqlExpressionFactory.Like(translatedInstance, _sqlExpressionFactory.Constant(null, stringTypeMapping)),
+
+                // In .NET, all strings start with/end with/contain the empty string, but SQL LIKE return false for empty patterns.
+                // Return % which always matches instead.
+                // Note that we don't just return a true constant, since null strings shouldn't match even an empty string
+                // (but SqlNullabilityProcess will convert this to a true constant if the instance is non-nullable)
+                "" => _sqlExpressionFactory.Like(translatedInstance, _sqlExpressionFactory.Constant("%")),
+
+                string s => _sqlExpressionFactory.Like(
+                    translatedInstance,
+                    _sqlExpressionFactory.Constant(
+                        methodType switch
             {
-                // The pattern is constant. Aside from null and empty string, we escape all special characters (%, _, \) and send a
-                // simple LIKE
-                translation = patternConstant.Value switch
-                {
-                    null => _sqlExpressionFactory.Like(translatedInstance, _sqlExpressionFactory.Constant(null, stringTypeMapping)),
+                StartsEndsWithContains.StartsWith => EscapeLikePattern(s) + '%',
+                    StartsEndsWithContains.EndsWith => '%' + EscapeLikePattern(s),
+                    StartsEndsWithContains.Contains => $"%{EscapeLikePattern(s)}%",
 
-                    // In .NET, all strings start with/end with/contain the empty string, but SQL LIKE return false for empty patterns.
-                    // Return % which always matches instead.
-                    // Note that we don't just return a true constant, since null strings shouldn't match even an empty string
-                    // (but SqlNullabilityProcess will convert this to a true constant if the instance is non-nullable)
-                    "" => _sqlExpressionFactory.Like(translatedInstance, _sqlExpressionFactory.Constant("%")),
+                    _ => throw new ArgumentOutOfRangeException(nameof(methodType), methodType, null)
+                })),
 
-                    string s => _sqlExpressionFactory.Like(
-                        translatedInstance,
-                        _sqlExpressionFactory.Constant(
-                            methodType switch
-                            {
-                                StartsEndsWithContains.StartsWith => EscapeLikePattern(s) + '%',
-                                StartsEndsWithContains.EndsWith => '%' + EscapeLikePattern(s),
-                                StartsEndsWithContains.Contains => $"%{EscapeLikePattern(s)}%",
+                _ => throw new UnreachableException()
+            };
 
-                                _ => throw new ArgumentOutOfRangeException(nameof(methodType), methodType, null)
-                            })),
+            return true;
+        }
 
-                    _ => throw new UnreachableException()
-                };
-
-                return true;
-            }
-
-            case SqlParameterExpression patternParameter
+        case SqlParameterExpression patternParameter
                 when patternParameter.Name.StartsWith(QueryCompilationContext.QueryParameterPrefix, StringComparison.Ordinal):
             {
                 // The pattern is a parameter, register a runtime parameter that will contain the rewritten LIKE pattern, where
                 // all special characters have been escaped.
                 var lambda = Expression.Lambda(
-                    Expression.Call(
-                        EscapeLikePatternParameterMethod,
-                        QueryCompilationContext.QueryContextParameter,
-                        Expression.Constant(patternParameter.Name),
-                        Expression.Constant(methodType)),
-                    QueryCompilationContext.QueryContextParameter);
+                                 Expression.Call(
+                                     EscapeLikePatternParameterMethod,
+                                     QueryCompilationContext.QueryContextParameter,
+                                     Expression.Constant(patternParameter.Name),
+                                     Expression.Constant(methodType)),
+                                 QueryCompilationContext.QueryContextParameter);
 
                 var escapedPatternParameter =
                     _queryCompilationContext.RegisterRuntimeParameter(patternParameter.Name + "_rewritten", lambda);
 
                 translation = _sqlExpressionFactory.Like(
-                    translatedInstance,
-                    new SqlParameterExpression(escapedPatternParameter.Name!, escapedPatternParameter.Type, stringTypeMapping),
-                    _sqlExpressionFactory.Constant(LikeEscapeChar.ToString()));
+                                  translatedInstance,
+                                  new SqlParameterExpression(escapedPatternParameter.Name!, escapedPatternParameter.Type, stringTypeMapping),
+                                  _sqlExpressionFactory.Constant(LikeEscapeChar.ToString()));
 
                 return true;
             }
 
-            default:
-                // The pattern is a column or a complex expression; the possible special characters in the pattern cannot be escaped,
-                // preventing us from translating to LIKE.
-                switch (methodType)
+        default:
+            // The pattern is a column or a complex expression; the possible special characters in the pattern cannot be escaped,
+            // preventing us from translating to LIKE.
+            switch (methodType)
+            {
+            // For StartsWith/EndsWith, use LEFT or RIGHT instead to extract substring and compare:
+            // WHERE instance IS NOT NULL AND pattern IS NOT NULL AND LEFT(instance, LEN(pattern)) = pattern
+            // This is less efficient than LIKE (i.e. StartsWith does an index scan instead of seek), but we have no choice.
+            case StartsEndsWithContains.StartsWith or StartsEndsWithContains.EndsWith:
+                translation =
+                    _sqlExpressionFactory.Function(
+                        methodType is StartsEndsWithContains.StartsWith ? "left" : "right",
+                        new[]
                 {
-                    // For StartsWith/EndsWith, use LEFT or RIGHT instead to extract substring and compare:
-                    // WHERE instance IS NOT NULL AND pattern IS NOT NULL AND LEFT(instance, LEN(pattern)) = pattern
-                    // This is less efficient than LIKE (i.e. StartsWith does an index scan instead of seek), but we have no choice.
-                    case StartsEndsWithContains.StartsWith or StartsEndsWithContains.EndsWith:
-                        translation =
-                            _sqlExpressionFactory.Function(
-                                methodType is StartsEndsWithContains.StartsWith ? "left" : "right",
-                                new[]
-                                {
-                                    translatedInstance,
-                                    _sqlExpressionFactory.Function(
-                                        "length", new[] { translatedPattern }, nullable: true,
-                                        argumentsPropagateNullability: new[] { true }, typeof(int))
-                                }, nullable: true, argumentsPropagateNullability: new[] { true, true }, typeof(string),
-                                stringTypeMapping);
+                    translatedInstance,
+                    _sqlExpressionFactory.Function(
+                    "length", new[] { translatedPattern }, nullable: true,
+                    argumentsPropagateNullability: new[] { true }, typeof(int))
+                }, nullable: true, argumentsPropagateNullability: new[] { true, true }, typeof(string),
+                stringTypeMapping);
 
-                        // LEFT/RIGHT of a citext return a text, so for non-default text mappings we apply an explicit cast.
-                        if (translatedInstance.TypeMapping is { StoreType: not "text" })
-                        {
-                            translation = _sqlExpressionFactory.Convert(translation, typeof(string), translatedInstance.TypeMapping);
-                        }
-
-                        // We compensate for the case where both the instance and the pattern are null (null.StartsWith(null)); a simple
-                        // equality would yield true in that case, but we want false.
-                        translation =
-                            _sqlExpressionFactory.AndAlso(
-                                _sqlExpressionFactory.IsNotNull(translatedInstance),
-                                _sqlExpressionFactory.AndAlso(
-                                    _sqlExpressionFactory.IsNotNull(translatedPattern),
-                                    _sqlExpressionFactory.Equal(translation, translatedPattern)));
-
-                        break;
-
-                    // For Contains, just use strpos and check if the result is greater than 0. Note that strpos returns 1 when the pattern
-                    // is an empty string, just like .NET Contains (so no need to compensate)
-                    case StartsEndsWithContains.Contains:
-                        translation =
-                            _sqlExpressionFactory.AndAlso(
-                                _sqlExpressionFactory.IsNotNull(translatedInstance),
-                                _sqlExpressionFactory.AndAlso(
-                                    _sqlExpressionFactory.IsNotNull(translatedPattern),
-                                    _sqlExpressionFactory.GreaterThan(
-                                        _sqlExpressionFactory.Function(
-                                            "strpos", new[] { translatedInstance, translatedPattern }, nullable: true,
-                                            argumentsPropagateNullability: new[] { true, true }, typeof(int)),
-                                        _sqlExpressionFactory.Constant(0))));
-                        break;
-
-                    default:
-                        throw new UnreachableException();
+                // LEFT/RIGHT of a citext return a text, so for non-default text mappings we apply an explicit cast.
+                if (translatedInstance.TypeMapping is { StoreType: not "text" })
+                {
+                    translation = _sqlExpressionFactory.Convert(translation, typeof(string), translatedInstance.TypeMapping);
                 }
 
-                return true;
+                // We compensate for the case where both the instance and the pattern are null (null.StartsWith(null)); a simple
+                // equality would yield true in that case, but we want false.
+                translation =
+                    _sqlExpressionFactory.AndAlso(
+                        _sqlExpressionFactory.IsNotNull(translatedInstance),
+                        _sqlExpressionFactory.AndAlso(
+                            _sqlExpressionFactory.IsNotNull(translatedPattern),
+                            _sqlExpressionFactory.Equal(translation, translatedPattern)));
+
+                break;
+
+            // For Contains, just use strpos and check if the result is greater than 0. Note that strpos returns 1 when the pattern
+            // is an empty string, just like .NET Contains (so no need to compensate)
+            case StartsEndsWithContains.Contains:
+                translation =
+                    _sqlExpressionFactory.AndAlso(
+                        _sqlExpressionFactory.IsNotNull(translatedInstance),
+                        _sqlExpressionFactory.AndAlso(
+                            _sqlExpressionFactory.IsNotNull(translatedPattern),
+                            _sqlExpressionFactory.GreaterThan(
+                                _sqlExpressionFactory.Function(
+                                    "strpos", new[] { translatedInstance, translatedPattern }, nullable: true,
+                                    argumentsPropagateNullability: new[] { true, true }, typeof(int)),
+                                _sqlExpressionFactory.Constant(0))));
+                break;
+
+            default:
+                throw new UnreachableException();
+            }
+
+            return true;
         }
     }
 
@@ -516,24 +516,24 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
         QueryContext queryContext,
         string baseParameterName,
         StartsEndsWithContains methodType)
-        => queryContext.ParameterValues[baseParameterName] switch
-        {
-            null => null,
+    => queryContext.ParameterValues[baseParameterName] switch
+{
+    null => null,
 
-            // In .NET, all strings start/end with the empty string, but SQL LIKE return false for empty patterns.
-            // Return % which always matches instead.
-            "" => "%",
+    // In .NET, all strings start/end with the empty string, but SQL LIKE return false for empty patterns.
+    // Return % which always matches instead.
+    "" => "%",
 
-            string s => methodType switch
-            {
-                StartsEndsWithContains.StartsWith => EscapeLikePattern(s) + '%',
-                StartsEndsWithContains.EndsWith => '%' + EscapeLikePattern(s),
-                StartsEndsWithContains.Contains => $"%{EscapeLikePattern(s)}%",
-                _ => throw new ArgumentOutOfRangeException(nameof(methodType), methodType, null)
-            },
+    string s => methodType switch
+    {
+        StartsEndsWithContains.StartsWith => EscapeLikePattern(s) + '%',
+            StartsEndsWithContains.EndsWith => '%' + EscapeLikePattern(s),
+            StartsEndsWithContains.Contains => $"%{EscapeLikePattern(s)}%",
+            _ => throw new ArgumentOutOfRangeException(nameof(methodType), methodType, null)
+        },
 
-            _ => throw new UnreachableException()
-        };
+        _ => throw new UnreachableException()
+    };
 
     private enum StartsEndsWithContains
     {
@@ -543,7 +543,7 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
     }
 
     private static bool IsLikeWildChar(char c)
-        => c is '%' or '_';
+    => c is '%' or '_';
 
     private static string EscapeLikePattern(string pattern)
     {
@@ -579,12 +579,12 @@ public class KdbndpSqlTranslatingExpressionVisitor : RelationalSqlTranslatingExp
             var convertedType = unaryExpression.Type.UnwrapNullableType();
 
             if (innerType == convertedType
-                || (convertedType == typeof(int)
-                    && (innerType == typeof(byte)
-                        || innerType == typeof(sbyte)
-                        || innerType == typeof(char)
-                        || innerType == typeof(short)
-                        || innerType == typeof(ushort))))
+                    || (convertedType == typeof(int)
+                        && (innerType == typeof(byte)
+                            || innerType == typeof(sbyte)
+                            || innerType == typeof(char)
+                            || innerType == typeof(short)
+                            || innerType == typeof(ushort))))
             {
                 return TryRemoveImplicitConvert(unaryExpression.Operand);
             }

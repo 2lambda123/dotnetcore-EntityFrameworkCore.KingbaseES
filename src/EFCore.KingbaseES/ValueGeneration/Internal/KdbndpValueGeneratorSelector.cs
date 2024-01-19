@@ -41,7 +41,7 @@ public class KdbndpValueGeneratorSelector : RelationalValueGeneratorSelector
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
     public new virtual IKdbndpValueGeneratorCache Cache
-        => (IKdbndpValueGeneratorCache)base.Cache;
+    => (IKdbndpValueGeneratorCache)base.Cache;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -50,15 +50,15 @@ public class KdbndpValueGeneratorSelector : RelationalValueGeneratorSelector
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override ValueGenerator Select(IProperty property, ITypeBase typeBase)
-        => property.GetValueGeneratorFactory() is null
-            && property.GetValueGenerationStrategy() == KdbndpValueGenerationStrategy.SequenceHiLo
-                ? _sequenceFactory.Create(
-                    property,
-                    Cache.GetOrAddSequenceState(property, _connection),
-                    _connection,
-                    _rawSqlCommandBuilder,
-                    _commandLogger)
-                : base.Select(property, typeBase);
+    => property.GetValueGeneratorFactory() is null
+    && property.GetValueGenerationStrategy() == KdbndpValueGenerationStrategy.SequenceHiLo
+    ? _sequenceFactory.Create(
+        property,
+        Cache.GetOrAddSequenceState(property, _connection),
+        _connection,
+        _rawSqlCommandBuilder,
+        _commandLogger)
+    : base.Select(property, typeBase);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -67,9 +67,9 @@ public class KdbndpValueGeneratorSelector : RelationalValueGeneratorSelector
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override ValueGenerator? FindForType(IProperty property, ITypeBase typeBase, Type clrType)
-        => property.ClrType.UnwrapNullableType() == typeof(Guid)
-            ? property.ValueGenerated == ValueGenerated.Never || property.GetDefaultValueSql() is not null
-                ? new TemporaryGuidValueGenerator()
-                : new GuidValueGenerator()
-            : base.FindForType(property, typeBase, clrType);
+    => property.ClrType.UnwrapNullableType() == typeof(Guid)
+    ? property.ValueGenerated == ValueGenerated.Never || property.GetDefaultValueSql() is not null
+    ? new TemporaryGuidValueGenerator()
+    : new GuidValueGenerator()
+    : base.FindForType(property, typeBase, clrType);
 }

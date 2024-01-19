@@ -8,11 +8,15 @@ internal static class EnumerableMethods
 
     //public static MethodInfo AggregateWithSeedSelector { get; }
 
-    public static MethodInfo All { get; }
+    public static MethodInfo All {
+        get;
+    }
 
     // public static MethodInfo AnyWithoutPredicate { get; }
 
-    public static MethodInfo AnyWithPredicate { get; }
+    public static MethodInfo AnyWithPredicate {
+        get;
+    }
 
     //public static Append { get; }
 
@@ -22,7 +26,9 @@ internal static class EnumerableMethods
 
     // public static MethodInfo Concat { get; }
 
-    public static MethodInfo Contains { get; }
+    public static MethodInfo Contains {
+        get;
+    }
 
     //public static MethodInfo ContainsWithComparer { get; }
 
@@ -48,13 +54,17 @@ internal static class EnumerableMethods
 
     //public static MethodInfo ExceptWithComparer { get; }
 
-    public static MethodInfo FirstWithoutPredicate { get; }
+    public static MethodInfo FirstWithoutPredicate {
+        get;
+    }
 
     // public static MethodInfo FirstWithPredicate { get; }
 
     // public static MethodInfo FirstOrDefaultWithoutPredicate { get; }
 
-    public static MethodInfo FirstOrDefaultWithPredicate { get; }
+    public static MethodInfo FirstOrDefaultWithPredicate {
+        get;
+    }
 
     // public static MethodInfo GroupByWithKeySelector { get; }
 
@@ -251,20 +261,20 @@ internal static class EnumerableMethods
     static EnumerableMethods()
     {
         var queryableMethodGroups = typeof(Enumerable)
-            .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .GroupBy(mi => mi.Name)
-            .ToDictionary(e => e.Key, l => l.ToList());
+                                    .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                                    .GroupBy(mi => mi.Name)
+                                    .ToDictionary(e => e.Key, l => l.ToList());
 
         All = GetMethod(
-            nameof(Enumerable.All), 1,
-            types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]), typeof(Func<,>).MakeGenericType(types[0], typeof(bool)) });
+                  nameof(Enumerable.All), 1,
+                  types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]), typeof(Func<,>).MakeGenericType(types[0], typeof(bool)) });
 
         // AnyWithoutPredicate = GetMethod(nameof(Enumerable.Any), 1,
         //     types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]) });
 
         AnyWithPredicate = GetMethod(
-            nameof(Enumerable.Any), 1,
-            types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]), typeof(Func<,>).MakeGenericType(types[0], typeof(bool)) });
+                               nameof(Enumerable.Any), 1,
+                               types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]), typeof(Func<,>).MakeGenericType(types[0], typeof(bool)) });
 
         // AsEnumerable = GetMethod(nameof(Enumerable.AsEnumerable), 1,
         //     types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]) });
@@ -279,8 +289,8 @@ internal static class EnumerableMethods
         //     });
 
         Contains = GetMethod(
-            nameof(Enumerable.Contains), 1,
-            types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]), types[0] });
+                       nameof(Enumerable.Contains), 1,
+                       types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]), types[0] });
 
         // CountWithoutPredicate = GetMethod(nameof(Enumerable.Count), 1,
         //     types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]) });
@@ -338,8 +348,8 @@ internal static class EnumerableMethods
         //     types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]) });
 
         FirstOrDefaultWithPredicate = GetMethod(
-            nameof(Enumerable.FirstOrDefault), 1,
-            types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]), typeof(Func<,>).MakeGenericType(types[0], typeof(bool)) });
+                                          nameof(Enumerable.FirstOrDefault), 1,
+                                          types => new[] { typeof(IEnumerable<>).MakeGenericType(types[0]), typeof(Func<,>).MakeGenericType(types[0], typeof(bool)) });
 
         // GroupByWithKeySelector = GetMethod(nameof(Enumerable.GroupBy), 2,
         //     types => new[]
@@ -641,10 +651,10 @@ internal static class EnumerableMethods
         // }
 
         MethodInfo GetMethod(string name, int genericParameterCount, Func<Type[], Type[]> parameterGenerator)
-            => queryableMethodGroups[name].Single(
-                mi => ((genericParameterCount == 0 && !mi.IsGenericMethod)
-                        || (mi.IsGenericMethod && mi.GetGenericArguments().Length == genericParameterCount))
-                    && mi.GetParameters().Select(e => e.ParameterType).SequenceEqual(
-                        parameterGenerator(mi.IsGenericMethod ? mi.GetGenericArguments() : Array.Empty<Type>())));
+        => queryableMethodGroups[name].Single(
+            mi => ((genericParameterCount == 0 && !mi.IsGenericMethod)
+                   || (mi.IsGenericMethod && mi.GetGenericArguments().Length == genericParameterCount))
+            && mi.GetParameters().Select(e => e.ParameterType).SequenceEqual(
+                parameterGenerator(mi.IsGenericMethod ? mi.GetGenericArguments() : Array.Empty<Type>())));
     }
 }

@@ -39,5 +39,5 @@ public class KdbndpUIntTypeMapping : KdbndpTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpUIntTypeMapping(parameters, KdbndpDbType);
+    => new KdbndpUIntTypeMapping(parameters, KdbndpDbType);
 }

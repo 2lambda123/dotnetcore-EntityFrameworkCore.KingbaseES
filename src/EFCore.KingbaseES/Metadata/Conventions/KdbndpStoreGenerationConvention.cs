@@ -36,7 +36,7 @@ public class KdbndpStoreGenerationConvention : StoreGenerationConvention
         IConventionContext<IConventionAnnotation> context)
     {
         if (annotation is null
-            || oldAnnotation?.Value is not null)
+                || oldAnnotation?.Value is not null)
         {
             return;
         }
@@ -45,48 +45,48 @@ public class KdbndpStoreGenerationConvention : StoreGenerationConvention
         var fromDataAnnotation = configurationSource != ConfigurationSource.Convention;
         switch (name)
         {
-            case RelationalAnnotationNames.DefaultValue:
-                if (propertyBuilder.HasValueGenerationStrategy(null, fromDataAnnotation) is null
+        case RelationalAnnotationNames.DefaultValue:
+            if (propertyBuilder.HasValueGenerationStrategy(null, fromDataAnnotation) is null
                     && propertyBuilder.HasDefaultValue(null, fromDataAnnotation) is not null)
-                {
-                    context.StopProcessing();
-                    return;
-                }
+            {
+                context.StopProcessing();
+                return;
+            }
 
-                break;
-            case RelationalAnnotationNames.DefaultValueSql:
-                if (propertyBuilder.Metadata.GetValueGenerationStrategy() != KdbndpValueGenerationStrategy.Sequence
+            break;
+        case RelationalAnnotationNames.DefaultValueSql:
+            if (propertyBuilder.Metadata.GetValueGenerationStrategy() != KdbndpValueGenerationStrategy.Sequence
                     && propertyBuilder.HasValueGenerationStrategy(null, fromDataAnnotation) == null
                     && propertyBuilder.HasDefaultValueSql(null, fromDataAnnotation) != null)
-                {
-                    context.StopProcessing();
-                    return;
-                }
+            {
+                context.StopProcessing();
+                return;
+            }
 
-                break;
-            case RelationalAnnotationNames.ComputedColumnSql:
-                if (propertyBuilder.HasValueGenerationStrategy(null, fromDataAnnotation) is null
+            break;
+        case RelationalAnnotationNames.ComputedColumnSql:
+            if (propertyBuilder.HasValueGenerationStrategy(null, fromDataAnnotation) is null
                     && propertyBuilder.HasComputedColumnSql(null, fromDataAnnotation) is not null)
-                {
-                    context.StopProcessing();
-                    return;
-                }
+            {
+                context.StopProcessing();
+                return;
+            }
 
-                break;
-            case KdbndpAnnotationNames.ValueGenerationStrategy:
-                if (((propertyBuilder.Metadata.GetValueGenerationStrategy() != KdbndpValueGenerationStrategy.Sequence
-                            && (propertyBuilder.HasDefaultValue(null, fromDataAnnotation) == null
-                                || propertyBuilder.HasDefaultValueSql(null, fromDataAnnotation) == null
-                                || propertyBuilder.HasComputedColumnSql(null, fromDataAnnotation) == null))
-                        || (propertyBuilder.HasDefaultValue(null, fromDataAnnotation) == null
-                            || propertyBuilder.HasComputedColumnSql(null, fromDataAnnotation) == null))
+            break;
+        case KdbndpAnnotationNames.ValueGenerationStrategy:
+            if (((propertyBuilder.Metadata.GetValueGenerationStrategy() != KdbndpValueGenerationStrategy.Sequence
+                    && (propertyBuilder.HasDefaultValue(null, fromDataAnnotation) == null
+                        || propertyBuilder.HasDefaultValueSql(null, fromDataAnnotation) == null
+                        || propertyBuilder.HasComputedColumnSql(null, fromDataAnnotation) == null))
+                    || (propertyBuilder.HasDefaultValue(null, fromDataAnnotation) == null
+                        || propertyBuilder.HasComputedColumnSql(null, fromDataAnnotation) == null))
                     && propertyBuilder.HasValueGenerationStrategy(null, fromDataAnnotation) != null)
-                {
-                    context.StopProcessing();
-                    return;
-                }
+            {
+                context.StopProcessing();
+                return;
+            }
 
-                break;
+            break;
         }
 
         base.ProcessPropertyAnnotationChanged(propertyBuilder, name, annotation, oldAnnotation, context);

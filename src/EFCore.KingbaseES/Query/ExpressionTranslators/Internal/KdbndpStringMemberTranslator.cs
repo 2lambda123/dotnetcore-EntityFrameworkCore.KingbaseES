@@ -31,14 +31,14 @@ public class KdbndpStringMemberTranslator : IMemberTranslator
         MemberInfo member,
         Type returnType,
         IDiagnosticsLogger<DbLoggerCategory.Query> logger)
-        => member.Name == nameof(string.Length) && instance?.Type == typeof(string)
-            ? _sqlExpressionFactory.Convert(
-                _sqlExpressionFactory.Function(
-                    "length",
-                    new[] { instance },
-                    nullable: true,
-                    argumentsPropagateNullability: TrueArrays[1],
-                    typeof(long)),
-                returnType)
-            : null;
+    => member.Name == nameof(string.Length) && instance?.Type == typeof(string)
+    ? _sqlExpressionFactory.Convert(
+        _sqlExpressionFactory.Function(
+            "length",
+            new[] { instance },
+            nullable: true,
+            argumentsPropagateNullability: TrueArrays[1],
+            typeof(long)),
+        returnType)
+    : null;
 }

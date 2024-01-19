@@ -46,7 +46,9 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    protected virtual ConcurrentDictionary<string, RelationalTypeMapping[]> StoreTypeMappings { get; }
+    protected virtual ConcurrentDictionary<string, RelationalTypeMapping[]> StoreTypeMappings {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -54,7 +56,9 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    protected virtual ConcurrentDictionary<Type, RelationalTypeMapping> ClrTypeMappings { get; }
+    protected virtual ConcurrentDictionary<Type, RelationalTypeMapping> ClrTypeMappings {
+        get;
+    }
 
     private readonly IReadOnlyList<UserRangeDefinition> _userRangeDefinitions;
 
@@ -179,7 +183,8 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
         // https://www.KingbaseES.org/docs/current/static/datatype.html#DATATYPE-TABLE
         var storeTypeMappings = new Dictionary<string, RelationalTypeMapping[]>(StringComparer.OrdinalIgnoreCase)
         {
-            { "smallint", new RelationalTypeMapping[] { _int2, _int2Byte } },
+            { "smallint", new RelationalTypeMapping[] { _int2, _int2Byte }
+            },
             { "int2", new RelationalTypeMapping[] { _int2, _int2Byte } },
             { "integer", new[] { _int4 } },
             { "int", new[] { _int4 } },
@@ -297,14 +302,14 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
     /// </summary>
     public virtual void LoadUserDefinedTypeMappings(
         ISqlGenerationHelper sqlGenerationHelper)
-        => SetupEnumMappings(sqlGenerationHelper);
+    => SetupEnumMappings(sqlGenerationHelper);
 
     /// <summary>
     ///     Gets all global enum mappings from the ADO.NET layer and creates mappings for them
     /// </summary>
     protected virtual void SetupEnumMappings(ISqlGenerationHelper sqlGenerationHelper)
     {
-       
+
     }
 
     /// <summary>
@@ -314,11 +319,11 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping? FindMapping(in RelationalTypeMappingInfo mappingInfo)
-        // First, try any plugins, allowing them to override built-in mappings (e.g. NodaTime)
-        => base.FindMapping(mappingInfo)
-            ?? FindBaseMapping(mappingInfo)?.Clone(mappingInfo)
-            ?? FindRowValueMapping(mappingInfo)?.Clone(mappingInfo)
-            ?? FindUserRangeMapping(mappingInfo);
+    // First, try any plugins, allowing them to override built-in mappings (e.g. NodaTime)
+    => base.FindMapping(mappingInfo)
+    ?? FindBaseMapping(mappingInfo)?.Clone(mappingInfo)
+    ?? FindRowValueMapping(mappingInfo)?.Clone(mappingInfo)
+    ?? FindUserRangeMapping(mappingInfo);
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -398,8 +403,8 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
             // TODO: the following is a workaround/hack for https://github.com/dotnet/efcore/issues/31505
             if ((storeTypeName.EndsWith("[]", StringComparison.Ordinal)
                     || storeTypeName is "int4multirange" or "int8multirange" or "nummultirange" or "datemultirange" or "tsmultirange"
-                        or "tstzmultirange")
-                && FindCollectionMapping(mappingInfo, mappingInfo.ClrType!, providerType: null, elementMapping: null) is
+                    or "tstzmultirange")
+                    && FindCollectionMapping(mappingInfo, mappingInfo.ClrType!, providerType: null, elementMapping: null) is
                     RelationalTypeMapping collectionMapping)
             {
                 return collectionMapping;
@@ -422,8 +427,8 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
 
                         // See #342 for when size > 10485760
                         return mappingInfo.Size <= 10485760
-                            ? mapping.WithStoreTypeAndSize($"{mapping.StoreType}({mappingInfo.Size})", mappingInfo.Size)
-                            : _text;
+                               ? mapping.WithStoreTypeAndSize($"{mapping.StoreType}({mappingInfo.Size})", mappingInfo.Size)
+                               : _text;
                     }
 
                     if (clrType == typeof(BitArray))
@@ -525,15 +530,15 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
             if (_supportsMultiranges)
             {
                 throw new InvalidOperationException(
-                            "Cannot support multirange type mapping for range type ");
+                    "Cannot support multirange type mapping for range type ");
             }
 
             // Not a multirange - map as a PG array type
             concreteCollectionType = FindTypeToInstantiate(modelType, elementType);
 
             return (KdbndpArrayTypeMapping)Activator.CreateInstance(
-                typeof(KdbndpArrayTypeMapping<,,>).MakeGenericType(modelType, concreteCollectionType, elementType),
-                relationalElementMapping)!;
+                       typeof(KdbndpArrayTypeMapping<,,>).MakeGenericType(modelType, concreteCollectionType, elementType),
+                       relationalElementMapping)!;
         }
 
         if (storeType.EndsWith("[]", StringComparison.Ordinal))
@@ -545,9 +550,9 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
             // This is because the user-provided storeType for the array should take precedence over the element type mapping that gets
             // calculated purely based on the element's CLR type in base.FindMappingWithConversion.
             var relationalElementMapping = elementMapping as RelationalTypeMapping
-                ?? (elementType is null
-                    ? FindMapping(elementStoreType)
-                    : FindMapping(elementType, elementStoreType));
+                                           ?? (elementType is null
+                                               ? FindMapping(elementStoreType)
+                                               : FindMapping(elementType, elementStoreType));
             if (relationalElementMapping is not { ElementTypeMapping: null })
             {
                 return null;
@@ -570,8 +575,8 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
                 }
 
                 return (KdbndpArrayTypeMapping)Activator.CreateInstance(
-                    typeof(KdbndpArrayTypeMapping<,,>).MakeGenericType(modelType, concreteCollectionType, elementType),
-                    storeType, relationalElementMapping)!;
+                           typeof(KdbndpArrayTypeMapping<,,>).MakeGenericType(modelType, concreteCollectionType, elementType),
+                           storeType, relationalElementMapping)!;
             }
         }
         else if (IsMultirange(storeType, out var rangeStoreType) && _supportsMultiranges)
@@ -580,12 +585,12 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
             // This is because the user-provided storeType for the array should take precedence over the element type mapping that gets
             // calculated purely based on the element's CLR type in base.FindMappingWithConversion.
             var relationalElementMapping = elementType is null
-                ? FindMapping(rangeStoreType)
-                : FindMapping(elementType, rangeStoreType);
+                                           ? FindMapping(rangeStoreType)
+                                           : FindMapping(elementType, rangeStoreType);
 
             // TODO: This needs to move to the NodaTime plugin, but there's no FindCollectionMapping extension yet for plugins
             if (relationalElementMapping?.GetType() is
-                { Name: "IntervalRangeMapping", Namespace: "Kdbndp.EntityFrameworkCore.KingbaseES.Storage.Internal" } type1)
+        { Name: "IntervalRangeMapping", Namespace: "Kdbndp.EntityFrameworkCore.KingbaseES.Storage.Internal" } type1)
             {
                 return (RelationalTypeMapping)Activator.CreateInstance(
                     type1.Assembly.GetType(
@@ -595,7 +600,7 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
             }
 
             if (relationalElementMapping?.GetType() is
-                { Name: "DateIntervalRangeMapping", Namespace: "Kdbndp.EntityFrameworkCore.KingbaseES.Storage.Internal" } type2)
+        { Name: "DateIntervalRangeMapping", Namespace: "Kdbndp.EntityFrameworkCore.KingbaseES.Storage.Internal" } type2)
             {
                 return (RelationalTypeMapping)Activator.CreateInstance(
                     type2.Assembly.GetType(
@@ -610,20 +615,20 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
         static bool IsMultirange(string multiRangeStoreType, [NotNullWhen(true)] out string? rangeStoreType)
         {
             rangeStoreType = multiRangeStoreType switch
-            {
-                "int4multirange" => "int4range",
-                "int8multirange" => "int8range",
-                "nummultirange" => "numrange",
-                "tsmultirange" => "tsrange",
-                "tstzmultirange" => "tstzrange",
-                "datemultirange" => "daterange",
-                _ => null
-            };
+        {
+            "int4multirange" => "int4range",
+            "int8multirange" => "int8range",
+            "nummultirange" => "numrange",
+            "tsmultirange" => "tsrange",
+            "tstzmultirange" => "tstzrange",
+            "datemultirange" => "daterange",
+            _ => null
+        };
 
-            return rangeStoreType is not null;
-        }
+        return rangeStoreType is not null;
+    }
 
-        static Type FindTypeToInstantiate(Type collectionType, Type elementType)
+    static Type FindTypeToInstantiate(Type collectionType, Type elementType)
         {
             if (collectionType.IsArray)
             {
@@ -657,10 +662,10 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected virtual RelationalTypeMapping? FindRowValueMapping(in RelationalTypeMappingInfo mappingInfo)
-        => mappingInfo.ClrType is { } clrType
-            && clrType.IsAssignableTo(typeof(ITuple))
-                ? new KdbndpRowValueTypeMapping(clrType)
-                : null;
+    => mappingInfo.ClrType is { } clrType
+    && clrType.IsAssignableTo(typeof(ITuple))
+    ? new KdbndpRowValueTypeMapping(clrType)
+    : null;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -716,8 +721,8 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
 
         // We now have a user-defined range definition from the context options. Use it to get the subtype's mapping
         var subtypeMapping = rangeDefinition.SubtypeName is null
-            ? FindMapping(rangeDefinition.SubtypeClrType)
-            : FindMapping(rangeDefinition.SubtypeName);
+                             ? FindMapping(rangeDefinition.SubtypeClrType)
+                             : FindMapping(rangeDefinition.SubtypeName);
 
         if (subtypeMapping is null)
         {
@@ -729,8 +734,8 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
         // 2. The unquoted type name is set on KdbndpParameter.DataTypeName
         var quotedRangeStoreType = _sqlGenerationHelper.DelimitIdentifier(rangeDefinition.RangeName, rangeDefinition.SchemaName);
         var unquotedRangeStoreType = rangeDefinition.SchemaName is null
-            ? rangeDefinition.RangeName
-            : rangeDefinition.SchemaName + '.' + rangeDefinition.RangeName;
+                                     ? rangeDefinition.RangeName
+                                     : rangeDefinition.SchemaName + '.' + rangeDefinition.RangeName;
 
         return null;
     }
@@ -749,17 +754,17 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
         if (containerClrType.IsRange())
         {
             var rangeStoreType = containeeTypeMapping.StoreType switch
-            {
-                "int" or "integer" => "int4range",
-                "bigint" => "int8range",
-                "decimal" or "numeric" => "numrange",
-                "date" => "daterange",
-                "timestamp" or "timestamp without time zone" => "tsrange",
-                "timestamptz" or "timestamp with time zone" => "tstzrange",
-                _ => null
-            };
+        {
+            "int" or "integer" => "int4range",
+            "bigint" => "int8range",
+            "decimal" or "numeric" => "numrange",
+            "date" => "daterange",
+            "timestamp" or "timestamp without time zone" => "tsrange",
+            "timestamptz" or "timestamp with time zone" => "tstzrange",
+            _ => null
+        };
 
-            return rangeStoreType is null ? null : FindMapping(containerClrType, rangeStoreType);
+        return rangeStoreType is null ? null : FindMapping(containerClrType, rangeStoreType);
         }
 
         // Then, try to find the mapping with the containee mapping as the element type mapping.
@@ -774,31 +779,31 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
     }
 
     private static bool NameBasesUsesPrecision(ReadOnlySpan<char> span)
-        => span.ToString() switch
-        {
-            "decimal" => true,
-            "dec" => true,
-            "numeric" => true,
-            "timestamp" => true,
-            "timestamptz" => true,
-            "time" => true,
-            "interval" => true,
-            _ => false
-        };
+    => span.ToString() switch
+{
+    "decimal" => true,
+    "dec" => true,
+    "numeric" => true,
+    "timestamp" => true,
+    "timestamptz" => true,
+    "time" => true,
+    "interval" => true,
+    _ => false
+};
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    // We override to support parsing array store names (e.g. varchar(32)[]), timestamp(5) with time zone, etc.
-    protected override string? ParseStoreTypeName(
-        string? storeTypeName,
-        ref bool? unicode,
-        ref int? size,
-        ref int? precision,
-        ref int? scale)
+/// <summary>
+///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
+///     the same compatibility standards as public APIs. It may be changed or removed without notice in
+///     any release. You should only use it directly in your code with extreme caution and knowing that
+///     doing so can result in application failures when updating to a new Entity Framework Core release.
+/// </summary>
+// We override to support parsing array store names (e.g. varchar(32)[]), timestamp(5) with time zone, etc.
+protected override string? ParseStoreTypeName(
+    string? storeTypeName,
+    ref bool? unicode,
+    ref int? size,
+    ref int? precision,
+    ref int? scale)
     {
         if (storeTypeName is null)
         {
@@ -834,52 +839,52 @@ public class KdbndpTypeMappingSource : RelationalTypeMappingSource
 
         switch (s.IndexOf(",", StringComparison.Ordinal))
         {
-            // No comma inside the parentheses, parse the value either as size or precision
-            case -1:
-                if (!int.TryParse(inParens, out var p))
-                {
-                    return storeTypeName;
-                }
+        // No comma inside the parentheses, parse the value either as size or precision
+        case -1:
+            if (!int.TryParse(inParens, out var p))
+            {
+                return storeTypeName;
+            }
 
-                if (NameBasesUsesPrecision(preParens))
-                {
-                    precision = p;
-                    scale = 0;
-                }
-                else
-                {
-                    size = p;
-                }
+            if (NameBasesUsesPrecision(preParens))
+            {
+                precision = p;
+                scale = 0;
+            }
+            else
+            {
+                size = p;
+            }
 
-                break;
+            break;
 
-            case var comma:
-                if (int.TryParse(s[..comma].Trim(), out var parsedPrecision))
-                {
-                    precision = parsedPrecision;
-                }
-                else
-                {
-                    return storeTypeName;
-                }
+        case var comma:
+            if (int.TryParse(s[..comma].Trim(), out var parsedPrecision))
+            {
+                precision = parsedPrecision;
+            }
+            else
+            {
+                return storeTypeName;
+            }
 
-                if (int.TryParse(s[(comma + 1)..closeParen].Trim(), out var parsedScale))
-                {
-                    scale = parsedScale;
-                }
-                else
-                {
-                    return storeTypeName;
-                }
+            if (int.TryParse(s[(comma + 1)..closeParen].Trim(), out var parsedScale))
+            {
+                scale = parsedScale;
+            }
+            else
+            {
+                return storeTypeName;
+            }
 
-                break;
+            break;
         }
 
         if (postParens.Length == 0)
         {
             return preParens.Length == storeTypeName.Length
-                ? storeTypeName
-                : preParens.ToString();
+                   ? storeTypeName
+                   : preParens.ToString();
         }
 
         return new StringBuilder(preParens.Length).Append(preParens).Append(postParens).ToString();

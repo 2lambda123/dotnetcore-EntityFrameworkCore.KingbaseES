@@ -18,7 +18,9 @@ public class KdbndpCharacterStringTypeMapping : KdbndpStringTypeMapping
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    public static new KdbndpCharacterStringTypeMapping Default { get; } = new("text");
+    public static new KdbndpCharacterStringTypeMapping Default {
+        get;
+    } = new("text");
 
     /// <summary>
     ///     Static <see cref="ValueComparer{T}" /> for fixed-width character types.
@@ -36,8 +38,8 @@ public class KdbndpCharacterStringTypeMapping : KdbndpStringTypeMapping
     /// </remarks>
     private static readonly ValueComparer<string> CharacterValueComparer =
         new(
-            (x, y) => EqualsWithoutTrailingWhitespace(x, y),
-            x => GetHashCodeWithoutTrailingWhitespace(x));
+        (x, y) => EqualsWithoutTrailingWhitespace(x, y),
+        x => GetHashCodeWithoutTrailingWhitespace(x));
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -46,7 +48,7 @@ public class KdbndpCharacterStringTypeMapping : KdbndpStringTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override ValueComparer Comparer
-        => ClrType == typeof(string) ? CharacterValueComparer : base.Comparer;
+    => ClrType == typeof(string) ? CharacterValueComparer : base.Comparer;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -55,7 +57,7 @@ public class KdbndpCharacterStringTypeMapping : KdbndpStringTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public override ValueComparer KeyComparer
-        => Comparer;
+    => Comparer;
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -65,14 +67,14 @@ public class KdbndpCharacterStringTypeMapping : KdbndpStringTypeMapping
     /// </summary>
     public KdbndpCharacterStringTypeMapping(string storeType, int size = 1)
         : this(
-            new RelationalTypeMappingParameters(
-                new CoreTypeMappingParameters(typeof(string), jsonValueReaderWriter: JsonStringReaderWriter.Instance),
-                storeType,
-                StoreTypePostfix.Size,
-                System.Data.DbType.StringFixedLength,
-                unicode: false,
-                size,
-                fixedLength: true))
+              new RelationalTypeMappingParameters(
+                  new CoreTypeMappingParameters(typeof(string), jsonValueReaderWriter: JsonStringReaderWriter.Instance),
+                  storeType,
+                  StoreTypePostfix.Size,
+                  System.Data.DbType.StringFixedLength,
+                  unicode: false,
+                  size,
+                  fixedLength: true))
     {
     }
 
@@ -94,17 +96,17 @@ public class KdbndpCharacterStringTypeMapping : KdbndpStringTypeMapping
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-        => new KdbndpCharacterStringTypeMapping(
-            new RelationalTypeMappingParameters(
-                parameters.CoreParameters,
-                parameters.StoreType,
-                StoreTypePostfix.Size,
-                parameters.DbType,
-                parameters.Unicode,
-                parameters.Size,
-                parameters.FixedLength,
-                parameters.Precision,
-                parameters.Scale));
+    => new KdbndpCharacterStringTypeMapping(
+        new RelationalTypeMappingParameters(
+            parameters.CoreParameters,
+            parameters.StoreType,
+            StoreTypePostfix.Size,
+            parameters.DbType,
+            parameters.Unicode,
+            parameters.Size,
+            parameters.FixedLength,
+            parameters.Precision,
+            parameters.Scale));
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -123,14 +125,14 @@ public class KdbndpCharacterStringTypeMapping : KdbndpStringTypeMapping
     }
 
     private static bool EqualsWithoutTrailingWhitespace(string? a, string? b)
-        => (a, b) switch
-        {
-            (null, null) => true,
-            (_, null) => false,
-            (null, _) => false,
-            _ => a.AsSpan().TrimEnd().SequenceEqual(b.AsSpan().TrimEnd())
-        };
+    => (a, b) switch
+{
+    (null, null) => true,
+        (_, null) => false,
+        (null, _) => false,
+        _ => a.AsSpan().TrimEnd().SequenceEqual(b.AsSpan().TrimEnd())
+    };
 
     private static int GetHashCodeWithoutTrailingWhitespace(string a)
-        => a.TrimEnd().GetHashCode();
+    => a.TrimEnd().GetHashCode();
 }

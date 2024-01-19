@@ -28,7 +28,9 @@ public class KdbndpQueryableMethodTranslatingExpressionVisitorFactory : IQueryab
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    protected virtual QueryableMethodTranslatingExpressionVisitorDependencies Dependencies { get; }
+    protected virtual QueryableMethodTranslatingExpressionVisitorDependencies Dependencies {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -36,7 +38,9 @@ public class KdbndpQueryableMethodTranslatingExpressionVisitorFactory : IQueryab
     ///     any release. You should only use it directly in your code with extreme caution and knowing that
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
-    protected virtual RelationalQueryableMethodTranslatingExpressionVisitorDependencies RelationalDependencies { get; }
+    protected virtual RelationalQueryableMethodTranslatingExpressionVisitorDependencies RelationalDependencies {
+        get;
+    }
 
     /// <summary>
     ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
@@ -45,5 +49,5 @@ public class KdbndpQueryableMethodTranslatingExpressionVisitorFactory : IQueryab
     ///     doing so can result in application failures when updating to a new Entity Framework Core release.
     /// </summary>
     public virtual QueryableMethodTranslatingExpressionVisitor Create(QueryCompilationContext queryCompilationContext)
-        => new KdbndpQueryableMethodTranslatingExpressionVisitor(Dependencies, RelationalDependencies, queryCompilationContext);
+    => new KdbndpQueryableMethodTranslatingExpressionVisitor(Dependencies, RelationalDependencies, queryCompilationContext);
 }
