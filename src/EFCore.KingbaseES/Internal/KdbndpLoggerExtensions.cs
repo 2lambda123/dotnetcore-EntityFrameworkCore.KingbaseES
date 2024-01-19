@@ -1,239 +1,223 @@
 namespace Kdbndp.EntityFrameworkCore.KingbaseES.Internal;
 
 /// <summary>
-///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-///     any release. You should only use it directly in your code with extreme caution and knowing that
-///     doing so can result in application failures when updating to a new Entity Framework Core release.
+///     This is an internal API that supports the Entity Framework Core
+///     infrastructure and not subject to the same compatibility standards as
+///     public APIs. It may be changed or removed without notice in any release.
+///     You should only use it directly in your code with extreme caution and
+///     knowing that doing so can result in application failures when updating
+///     to a new Entity Framework Core release.
 /// </summary>
-public static class KdbndpLoggerExtensions
-{
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void MissingSchemaWarning(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string? schemaName)
-    {
-        var definition = KdbndpResources.LogMissingSchema(diagnostics);
+public static class KdbndpLoggerExtensions {
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void MissingSchemaWarning(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string? schemaName) {
+    var definition = KdbndpResources.LogMissingSchema(diagnostics);
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, schemaName);
-        }
-
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, schemaName);
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void MissingTableWarning(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string? tableName)
-    {
-        var definition = KdbndpResources.LogMissingTable(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, tableName);
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void MissingTableWarning(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string? tableName) {
+    var definition = KdbndpResources.LogMissingTable(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, tableName);
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void ForeignKeyReferencesMissingPrincipalTableWarning(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string? foreignKeyName,
-        string? tableName,
-        string? principalTableName)
-    {
-        var definition = KdbndpResources.LogPrincipalTableNotInSelectionSet(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, foreignKeyName, tableName, principalTableName);
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void ForeignKeyReferencesMissingPrincipalTableWarning(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string? foreignKeyName, string? tableName, string? principalTableName) {
+    var definition =
+        KdbndpResources.LogPrincipalTableNotInSelectionSet(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, foreignKeyName, tableName,
+                     principalTableName);
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void ColumnFound(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string tableName,
-        string columnName,
-        string dataTypeName,
-        bool nullable,
-        bool identity,
-        string? defaultValue,
-        string? computedValue)
-    {
-        var definition = KdbndpResources.LogFoundColumn(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(
-                diagnostics,
-                l => l.LogDebug(
-                    definition.EventId,
-                    null,
-                    definition.MessageFormat,
-                    tableName,
-                    columnName,
-                    dataTypeName,
-                    nullable,
-                    identity,
-                    defaultValue,
-                    computedValue));
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void
+  ColumnFound(this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+              string tableName, string columnName, string dataTypeName,
+              bool nullable, bool identity, string? defaultValue,
+              string? computedValue) {
+    var definition = KdbndpResources.LogFoundColumn(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics,
+                     l => l.LogDebug(definition.EventId, null,
+                                     definition.MessageFormat, tableName,
+                                     columnName, dataTypeName, nullable,
+                                     identity, defaultValue, computedValue));
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void CollationFound(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string schema,
-        string collationName,
-        string lcCollate,
-        string lcCtype,
-        string? provider,
-        bool deterministic)
-    {
-        var definition = KdbndpResources.LogFoundCollation(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, collationName, schema, lcCollate, lcCtype, provider, deterministic);
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void CollationFound(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string schema, string collationName, string lcCollate, string lcCtype,
+      string? provider, bool deterministic) {
+    var definition = KdbndpResources.LogFoundCollation(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, collationName, schema, lcCollate, lcCtype,
+                     provider, deterministic);
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void UniqueConstraintFound(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string? uniqueConstraintName,
-        string tableName)
-    {
-        var definition = KdbndpResources.LogFoundUniqueConstraint(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, uniqueConstraintName, tableName);
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void UniqueConstraintFound(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string? uniqueConstraintName, string tableName) {
+    var definition = KdbndpResources.LogFoundUniqueConstraint(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, uniqueConstraintName, tableName);
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void EnumColumnSkippedWarning(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string columnName)
-    {
-        var definition = KdbndpResources.LogEnumColumnSkipped(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, columnName);
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void EnumColumnSkippedWarning(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string columnName) {
+    var definition = KdbndpResources.LogEnumColumnSkipped(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, columnName);
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void ExpressionIndexSkippedWarning(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string indexName,
-        string tableName)
-    {
-        var definition = KdbndpResources.LogExpressionIndexSkipped(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, indexName, tableName);
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void ExpressionIndexSkippedWarning(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string indexName, string tableName) {
+    var definition = KdbndpResources.LogExpressionIndexSkipped(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, indexName, tableName);
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void UnsupportedColumnIndexSkippedWarning(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string indexName,
-        string tableName)
-    {
-        var definition = KdbndpResources.LogUnsupportedColumnIndexSkipped(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, indexName, tableName);
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void UnsupportedColumnIndexSkippedWarning(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string indexName, string tableName) {
+    var definition =
+        KdbndpResources.LogUnsupportedColumnIndexSkipped(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, indexName, tableName);
     }
 
-    /// <summary>
-    ///     This is an internal API that supports the Entity Framework Core infrastructure and not subject to
-    ///     the same compatibility standards as public APIs. It may be changed or removed without notice in
-    ///     any release. You should only use it directly in your code with extreme caution and knowing that
-    ///     doing so can result in application failures when updating to a new Entity Framework Core release.
-    /// </summary>
-    public static void UnsupportedColumnConstraintSkippedWarning(
-        this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
-        string? indexName,
-        string tableName)
-    {
-        var definition = KdbndpResources.LogUnsupportedColumnConstraintSkipped(diagnostics);
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 
-        if (diagnostics.ShouldLog(definition))
-        {
-            definition.Log(diagnostics, indexName, tableName);
-        }
+  /// <summary>
+  ///     This is an internal API that supports the Entity Framework Core
+  ///     infrastructure and not subject to the same compatibility standards as
+  ///     public APIs. It may be changed or removed without notice in any
+  ///     release. You should only use it directly in your code with extreme
+  ///     caution and knowing that doing so can result in application failures
+  ///     when updating to a new Entity Framework Core release.
+  /// </summary>
+  public static void UnsupportedColumnConstraintSkippedWarning(
+      this IDiagnosticsLogger<DbLoggerCategory.Scaffolding> diagnostics,
+      string? indexName, string tableName) {
+    var definition =
+        KdbndpResources.LogUnsupportedColumnConstraintSkipped(diagnostics);
 
-        // No DiagnosticsSource events because these are purely design-time messages
+    if (diagnostics.ShouldLog(definition)) {
+      definition.Log(diagnostics, indexName, tableName);
     }
+
+    // No DiagnosticsSource events because these are purely design-time messages
+  }
 }
